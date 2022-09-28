@@ -67,9 +67,6 @@ namespace WeChat.App
 
         private void WeChatHelper_Load(object sender, EventArgs e)
         {
-            
-            // 初始化多开账号视图
-            this.InitOpenMoreView();
             // 初始化自动问候视图
             this.InitAutoGreetView();
             // 初始化好友视图
@@ -229,17 +226,6 @@ namespace WeChat.App
 
 
         #region 初始化组件
-
-        public void InitOpenMoreView()
-        {
-            OpenMoreView.Columns.Add("WxId", "ID");
-            OpenMoreView.Columns.Add("NickName", "昵称");
-            OpenMoreView.Columns.Add("Mobile", "电话");
-            OpenMoreView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            OpenMoreView.BackgroundColor = Color.White;
-            OpenMoreView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            OpenMoreView.BorderStyle = BorderStyle.Fixed3D;
-        }
 
         public void InitAutoGreetView()
         {
