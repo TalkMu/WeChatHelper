@@ -1,0 +1,6 @@
+Scaffold-DbContext 
+-Connection "server=home.koolss.com;user=wechat_robot;password=WfrWxLX8wacek8HM;database=wechat_robot;"
+-Provider Pomelo.EntityFrameworkCore.MySql
+-OutputDir Models
+-Context WeChatHelperContext
+-Project WeChat.Domain
