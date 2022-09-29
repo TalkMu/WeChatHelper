@@ -21,7 +21,9 @@ namespace WeChat.Service.WeChat
                 else
                 {
                     wxUser.Id = temp.Id;
-                    c.WxUsers.Update(wxUser);
+                    temp.NickName = wxUser.NickName;
+                    temp.WxCode = wxUser.WxCode;
+                    temp.WxId = wxUser.WxId;
                 }
                 return c.SaveChanges() == 1;
             }

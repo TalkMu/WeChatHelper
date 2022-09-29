@@ -13,16 +13,20 @@ namespace WeChat.Service.WeChat
         {
             using (WeChatHelperContext c = new WeChatHelperContext())
             {
-                var model = c.WxUserFriends.FirstOrDefault(p => p.UserId == wxUserFriend.UserId && p.FriendUserId == wxUserFriend.FriendUserId);
+                var temp = c.WxUserFriends.FirstOrDefault(p => p.UserId == wxUserFriend.UserId && p.FriendUserId == wxUserFriend.FriendUserId);
 
-                if (model == null)
+                if (temp == null)
                 {
                     c.WxUserFriends.Add(wxUserFriend);
                 }
                 else 
                 {
-                    wxUserFriend.Id = model.Id;
-                    c.WxUserFriends.Update(wxUserFriend);
+                    temp.UserId = wxUserFriend.UserId;
+                    temp.FriendUserId = wxUserFriend.FriendUserId;
+                    temp.Remark = wxUserFriend.Remark;
+                    temp.EnableAutoGreet = wxUserFriend.EnableAutoGreet;
+                    temp.EnableAutoChat = wxUserFriend.EnableAutoChat;
+                    temp.CreateTime = wxUserFriend.CreateTime;
                 }
                 return c.SaveChanges()==1;
             }

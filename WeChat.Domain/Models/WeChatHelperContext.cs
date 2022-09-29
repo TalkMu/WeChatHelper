@@ -295,6 +295,18 @@ namespace WeChat.Domain.Models
                     .HasColumnName("create_time")
                     .HasComment("创建时间");
 
+                entity.Property(e => e.EnableAutoChat)
+                    .HasColumnType("bit(1)")
+                    .HasColumnName("enable_auto_chat")
+                    .HasDefaultValueSql("b'0'")
+                    .HasComment("开启自动聊天");
+
+                entity.Property(e => e.EnableAutoGreet)
+                    .HasColumnType("bit(1)")
+                    .HasColumnName("enable_auto_greet")
+                    .HasDefaultValueSql("b'0'")
+                    .HasComment("开启自动问候");
+
                 entity.Property(e => e.FriendUserId)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("friend_user_id")
