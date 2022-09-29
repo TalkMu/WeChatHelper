@@ -31,5 +31,21 @@ namespace WeChat.Service.WeChat
                 return c.SaveChanges()==1;
             }
         }
+
+        public List<WxUser> SelectByUserIdAndEnableAutoGreet(long userId, ulong enableAutoGreet)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext()) 
+            {
+                var wxUsers = c.WxUserFriends.Where(p => p.UserId == userId && p.EnableAutoGreet == enableAutoGreet).Select(x => new WxUser 
+                { 
+                    Id = x.User.Id,
+                    WxId = x.User.WxId,
+                    WxCode = x.User.WxCode,
+                    NickName = x.User.NickName,
+                    Remark = x.Remark,
+                }).ToList();
+                return wxUsers;
+            }
+        }
     }
 }

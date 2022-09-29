@@ -172,10 +172,30 @@ namespace WeChat.App
         #region 初始化组件
         public void InitAutoGreetView()
         {
-            AutoGreetView.Columns.Add("WxId", "ID");
-            AutoGreetView.Columns.Add("NickName", "昵称");
-            AutoGreetView.Columns.Add("Mobile", "昵称");
-            AutoGreetView.Columns.Add("Remarks", "备注");
+            var TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "WxId";
+            TextBoxColumnX.HeaderText = "微信ID";
+            TextBoxColumnX.Name = "WxId";
+            AutoGreetView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "NickName";
+            TextBoxColumnX.HeaderText = "昵称";
+            TextBoxColumnX.Name = "NickName";
+            AutoGreetView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "Remark";
+            TextBoxColumnX.HeaderText = "备注";
+            TextBoxColumnX.Name = "Remark";
+            AutoGreetView.Columns.Add(TextBoxColumnX);
+
+            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+            btn.HeaderText = "操作";
+            btn.DefaultCellStyle.NullValue = "删除";
+            AutoGreetView.Columns.Add(btn);
+
+            AutoGreetView.AutoGenerateColumns = false;
             AutoGreetView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             AutoGreetView.BackgroundColor = Color.White;
             AutoGreetView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -253,39 +273,7 @@ namespace WeChat.App
         }
         #endregion
 
-
-
-        private void EnableHarvestCode_Click(object sender, EventArgs e)
-        {
-            //using (WeChatHelperContext c = new WeChatHelperContext())
-            //{
-            //    //var user = WxSocket.GetCurUser();
-            //    //if (user == null)
-            //    //{
-            //    //    return;
-            //    //}
-            //    //var appConfig = c.WxAppConfigs.FirstOrDefault(p=>p.UserId.Equals(user.UserId));
-            //    //if (appConfig == null)
-            //    //{
-            //    //    appConfig = new WxAppConfig
-            //    //    {
-            //    //        UserId = user.UserId,
-            //    //        EnableHarvestCode = EnableHarvestCode.Checked
-            //    //    };
-            //    //}
-            //    //else 
-            //    //{
-            //    //    appConfig.EnableHarvestCode = EnableHarvestCode.Checked;
-            //    //}
-            //    //new AppConfigService().SaveOrUpdate(appConfig);
-            //}
-        }
-
-        private void ScrollingLog_TextChanged(object sender, EventArgs e)
-        {
-            ScrollingLog.SelectionStart = ScrollingLog.Text.Length;
-            ScrollingLog.ScrollToCaret();
-        }
+        
 
 
 
@@ -436,6 +424,9 @@ namespace WeChat.App
 
             // 查询登录用户信息
             loginUser = wxUser;
+
+            // 加载页面数据
+            this.LoadPageData();
         }
 
         public void HandleUserList(WxServerReceiveDTO<BindingList<WxFriendUserMV>> data)
@@ -513,14 +504,24 @@ namespace WeChat.App
         }
         #endregion
 
+        #region 消息日志变更
+        private void ScrollingLog_TextChanged(object sender, EventArgs e)
+        {
+            ScrollingLog.SelectionStart = ScrollingLog.Text.Length;
+            ScrollingLog.ScrollToCaret();
+        } 
+        #endregion
+
         #region 开始连接
         private void StartConnect_Click(object sender, EventArgs e)
         {
             // 启用Socket服务
             this.ConnectSocket();
 
+            // 查询登录信息
             this.GetUserInfo();
 
+            // 获取好友列表、群组、公众号
             this.GetUserList();
         }
         #endregion
@@ -604,7 +605,7 @@ namespace WeChat.App
             };
             friendService.AddFriend(wxUserFriend);
 
-            Show("添加成功");
+            this.LoadAutoGreetList();
         }
         #endregion
 
@@ -613,6 +614,23 @@ namespace WeChat.App
         public void Show(string content) 
         {
             MessageBox.Show(content, "提示");
+        }
+        public void LoadPageData() 
+        {
+            // 查询自动问候列表
+            this.LoadAutoGreetList();
+        }
+        public void LoadAutoGreetList() 
+        {
+            var wxUsers = friendService.SelectByUserIdAndEnableAutoGreet(loginUser.Id,1);
+            var list = wxUsers.Select(p => new WxAutoGreetUserMV
+            {
+                WxId = p.WxId,
+                WxCode = p.WxCode,
+                NickName = p.NickName,
+                Remark = p.Remark,
+            }).ToList();
+            RunUi(() => AutoGreetView.DataSource = list);
         }
     }
 }

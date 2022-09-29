@@ -40,7 +40,6 @@
             this.StartConnectBtn = new System.Windows.Forms.Button();
             this.WsUrlTxt = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.EnableHarvestCode = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ScrollingLog = new System.Windows.Forms.RichTextBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -71,7 +70,6 @@
             this.AutoGreetTask = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -185,24 +183,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.EnableHarvestCode);
             this.groupBox2.Location = new System.Drawing.Point(12, 315);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(400, 141);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "高级设置";
-            // 
-            // EnableHarvestCode
-            // 
-            this.EnableHarvestCode.AutoSize = true;
-            this.EnableHarvestCode.Location = new System.Drawing.Point(6, 22);
-            this.EnableHarvestCode.Name = "EnableHarvestCode";
-            this.EnableHarvestCode.Size = new System.Drawing.Size(87, 21);
-            this.EnableHarvestCode.TabIndex = 0;
-            this.EnableHarvestCode.Text = "开启收货码";
-            this.EnableHarvestCode.UseVisualStyleBackColor = true;
-            this.EnableHarvestCode.Click += new System.EventHandler(this.EnableHarvestCode_Click);
             // 
             // groupBox3
             // 
@@ -498,8 +484,6 @@
             this.Load += new System.EventHandler(this.WeChatHelper_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -542,7 +526,6 @@
         private System.Windows.Forms.Button SaveGreetConfigBtn;
         private System.Windows.Forms.TabPage tabPage5;
         public System.Windows.Forms.RichTextBox ScrollingLog;
-        public System.Windows.Forms.CheckBox EnableHarvestCode;
         public System.Windows.Forms.CheckBox AutoGreetStatus;
         public System.Windows.Forms.DateTimePicker AutoGreetTime;
         public System.Windows.Forms.CheckBox EnableWeather;
