@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using WeChat.App.Handle;
 using WeChat.Domain.Enum;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
@@ -33,6 +35,15 @@ namespace WeChat.App.Service
         private static string dllName = "WeChat.PCApi.dll";
 
         private static string dllPath = Path.Combine(Directory.GetCurrentDirectory(), dllName);
+
+        /// <summary>
+        /// 使用WindowsAPI函数SwitchToThisWindow，可以将指定窗口移动到屏幕最前
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="fAltTab"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern bool SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
 
         #region 获取微信exe路径
         public string GetWeChatPath()
@@ -83,6 +94,20 @@ namespace WeChat.App.Service
         }
         #endregion
 
+        #region 关闭微信
+        public void CloseWeChat() 
+        {
+            var list = Process.GetProcessesByName("WeChat");
+            foreach (var item in list) 
+            {
+                item.Kill();
+                item.WaitForExit();
+                ScrollingLogHandle.AppendTextToLog("已关闭微信");
+            }
+
+        }
+        #endregion
+
         #region 注入微信
         public bool InjectDllToWeChat()
         {
@@ -100,6 +125,15 @@ namespace WeChat.App.Service
                 }
             }
             return hasSuccess;
+        }
+        #endregion
+
+        #region 置顶微信窗口
+        public void TopWindow() 
+        {
+            var list = Process.GetProcessesByName("WeChat");
+            var item = list.FirstOrDefault();
+            SwitchToThisWindow(item.MainWindowHandle, true);
         }
         #endregion
 

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WeChat.App.Socket;
 using WeChat.Domain.Enum;
 using WeChat.DTO.Message;
 using WeChat.DTO.Socket;

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace WeChat.Domain.Models
 {
     /// <summary>
-    /// 用户好友
+    /// 自动问候用户配置
     /// </summary>
-    public partial class WxUserFriend
+    public partial class WxAutoGreetUser
     {
         /// <summary>
         /// ID
@@ -20,10 +20,6 @@ namespace WeChat.Domain.Models
         /// 朋友用户ID
         /// </summary>
         public long FriendUserId { get; set; }
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string Remark { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

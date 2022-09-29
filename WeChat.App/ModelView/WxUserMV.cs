@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WeChat.DTO.DataSource
+namespace WeChat.App.ModelView
 {
-    public class WxUserInfo
+    public class WxUserMV
     {
         [JsonProperty(PropertyName = "wx_id")]
         public string WxId { get; set; }

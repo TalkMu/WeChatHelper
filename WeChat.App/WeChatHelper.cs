@@ -1,4 +1,4 @@
-﻿using Fleck;
+﻿
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,15 +16,14 @@ using System.Windows.Forms;
 using WebSocketSharp;
 using WeChat.App.DataSource;
 using WeChat.App.Handle;
-using WeChat.App.Helper;
+using WeChat.App.ModelView;
 using WeChat.App.Service;
-using WeChat.App.Socket;
 using WeChat.Domain.Enum;
 using WeChat.Domain.Models;
-using WeChat.DTO.DataSource;
 using WeChat.DTO.Message;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
+using WeChat.Extend.Helper.Date;
 using WeChat.Service.Lrw;
 using WeChat.Service.WeChat;
 
@@ -34,12 +34,77 @@ namespace WeChat.App
         private WeChatService weChatService = new WeChatService();
 
         private WebSocket webSocket;
-
         public static WeChatHelper form;
-        /// <summary>
-        /// 服务状态
-        /// </summary>
-        private bool WxServerRunning;
+
+        private UserService userService = new UserService();
+        private UserFriendService friendService = new UserFriendService();
+        private AutoGreetUserService autoGreetUserService = new AutoGreetUserService();
+
+        
+
+        #region 属性
+
+        #region Socket是否连接中
+        private bool wsConnectRunning;
+        public bool WsConnectRunning 
+        {
+            get => wsConnectRunning;
+            set 
+            {
+                if (value)
+                {
+                    RunUi(() =>
+                    {
+                        connectStateLabel.Text = "已连接";
+                        connectStateLabel.ForeColor = Color.Green;
+                    });
+                    StartConnectBtn.Enabled = false;
+                    DisConnectBtn.Enabled = true;
+                }
+                else 
+                {
+                    RunUi(() =>
+                    {
+                        connectStateLabel.Text = "未连接";
+                        connectStateLabel.ForeColor = Color.Red;
+                    });
+                    StartConnectBtn.Enabled = true;
+                    DisConnectBtn.Enabled = false;
+                    
+                }
+                wsConnectRunning = value;
+            }
+        }
+        #endregion
+
+        #region 最后心跳时间
+        private DateTime lastHeartTime;
+        public DateTime LastHeartTime
+        {
+            get => lastHeartTime;
+            set 
+            {
+                RunUi(() =>
+                {
+                    connectStateLabel.Text = DateHelper.FormatDateTime(value);
+                    connectStateLabel.ForeColor = Color.Green;
+                });
+                lastHeartTime = value;
+            }
+        }
+        #endregion
+
+        private WxUser loginUser;
+        public WxUser LoginUser 
+        {
+            get => loginUser;
+            set 
+            {
+                loginUser = value;
+            }
+        }
+
+        #endregion
 
         public WeChatHelper()
         {
@@ -48,7 +113,51 @@ namespace WeChat.App
             form = this;
         }
 
-        private void StartWeChatBtn_Click(object sender, EventArgs e)
+        #region 窗体事件
+
+        #region 刷新UI
+        public void RunUi(Action action)
+        {
+            BeginInvoke(action);
+        }
+        #endregion
+
+        #region 加载窗体
+        private void WeChatHelper_Load(object sender, EventArgs e)
+        {
+            // 初始化自动问候视图
+            this.InitAutoGreetView();
+            // 初始化好友视图
+            this.InitFriendView();
+            this.InitGroupView();
+            this.InitOpenAccountView();
+            // 加载WsUrl
+            WsUrlTxt.Text = Appsetting.SOCKET_URL;
+
+            DisConnectBtn.Enabled = false;
+        }
+        #endregion
+
+        #region 开始连接
+        private void StartConnect_Click(object sender, EventArgs e)
+        {
+            // 启用Socket服务
+            this.ConnectSocket();
+
+            this.GetUserInfo();
+
+            this.GetUserList();
+        }
+        #endregion
+
+        #region 断开连接
+        private void DisConnectBtn_Click(object sender, EventArgs e)
+        {
+            this.DisconnectSocket();
+        }
+        #endregion
+        #region 启动微信
+        private void OpenWeChatBtn_Click(object sender, EventArgs e)
         {
             // 启动微信
             var openWechat = weChatService.OpenWechat();
@@ -64,102 +173,109 @@ namespace WeChat.App
             //    ScrollingLogHandle.AppendTextToLog("成功注入DLL到微信");
             //}
         }
+        #endregion
 
-        private void WeChatHelper_Load(object sender, EventArgs e)
+        private void CloseWeChatBtn_Click(object sender, EventArgs e)
         {
-            // 初始化自动问候视图
-            this.InitAutoGreetView();
-            // 初始化好友视图
-            this.InitFriendView();
-            this.InitGroupView();
-            this.InitOpenAccountView();
-            // 加载微信路径
-            var weChatPath = weChatService.GetWeChatPath();
-            WeChatPath.Text = weChatPath;
+            weChatService.CloseWeChat();
         }
 
-        
+        private void ShowWeChatBtn_Click(object sender, EventArgs e)
+        {
+            weChatService.TopWindow();
+        }
 
-        public void HandleUserList(WxServerReceiveDTO<List<WxFriendUser>> data)
+        private void FriendView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) 
+            {
+                FriendView.ClearSelection();
+                FriendView.Rows[e.RowIndex].Selected = true;
+                FriendView.CurrentCell = FriendView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                FriendViewMenu.Show(MousePosition.X, MousePosition.Y);
+            }
+        }
+        #endregion
+
+
+
+
+        public void HandleUserList(WxServerReceiveDTO<BindingList<WxFriendUserMV>> data)
         {
             FriendView.DataSource = null;
             GroupView.DataSource = null;
             OpenAccountView.DataSource = null;
             var users = data.Data;
-
-            
             // 群聊
             var groupList = users.Where(p => p.WxId.EndsWith("@chatroom")).ToList();
             // 公众号
             var openAccountList = users.Where(p => p.WxId.StartsWith("gh_")).ToList();
             // 好友
             var friendList = users.Where(p => !p.WxId.EndsWith("@chatroom") && !p.WxId.StartsWith("gh_")).ToList();
+
             RunUi(() =>
             {
-                friendList.ForEach(item =>
-                {
-                    var index = FriendView.Rows.Add();
-                    // 创建行
-                    DataGridViewRow row = new DataGridViewRow();
-                    // wxid
-                    FriendView.Rows[index].Cells[0].Value = item.WxId;
-                    // wxcode
-                    FriendView.Rows[index].Cells[1].Value = item.WxCode;
-                    // nickName
-                    FriendView.Rows[index].Cells[2].Value = item.NickName;
-                    FriendView.Rows[index].Cells[3].Value = item.HeadImg;
-                    FriendView.Rows[index].Cells[4].Value = item.Remark;
-                });
-
-                groupList.ForEach(item =>
-                {
-                    var index = GroupView.Rows.Add();
-                    // 创建行
-                    DataGridViewRow row = new DataGridViewRow();
-                    // wxid
-                    GroupView.Rows[index].Cells[0].Value = item.WxId;
-                    // wxcode
-                    GroupView.Rows[index].Cells[1].Value = item.WxCode;
-                    // nickName
-                    GroupView.Rows[index].Cells[2].Value = item.NickName;
-                    GroupView.Rows[index].Cells[3].Value = item.HeadImg;
-                    GroupView.Rows[index].Cells[4].Value = item.Remark;
-                });
-
-                openAccountList.ForEach(item =>
-                {
-                    var index = OpenAccountView.Rows.Add();
-                    // 创建行
-                    DataGridViewRow row = new DataGridViewRow();
-                    // wxid
-                    OpenAccountView.Rows[index].Cells[0].Value = item.WxId;
-                    // wxcode
-                    OpenAccountView.Rows[index].Cells[1].Value = item.WxCode;
-                    // nickName
-                    OpenAccountView.Rows[index].Cells[2].Value = item.NickName;
-                    OpenAccountView.Rows[index].Cells[3].Value = item.HeadImg;
-                    OpenAccountView.Rows[index].Cells[4].Value = item.Remark;
-                });
+                FriendView.DataSource = friendList;
+                GroupView.DataSource = groupList;
+                OpenAccountView.DataSource = openAccountList;
             });
+
+
+
+            //RunUi(() =>
+            //{
+            //    friendList.ForEach(item =>
+            //    {
+            //        var index = FriendView.Rows.Add();
+            //        // 创建行
+            //        DataGridViewRow row = new DataGridViewRow();
+            //        // wxid
+            //        FriendView.Rows[index].Cells[0].Value = item.WxId;
+            //        // wxcode
+            //        FriendView.Rows[index].Cells[1].Value = item.WxCode;
+            //        // nickName
+            //        FriendView.Rows[index].Cells[2].Value = item.NickName;
+            //        FriendView.Rows[index].Cells[3].Value = item.HeadImg;
+            //        FriendView.Rows[index].Cells[4].Value = item.Remark;
+            //    });
+
+            //    groupList.ForEach(item =>
+            //    {
+            //        var index = GroupView.Rows.Add();
+            //        // 创建行
+            //        DataGridViewRow row = new DataGridViewRow();
+            //        // wxid
+            //        GroupView.Rows[index].Cells[0].Value = item.WxId;
+            //        // wxcode
+            //        GroupView.Rows[index].Cells[1].Value = item.WxCode;
+            //        // nickName
+            //        GroupView.Rows[index].Cells[2].Value = item.NickName;
+            //        GroupView.Rows[index].Cells[3].Value = item.HeadImg;
+            //        GroupView.Rows[index].Cells[4].Value = item.Remark;
+            //    });
+
+            //    openAccountList.ForEach(item =>
+            //    {
+            //        var index = OpenAccountView.Rows.Add();
+            //        // 创建行
+            //        DataGridViewRow row = new DataGridViewRow();
+            //        // wxid
+            //        OpenAccountView.Rows[index].Cells[0].Value = item.WxId;
+            //        // wxcode
+            //        OpenAccountView.Rows[index].Cells[1].Value = item.WxCode;
+            //        // nickName
+            //        OpenAccountView.Rows[index].Cells[2].Value = item.NickName;
+            //        OpenAccountView.Rows[index].Cells[3].Value = item.HeadImg;
+            //        OpenAccountView.Rows[index].Cells[4].Value = item.Remark;
+            //    });
+            //});
             FriendView.AllowUserToAddRows = false;
             GroupView.AllowUserToAddRows = false;
             OpenAccountView.AllowUserToAddRows = false;
         }
 
-        private void StartConnect_Click(object sender, EventArgs e)
-        {
-            // 启用Socket服务
-            if (webSocket == null)
-            {
-                this.ConnectSocket();
-
-                this.GetUserInfo();
-
-                this.GetUserList();
-            }
-        }
-
         
+
 
         
 
@@ -170,7 +286,7 @@ namespace WeChat.App
             var excTime = AutoGreetTime.Value;
             if (curTime.Hour == excTime.Hour && curTime.Minute == excTime.Minute && curTime.Second == excTime.Second)
             {
-                new AutoGreetService().ExcAutoGreetTask();
+                //new AutoGreetService().ExcAutoGreetTask();
                 ScrollingLogHandle.AppendTextToLog("执行自动问候");
             }
 
@@ -184,49 +300,45 @@ namespace WeChat.App
             //{
             //    return;
             //}
-            using (WeChatHelperContext c = new WeChatHelperContext())
-            {
-                //var config = c.WxAutoGreetConfigs.FirstOrDefault(p => p.UserId.Equals(user.UserId));
-                //if (config == null)
-                //{
-                //    config = new WxAutoGreetConfig();
-                //}
-                ////config.UserId = user.UserId;
-                //config.Status = AutoGreetStatus.Checked;
-                //config.GreetTime = AutoGreetTime.Value.TimeOfDay;
-                //config.EnableCiba = EnableCiBa.Checked;
-                //config.EnableMotto = EnableMotto.Checked;
-                //config.EnableWeather = EnableWeather.Checked;
-                //new AutoGreetConfigService().SaveOrUpdate(config);
+            //using (WeChatHelperContext c = new WeChatHelperContext())
+            //{
+            //    //var config = c.WxAutoGreetConfigs.FirstOrDefault(p => p.UserId.Equals(user.UserId));
+            //    //if (config == null)
+            //    //{
+            //    //    config = new WxAutoGreetConfig();
+            //    //}
+            //    ////config.UserId = user.UserId;
+            //    //config.Status = AutoGreetStatus.Checked;
+            //    //config.GreetTime = AutoGreetTime.Value.TimeOfDay;
+            //    //config.EnableCiba = EnableCiBa.Checked;
+            //    //config.EnableMotto = EnableMotto.Checked;
+            //    //config.EnableWeather = EnableWeather.Checked;
+            //    //new AutoGreetConfigService().SaveOrUpdate(config);
 
-                if (AutoGreetStatus.Checked)
-                {
-                    // 开启自动问候定时任务
-                    AutoGreetTask.Enabled = true;
-                    AutoGreetTask.Interval = 1000;
-                }
-                else
-                {
-                    // 关闭自动问候任务
-                    AutoGreetTask.Enabled = false;
-                }
-                MessageBox.Show("保存成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
-            }
+            //    if (AutoGreetStatus.Checked)
+            //    {
+            //        // 开启自动问候定时任务
+            //        AutoGreetTask.Enabled = true;
+            //        AutoGreetTask.Interval = 1000;
+            //    }
+            //    else
+            //    {
+            //        // 关闭自动问候任务
+            //        AutoGreetTask.Enabled = false;
+            //    }
+            //    MessageBox.Show("保存成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+            //}
         }
 
         #endregion
 
 
 
-        public void RunUi(Action action)
-        {
-            BeginInvoke(action);
-        }
+        
 
 
 
         #region 初始化组件
-
         public void InitAutoGreetView()
         {
             AutoGreetView.Columns.Add("WxId", "ID");
@@ -241,11 +353,39 @@ namespace WeChat.App
 
         public void InitFriendView()
         {
-            FriendView.Columns.Add("WxId", "微信ID");
-            FriendView.Columns.Add("WxCode", "微信号");
-            FriendView.Columns.Add("NickName", "昵称");
-            FriendView.Columns.Add("HeadImg", "头像");
-            FriendView.Columns.Add("Remark", "备注");
+            DataGridViewTextBoxColumn TextBoxColumnX = new DataGridViewTextBoxColumn();
+            // 获取或设置数据源属性的名称或与 DataGridViewColumn 绑定的数据库列的名称。
+            TextBoxColumnX.DataPropertyName = "WxId";
+            TextBoxColumnX.HeaderText = "微信ID";
+            // 获取或设置列名
+            TextBoxColumnX.Name = "WxId";
+            FriendView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "WxCode";
+            TextBoxColumnX.HeaderText = "微信号";
+            TextBoxColumnX.Name = "WxCode";
+            FriendView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "NickName";
+            TextBoxColumnX.HeaderText = "昵称";
+            TextBoxColumnX.Name = "NickName";
+            FriendView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "HeadImg";
+            TextBoxColumnX.HeaderText = "头像";
+            TextBoxColumnX.Name = "HeadImg";
+            FriendView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "Remark";
+            TextBoxColumnX.HeaderText = "备注";
+            TextBoxColumnX.Name = "Remark";
+            FriendView.Columns.Add(TextBoxColumnX);
+
+
             FriendView.AutoGenerateColumns = false;
             FriendView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             FriendView.BackgroundColor = Color.White;
@@ -286,28 +426,28 @@ namespace WeChat.App
 
         private void EnableHarvestCode_Click(object sender, EventArgs e)
         {
-            using (WeChatHelperContext c = new WeChatHelperContext())
-            {
-                //var user = WxSocket.GetCurUser();
-                //if (user == null)
-                //{
-                //    return;
-                //}
-                //var appConfig = c.WxAppConfigs.FirstOrDefault(p=>p.UserId.Equals(user.UserId));
-                //if (appConfig == null)
-                //{
-                //    appConfig = new WxAppConfig
-                //    {
-                //        UserId = user.UserId,
-                //        EnableHarvestCode = EnableHarvestCode.Checked
-                //    };
-                //}
-                //else 
-                //{
-                //    appConfig.EnableHarvestCode = EnableHarvestCode.Checked;
-                //}
-                //new AppConfigService().SaveOrUpdate(appConfig);
-            }
+            //using (WeChatHelperContext c = new WeChatHelperContext())
+            //{
+            //    //var user = WxSocket.GetCurUser();
+            //    //if (user == null)
+            //    //{
+            //    //    return;
+            //    //}
+            //    //var appConfig = c.WxAppConfigs.FirstOrDefault(p=>p.UserId.Equals(user.UserId));
+            //    //if (appConfig == null)
+            //    //{
+            //    //    appConfig = new WxAppConfig
+            //    //    {
+            //    //        UserId = user.UserId,
+            //    //        EnableHarvestCode = EnableHarvestCode.Checked
+            //    //    };
+            //    //}
+            //    //else 
+            //    //{
+            //    //    appConfig.EnableHarvestCode = EnableHarvestCode.Checked;
+            //    //}
+            //    //new AppConfigService().SaveOrUpdate(appConfig);
+            //}
         }
 
         private void ScrollingLog_TextChanged(object sender, EventArgs e)
@@ -334,7 +474,7 @@ namespace WeChat.App
             webSocket.OnMessage += WsOnMessage;
             webSocket.OnError += WsOnError;
             ScrollingLogHandle.AppendTextToLog($"[连接服务] 连接操作成功");
-            WxServerRunning = true;
+            WsConnectRunning = true;
         }
         /// <summary>
         /// 关闭服务
@@ -346,13 +486,13 @@ namespace WeChat.App
                 return;
             }
             ScrollingLogHandle.AppendTextToLog($"[断开服务] 尝试断开服务");
-            webSocket.Close(1, "主动关闭");
+            webSocket.Close();
             webSocket.OnOpen -= WsOnOpen;
             webSocket.OnClose -= WsOnClose;
             webSocket.OnMessage -= WsOnMessage;
             webSocket.OnError -= WsOnError;
             ScrollingLogHandle.AppendTextToLog($"[断开服务] 服务已断开");
-            WxServerRunning = false;
+            WsConnectRunning = false;
         }
         #endregion
 
@@ -401,10 +541,10 @@ namespace WeChat.App
                     HandleHeartBeat(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
                     break;
                 case SocketDataEnum.USER_LIST:
-                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<List<WxFriendUser>>>(data));
+                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<BindingList<WxFriendUserMV>>>(data));
                     break;
                 case SocketDataEnum.GET_USER_LIST_SUCCSESS:
-                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<List<WxFriendUser>>>(data));
+                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<BindingList<WxFriendUserMV>>>(data));
                     break;
                 case SocketDataEnum.GET_USER_INFO:
                     this.HandleUserInfo(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
@@ -432,8 +572,8 @@ namespace WeChat.App
         #region 处理消息
         public void HandleHeartBeat(WxServerReceiveDTO<string> data)
         {
-            //LastHeartTime = Convert.ToDateTime(data.time);
-            var contentJson = data.Data;
+            LastHeartTime = Convert.ToDateTime(data.time);
+            var contentJson = JsonHelper.ToJson(data);
             //ScrollingLogHandle.AppendTextToLog($"[处理服务器心跳] 已获取信息：{contentJson}");
         }
         public void HandleRecTxtMsg(WxServerReceiveDTO<object> data)
@@ -454,7 +594,10 @@ namespace WeChat.App
         {
             var contentJson = data.Data;
 
-            var wxUserInfo = JsonHelper.FromJson<WxUserInfo>(contentJson);
+            var wxUserInfo = JsonHelper.FromJson<WxUserMV>(contentJson);
+
+            // 查询登录用户信息
+            loginUser = userService.SelectByWxId(wxUserInfo.WxId);
         }
         #endregion
 
@@ -478,6 +621,43 @@ namespace WeChat.App
             };
             SendSocket(data);
         }
+
+
+
         #endregion
+
+        private void FriendToAutoGreetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 获取当前选中行
+            var curRow = FriendView.CurrentRow;
+            var wxFriendUserMV = (WxFriendUserMV)curRow.DataBoundItem;
+            // 保存或更新用户基础信息
+            var friendUser = new WxUser()
+            {
+                WxId = wxFriendUserMV.WxId,
+                WxCode = wxFriendUserMV.WxCode,
+                Remark = wxFriendUserMV.Remark,
+                NickName = wxFriendUserMV.NickName,
+            };
+            userService.SaveOrUpdate(friendUser);
+
+            // 保存朋友关系
+            WxUserFriend wxUserFriend = new WxUserFriend()
+            {
+                UserId = loginUser.Id,
+                FriendUserId = friendUser.Id,
+                Remark = friendUser.Remark,
+            };
+            friendService.AddFriend(wxUserFriend);
+
+            // 保存问候关系
+            WxAutoGreetUser wxAutoGreetUser = new WxAutoGreetUser()
+            {
+                UserId=loginUser.Id,
+                FriendUserId=friendUser.Id,
+                CreateTime = DateTime.Now,
+            };
+            autoGreetUserService.Save(wxAutoGreetUser);
+        }
     }
 }

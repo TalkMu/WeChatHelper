@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WeChat.App.Socket;
 using WeChat.Service.WeChat;
 
 namespace WeChat.App.Handle

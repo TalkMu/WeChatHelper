@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WeChat.App.Socket;
-using WeChat.Domain.Models;
 
 /**
 *┌──────────────────────────────────────────────────────────────┐
@@ -24,15 +22,15 @@ namespace WeChat.App.Service
 {
     public class FriendService
     {
-        public List<WxUser> GetList() 
-        {
-            //var client = WxSocket.GetCurClient();
-            //using (WeChatHelperContext c = new WeChatHelperContext())
-            //{
-            //    var list = c.WxUserFriends.Where(p => p.UserId == client.User.UserId).Select(x => x.FriendUser).ToList();
-            //    return list;
-            //}
-            return null;
-        }
+        //public List<WxUser> GetList() 
+        //{
+        //    //var client = WxSocket.GetCurClient();
+        //    //using (WeChatHelperContext c = new WeChatHelperContext())
+        //    //{
+        //    //    var list = c.WxUserFriends.Where(p => p.UserId == client.User.UserId).Select(x => x.FriendUser).ToList();
+        //    //    return list;
+        //    //}
+        //    return null;
+        //}
     }
 }

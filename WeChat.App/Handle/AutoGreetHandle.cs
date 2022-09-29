@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WeChat.App.Service;
-using WeChat.App.Socket;
-using WeChat.Domain.Models;
 
 namespace WeChat.App.Handle
 {

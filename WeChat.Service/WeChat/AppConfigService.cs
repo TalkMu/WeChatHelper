@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WeChat.Domain.Models;
 
 namespace WeChat.Service.WeChat
 {
@@ -24,29 +23,29 @@ namespace WeChat.Service.WeChat
 	*/
     public class AppConfigService
     {
-        public WxAppConfig GetAppConfigByUserId(string userId) 
-        {
-            using (WeChatHelperContext c = new WeChatHelperContext())
-            {
-                return c.WxAppConfigs.FirstOrDefault(p=>p.UserId.Equals(userId));
-            }
-        }
+        //public WxAppConfig GetAppConfigByUserId(string userId) 
+        //{
+        //    using (WeChatHelperContext c = new WeChatHelperContext())
+        //    {
+        //        return c.WxAppConfigs.FirstOrDefault(p=>p.UserId.Equals(userId));
+        //    }
+        //}
 
-        public bool SaveOrUpdate(WxAppConfig appConfig)
-        {
-            using (WeChatHelperContext c = new WeChatHelperContext())
-            {
-                if (appConfig.Id == 0)
-                {
-                    c.WxAppConfigs.Add(appConfig);
+        //public bool SaveOrUpdate(WxAppConfig appConfig)
+        //{
+        //    using (WeChatHelperContext c = new WeChatHelperContext())
+        //    {
+        //        if (appConfig.Id == 0)
+        //        {
+        //            c.WxAppConfigs.Add(appConfig);
                     
-                }
-                else 
-                {
-                    c.WxAppConfigs.Update(appConfig);
-                }
-                return c.SaveChanges() == 1;
-            }
-        }
+        //        }
+        //        else 
+        //        {
+        //            c.WxAppConfigs.Update(appConfig);
+        //        }
+        //        return c.SaveChanges() == 1;
+        //    }
+        //}
     }
 }

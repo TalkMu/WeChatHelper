@@ -31,13 +31,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeChatHelper));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.StartConnect = new System.Windows.Forms.Button();
-            this.StartWeChatBtn = new System.Windows.Forms.Button();
-            this.WeChatPath = new System.Windows.Forms.TextBox();
+            this.connectStateLabel = new System.Windows.Forms.Label();
+            this.ShowWeChatBtn = new System.Windows.Forms.Button();
+            this.CleanRecordBtn = new System.Windows.Forms.Button();
+            this.CloseWeChatBtn = new System.Windows.Forms.Button();
+            this.OpenWeChatBtn = new System.Windows.Forms.Button();
+            this.DisConnectBtn = new System.Windows.Forms.Button();
+            this.StartConnectBtn = new System.Windows.Forms.Button();
+            this.WsUrlTxt = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.EnableHarvestCode = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -46,6 +47,9 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.FriendView = new System.Windows.Forms.DataGridView();
+            this.FriendViewMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FriendToAutoChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FriendToAutoGreetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.GroupView = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -65,6 +69,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.AutoGreetTask = new System.Windows.Forms.Timer(this.components);
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -72,6 +77,7 @@
             this.tabPage3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FriendView)).BeginInit();
+            this.FriendViewMenu.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GroupView)).BeginInit();
             this.tabPage5.SuspendLayout();
@@ -80,17 +86,19 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AutoGreetView)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.StartConnect);
-            this.groupBox1.Controls.Add(this.StartWeChatBtn);
-            this.groupBox1.Controls.Add(this.WeChatPath);
+            this.groupBox1.Controls.Add(this.connectStateLabel);
+            this.groupBox1.Controls.Add(this.ShowWeChatBtn);
+            this.groupBox1.Controls.Add(this.CleanRecordBtn);
+            this.groupBox1.Controls.Add(this.CloseWeChatBtn);
+            this.groupBox1.Controls.Add(this.OpenWeChatBtn);
+            this.groupBox1.Controls.Add(this.DisConnectBtn);
+            this.groupBox1.Controls.Add(this.StartConnectBtn);
+            this.groupBox1.Controls.Add(this.WsUrlTxt);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(400, 297);
@@ -98,69 +106,82 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "启动区";
             // 
-            // label6
+            // connectStateLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label6.Location = new System.Drawing.Point(268, 35);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(126, 17);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "2022-09-28 11:01:55";
+            this.connectStateLabel.AutoSize = true;
+            this.connectStateLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.connectStateLabel.ForeColor = System.Drawing.Color.Red;
+            this.connectStateLabel.Location = new System.Drawing.Point(266, 222);
+            this.connectStateLabel.Name = "connectStateLabel";
+            this.connectStateLabel.Size = new System.Drawing.Size(44, 17);
+            this.connectStateLabel.TabIndex = 11;
+            this.connectStateLabel.Text = "未连接";
             // 
-            // button1
+            // ShowWeChatBtn
             // 
-            this.button1.Location = new System.Drawing.Point(218, 248);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(176, 43);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "断开连接";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ShowWeChatBtn.Location = new System.Drawing.Point(205, 22);
+            this.ShowWeChatBtn.Name = "ShowWeChatBtn";
+            this.ShowWeChatBtn.Size = new System.Drawing.Size(90, 38);
+            this.ShowWeChatBtn.TabIndex = 10;
+            this.ShowWeChatBtn.Text = "显示微信";
+            this.ShowWeChatBtn.UseVisualStyleBackColor = true;
+            this.ShowWeChatBtn.Click += new System.EventHandler(this.ShowWeChatBtn_Click);
             // 
-            // label5
+            // CleanRecordBtn
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label5.Location = new System.Drawing.Point(86, 35);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(120, 37);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Helloes";
+            this.CleanRecordBtn.Location = new System.Drawing.Point(304, 22);
+            this.CleanRecordBtn.Name = "CleanRecordBtn";
+            this.CleanRecordBtn.Size = new System.Drawing.Size(90, 38);
+            this.CleanRecordBtn.TabIndex = 9;
+            this.CleanRecordBtn.Text = "清空记录";
+            this.CleanRecordBtn.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // CloseWeChatBtn
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 35);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 17);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "登录账户：";
+            this.CloseWeChatBtn.Location = new System.Drawing.Point(106, 22);
+            this.CloseWeChatBtn.Name = "CloseWeChatBtn";
+            this.CloseWeChatBtn.Size = new System.Drawing.Size(90, 38);
+            this.CloseWeChatBtn.TabIndex = 8;
+            this.CloseWeChatBtn.Text = "关闭微信";
+            this.CloseWeChatBtn.UseVisualStyleBackColor = true;
+            this.CloseWeChatBtn.Click += new System.EventHandler(this.CloseWeChatBtn_Click);
             // 
-            // StartConnect
+            // OpenWeChatBtn
             // 
-            this.StartConnect.Location = new System.Drawing.Point(6, 248);
-            this.StartConnect.Name = "StartConnect";
-            this.StartConnect.Size = new System.Drawing.Size(176, 43);
-            this.StartConnect.TabIndex = 2;
-            this.StartConnect.Text = "开始连接";
-            this.StartConnect.UseVisualStyleBackColor = true;
-            this.StartConnect.Click += new System.EventHandler(this.StartConnect_Click);
+            this.OpenWeChatBtn.Location = new System.Drawing.Point(6, 22);
+            this.OpenWeChatBtn.Name = "OpenWeChatBtn";
+            this.OpenWeChatBtn.Size = new System.Drawing.Size(90, 38);
+            this.OpenWeChatBtn.TabIndex = 7;
+            this.OpenWeChatBtn.Text = "启动微信";
+            this.OpenWeChatBtn.UseVisualStyleBackColor = true;
+            this.OpenWeChatBtn.Click += new System.EventHandler(this.OpenWeChatBtn_Click);
             // 
-            // StartWeChatBtn
+            // DisConnectBtn
             // 
-            this.StartWeChatBtn.Location = new System.Drawing.Point(306, 219);
-            this.StartWeChatBtn.Name = "StartWeChatBtn";
-            this.StartWeChatBtn.Size = new System.Drawing.Size(88, 23);
-            this.StartWeChatBtn.TabIndex = 1;
-            this.StartWeChatBtn.Text = "启动微信";
-            this.StartWeChatBtn.UseVisualStyleBackColor = true;
-            this.StartWeChatBtn.Click += new System.EventHandler(this.StartWeChatBtn_Click);
+            this.DisConnectBtn.Location = new System.Drawing.Point(218, 248);
+            this.DisConnectBtn.Name = "DisConnectBtn";
+            this.DisConnectBtn.Size = new System.Drawing.Size(176, 43);
+            this.DisConnectBtn.TabIndex = 5;
+            this.DisConnectBtn.Text = "断开连接";
+            this.DisConnectBtn.UseVisualStyleBackColor = true;
+            this.DisConnectBtn.Click += new System.EventHandler(this.DisConnectBtn_Click);
             // 
-            // WeChatPath
+            // StartConnectBtn
             // 
-            this.WeChatPath.Location = new System.Drawing.Point(6, 219);
-            this.WeChatPath.Name = "WeChatPath";
-            this.WeChatPath.Size = new System.Drawing.Size(294, 23);
-            this.WeChatPath.TabIndex = 0;
+            this.StartConnectBtn.Location = new System.Drawing.Point(6, 248);
+            this.StartConnectBtn.Name = "StartConnectBtn";
+            this.StartConnectBtn.Size = new System.Drawing.Size(176, 43);
+            this.StartConnectBtn.TabIndex = 2;
+            this.StartConnectBtn.Text = "开始连接";
+            this.StartConnectBtn.UseVisualStyleBackColor = true;
+            this.StartConnectBtn.Click += new System.EventHandler(this.StartConnect_Click);
+            // 
+            // WsUrlTxt
+            // 
+            this.WsUrlTxt.Location = new System.Drawing.Point(6, 219);
+            this.WsUrlTxt.Name = "WsUrlTxt";
+            this.WsUrlTxt.Size = new System.Drawing.Size(254, 23);
+            this.WsUrlTxt.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -237,12 +258,35 @@
             // FriendView
             // 
             this.FriendView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.FriendView.ContextMenuStrip = this.FriendViewMenu;
             this.FriendView.Location = new System.Drawing.Point(6, 22);
             this.FriendView.Name = "FriendView";
             this.FriendView.RowHeadersWidth = 51;
             this.FriendView.RowTemplate.Height = 25;
             this.FriendView.Size = new System.Drawing.Size(728, 421);
             this.FriendView.TabIndex = 0;
+            this.FriendView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FriendView_CellMouseDown);
+            // 
+            // FriendViewMenu
+            // 
+            this.FriendViewMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FriendToAutoChatToolStripMenuItem,
+            this.FriendToAutoGreetToolStripMenuItem});
+            this.FriendViewMenu.Name = "FirendViewMenu";
+            this.FriendViewMenu.Size = new System.Drawing.Size(161, 48);
+            // 
+            // FriendToAutoChatToolStripMenuItem
+            // 
+            this.FriendToAutoChatToolStripMenuItem.Name = "FriendToAutoChatToolStripMenuItem";
+            this.FriendToAutoChatToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.FriendToAutoChatToolStripMenuItem.Text = "添加到自动聊天";
+            // 
+            // FriendToAutoGreetToolStripMenuItem
+            // 
+            this.FriendToAutoGreetToolStripMenuItem.Name = "FriendToAutoGreetToolStripMenuItem";
+            this.FriendToAutoGreetToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.FriendToAutoGreetToolStripMenuItem.Text = "添加到自动问候";
+            this.FriendToAutoGreetToolStripMenuItem.Click += new System.EventHandler(this.FriendToAutoGreetToolStripMenuItem_Click);
             // 
             // tabPage4
             // 
@@ -461,6 +505,7 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FriendView)).EndInit();
+            this.FriendViewMenu.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GroupView)).EndInit();
             this.tabPage5.ResumeLayout(false);
@@ -470,6 +515,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.AutoGreetView)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -481,18 +527,15 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button StartConnect;
-        private System.Windows.Forms.Button StartWeChatBtn;
+        private System.Windows.Forms.Button StartConnectBtn;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TextBox WeChatPath;
+        private System.Windows.Forms.TextBox WsUrlTxt;
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DataGridView FriendView;
         private System.Windows.Forms.Label label3;
@@ -510,10 +553,16 @@
         private System.Windows.Forms.DataGridView GroupView;
         private System.Windows.Forms.DataGridView OpenAccountView;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button DisConnectBtn;
+        private System.Windows.Forms.Button ShowWeChatBtn;
+        private System.Windows.Forms.Button CleanRecordBtn;
+        private System.Windows.Forms.Button CloseWeChatBtn;
+        private System.Windows.Forms.Button OpenWeChatBtn;
+        private System.Windows.Forms.Label connectStateLabel;
+        private System.Windows.Forms.ContextMenuStrip FriendViewMenu;
+        private System.Windows.Forms.ToolStripMenuItem FriendToAutoChatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FriendToAutoGreetToolStripMenuItem;
+        private System.Windows.Forms.BindingSource bindingSource1;
     }
 }
 

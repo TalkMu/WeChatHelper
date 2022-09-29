@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace WeChat.Domain.Models
 {
     /// <summary>
-    /// 用户好友
+    /// 助手配置
     /// </summary>
-    public partial class WxUserFriend
+    public partial class WxConfig
     {
         /// <summary>
         /// ID
@@ -17,19 +17,14 @@ namespace WeChat.Domain.Models
         /// </summary>
         public long UserId { get; set; }
         /// <summary>
-        /// 朋友用户ID
+        /// 开启问候
         /// </summary>
-        public long FriendUserId { get; set; }
+        public ulong EnableAutoGreet { get; set; }
         /// <summary>
-        /// 备注
+        /// 开启闲聊
         /// </summary>
-        public string Remark { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
+        public ulong EnableAutoChat { get; set; }
 
-        public virtual WxUser FriendUser { get; set; }
         public virtual WxUser User { get; set; }
     }
 }

@@ -1,11 +1,9 @@
-﻿using Fleck;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WeChat.App.Service;
-using WeChat.App.Socket;
-using WeChat.Domain.Models;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
 
@@ -35,7 +33,7 @@ namespace WeChat.App.Handle
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="message"></param>
-        public static void ReceiveUserInfo(IWebSocketConnection connection, string message)
+        public static void ReceiveUserInfo(string message)
         {
             //UserService userService = new UserService();
             //var socket = JsonHelper.FromJson<SocketDTO<WxUser>>(message);
