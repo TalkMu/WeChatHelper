@@ -32,20 +32,35 @@ namespace WeChat.Service.WeChat
             }
         }
 
-        public List<WxUser> SelectByUserIdAndEnableAutoGreet(long userId, ulong enableAutoGreet)
+        public List<WxUser> SelectByUserIdAndEnableAutoGreet(long userId, bool enableAutoGreet)
         {
             using (WeChatHelperContext c = new WeChatHelperContext()) 
             {
                 var wxUsers = c.WxUserFriends.Where(p => p.UserId == userId && p.EnableAutoGreet == enableAutoGreet).Select(x => new WxUser 
                 { 
-                    Id = x.User.Id,
-                    WxId = x.User.WxId,
-                    WxCode = x.User.WxCode,
-                    NickName = x.User.NickName,
+                    Id = x.Id,
+                    WxId = x.FriendUser.WxId,
+                    WxCode = x.FriendUser.WxCode,
+                    NickName = x.FriendUser.NickName,
                     Remark = x.Remark,
                 }).ToList();
                 return wxUsers;
             }
+        }
+
+        public bool CloseAutoGreet(long id)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext()) 
+            {
+                var model = c.WxUserFriends.FirstOrDefault(p => p.Id == id);
+                if (model == null)
+                {
+                    return false;
+                }
+                model.EnableAutoGreet = false;
+                return c.SaveChanges() == 1;
+            }
+
         }
     }
 }

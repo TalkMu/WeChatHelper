@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using WeChat.Domain.Enum;
@@ -25,36 +26,44 @@ namespace WeChat.DTO.Socket
         /// <summary>
         /// Socket消息类型->SocketDataEnum
         /// </summary>
-        public SocketDataEnum type { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public SocketDataEnum Type { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
-        public string nickname { get; set; }
+        [JsonProperty(PropertyName = "nickname")]
+        public string NickName { get; set; } = string.Empty;
         /// <summary>
         /// 群组id 群组内发送@消息时使用
         /// </summary>
-        public string roomid { get; set; }
+        [JsonProperty(PropertyName = "roomid")]
+        public string RoomId { get; set; } = string.Empty;
 
         /// <summary>
         /// 消息ID
         /// </summary>
-        public string id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
         /// <summary>
         /// 接收消息人的 微信原始id
         /// </summary>
-        public string wxid { get; set; }
+        [JsonProperty(PropertyName = "wxid")]
+        public string WxId { get; set; }
 
         /// <summary>
         /// 数据内容
         /// </summary>
-        public string content { get; set; }
+        [JsonProperty(PropertyName = "content")]
+        public string Content { get; set; }
         /// <summary>
         /// 扩展消息
         /// </summary>
-        public string ext { get; set; }
+        [JsonProperty(PropertyName = "ext")]
+        public string Ext { get; set; } = string.Empty;
         /// <summary>
         /// 图片消息的图片地址(绝对路径 D:/xxx.jpg)
         /// </summary>
-        public string path { get; set; }
+        [JsonProperty(PropertyName = "path")]
+        public string Path { get; set; } = string.Empty;
     }
 }

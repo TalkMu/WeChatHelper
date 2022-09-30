@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WeChat.Domain.Models;
 
 /**
 *┌──────────────────────────────────────────────────────────────┐
@@ -22,28 +23,28 @@ namespace WeChat.App.Service
 {
     public class AutoGreetConfigService
     {
-        //public bool SaveOrUpdate(WxAutoGreetConfig wxAutoGreetConfig)
-        //{
-        //    using (WeChatHelperContext c = new WeChatHelperContext())
-        //    {
-        //        if (wxAutoGreetConfig.Id == 0) 
-        //        {
-        //            c.WxAutoGreetConfigs.Add(wxAutoGreetConfig);
-        //        }
-        //        else
-        //        {
-        //            c.WxAutoGreetConfigs.Update(wxAutoGreetConfig);
-        //        }
-        //        return c.SaveChanges() == 1;
-        //    }
-        //}
+        public bool SaveOrUpdate(WxAutoGreetConfig wxAutoGreetConfig)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext())
+            {
+                if (wxAutoGreetConfig.Id == 0)
+                {
+                    c.WxAutoGreetConfigs.Add(wxAutoGreetConfig);
+                }
+                else
+                {
+                    c.WxAutoGreetConfigs.Update(wxAutoGreetConfig);
+                }
+                return c.SaveChanges() == 1;
+            }
+        }
 
-        //internal WxAutoGreetConfig FindByUserId(string userId)
-        //{
-        //    using (WeChatHelperContext c = new WeChatHelperContext())
-        //    {
-        //        return c.WxAutoGreetConfigs.FirstOrDefault(p=>p.UserId.Equals(userId));
-        //    }
-        //}
+        public WxAutoGreetConfig FindByUserId(long userId)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext())
+            {
+                return c.WxAutoGreetConfigs.FirstOrDefault(p => p.UserId == userId);
+            }
+        }
     }
 }

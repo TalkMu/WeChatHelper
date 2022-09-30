@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WeChat.Domain\WeChat.Domain.csproj" />
+    <ProjectReference Include="..\WeChat.DTO\WeChat.DTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

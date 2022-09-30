@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WeChat.Domain;
+using WeChat.Domain.Enum;
+using WeChat.DTO.Socket;
+using WeChat.Service.WeChat;
 
 /**
 *┌──────────────────────────────────────────────────────────────┐
@@ -22,6 +26,7 @@ namespace WeChat.App.Service
 {
     public class AutoGreetService
     {
+
         //public void SendText() 
         //{
         //    //var client = WxSocket.GetCurClient();
@@ -112,42 +117,44 @@ namespace WeChat.App.Service
         //    }
         //}
 
-        //public void ExcAutoGreetTask()
-        //{
-        //    //var userId = WxSocket.GetCurUser().UserId;
-        //    //MessageService messageService = new MessageService();
-        //    //var list = this.ListByUserId(userId);
-        //    //var config = new AutoGreetConfigService().FindByUserId(userId);
-        //    //// 获取问候消息
-        //    //var message = new StringBuilder(DateTime.Now.ToString("yyyy年MM月dd日 HH时mm时ss分"));
-        //    //message.Append("\n");
-        //    //list.ForEach(p =>
-        //    //{
-        //    //    if (config.EnableMotto == true)
-        //    //    {
-        //    //        // 获取格言
-        //    //        var motto = ApiService.GetMotto();
-        //    //        message.Append(motto);
-        //    //        message.Append("\n");
-        //    //    }
-        //    //    if (config.EnableWeather == true)
-        //    //    {
-        //    //        // 查询天气
-        //    //        var todayWeather = ApiService.GetToDayWeather(p.City);
-        //    //        message.Append(todayWeather);
-        //    //        message.Append("\n");
-        //    //    }
-        //    //    if (config.EnableCiba == true)
-        //    //    {
-        //    //        // 获取词霸语句
-        //    //        var ciba = ApiService.GetCiBa();
-        //    //        message.Append(ciba);
-        //    //        message.Append("\n");
-        //    //    }
-                
-        //    //    messageService.SendText(p.UserId, message.ToString());
-        //    //});
-        //}
+        public void ExcAutoGreetTask()
+        {
+            var config = new AutoGreetConfigService().FindByUserId(AppData.loginUser.Id);
+            if (config == null || config.EnableAutoGreet != true) 
+            {
+                return;
+            }
+            // 获取需要发送的用户列表
+            var list = new FriendService().GetAutoGreetUserList();
+            list.ForEach(p =>
+            {
+                // 获取问候消息
+                var message = new StringBuilder(DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分ss秒"));
+                message.Append("\n");
+                if (config.EnableMotto == true)
+                {
+                    // 获取格言
+                    var motto = ApiService.GetMotto();
+                    message.Append(motto);
+                    message.Append("\n");
+                }
+                if (config.EnableWeather == true)
+                {
+                    // 查询天气
+                    var todayWeather = ApiService.GetToDayWeather("成都");
+                    message.Append(todayWeather);
+                    message.Append("\n");
+                }
+                if (config.EnableCiba == true)
+                {
+                    // 获取词霸语句
+                    var ciba = ApiService.GetCiBa();
+                    message.Append(ciba);
+                    message.Append("\n");
+                }
+                new SocketService().Send(p.WxId,message.ToString());
+            });
+        }
 
         //private List<WxUser> ListByUserId(string userId)
         //{

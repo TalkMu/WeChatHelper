@@ -1,1 +1,1 @@
-scaffold-dbContext -Connection "server=home.koolss.com;port=3306;user=wechat_robot;password=WfrWxLX8wacek8HM;database=wechat_robot;" -Provider Pomelo.EntityFrameworkCore.MySql -OutputDir Models -Context WeChatHelperContext -Project WeChat.Domain
+scaffold-dbContext -Connection "server=home.koolss.com;port=3306;user=WeChatHelper;password=fHTBMHTnGpkHBWsC;database=wechathelper;" -Provider Pomelo.EntityFrameworkCore.MySql -OutputDir Models -Context WeChatHelperContext -Project WeChat.Domain

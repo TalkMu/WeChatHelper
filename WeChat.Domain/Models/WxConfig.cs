@@ -19,11 +19,11 @@ namespace WeChat.Domain.Models
         /// <summary>
         /// 开启问候
         /// </summary>
-        public ulong EnableAutoGreet { get; set; }
+        public bool EnableAutoGreet { get; set; }
         /// <summary>
         /// 开启闲聊
         /// </summary>
-        public ulong EnableAutoChat { get; set; }
+        public bool EnableAutoChat { get; set; }
 
         public virtual WxUser User { get; set; }
     }

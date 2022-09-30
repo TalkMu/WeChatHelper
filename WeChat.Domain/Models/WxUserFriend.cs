@@ -31,11 +31,11 @@ namespace WeChat.Domain.Models
         /// <summary>
         /// 开启自动聊天
         /// </summary>
-        public ulong EnableAutoChat { get; set; }
+        public bool EnableAutoChat { get; set; }
         /// <summary>
         /// 开启自动问候
         /// </summary>
-        public ulong EnableAutoGreet { get; set; }
+        public bool EnableAutoGreet { get; set; }
 
         public virtual WxUser FriendUser { get; set; }
         public virtual WxUser User { get; set; }
