@@ -16,7 +16,7 @@ namespace WeChat.Domain.Models
         /// <summary>
         /// 开启自动问候
         /// </summary>
-        public ulong EnableAutoGreet { get; set; }
+        public bool EnableAutoGreet { get; set; }
         /// <summary>
         /// 执行时间
         /// </summary>
@@ -24,15 +24,15 @@ namespace WeChat.Domain.Models
         /// <summary>
         /// 启用格言
         /// </summary>
-        public ulong? EnableMotto { get; set; }
+        public bool? EnableMotto { get; set; }
         /// <summary>
         /// 启用天气
         /// </summary>
-        public ulong? EnableWeather { get; set; }
+        public bool? EnableWeather { get; set; }
         /// <summary>
         /// 启用词霸
         /// </summary>
-        public ulong? EnableCiba { get; set; }
+        public bool? EnableCiba { get; set; }
         /// <summary>
         /// 结尾内容
         /// </summary>

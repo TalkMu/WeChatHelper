@@ -40,7 +40,6 @@
             this.StartConnectBtn = new System.Windows.Forms.Button();
             this.WsUrlTxt = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.EnableHarvestCode = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ScrollingLog = new System.Windows.Forms.RichTextBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -58,6 +57,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.AutoGreetView = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ExecuteAutoGreetBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.SaveAutoGreetConfigBtn = new System.Windows.Forms.Button();
             this.EnableMotto = new System.Windows.Forms.CheckBox();
@@ -69,9 +69,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.AutoGreetTask = new System.Windows.Forms.Timer(this.components);
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -86,7 +84,6 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AutoGreetView)).BeginInit();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -185,24 +182,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.EnableHarvestCode);
             this.groupBox2.Location = new System.Drawing.Point(12, 315);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(400, 141);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "高级设置";
-            // 
-            // EnableHarvestCode
-            // 
-            this.EnableHarvestCode.AutoSize = true;
-            this.EnableHarvestCode.Location = new System.Drawing.Point(6, 22);
-            this.EnableHarvestCode.Name = "EnableHarvestCode";
-            this.EnableHarvestCode.Size = new System.Drawing.Size(87, 21);
-            this.EnableHarvestCode.TabIndex = 0;
-            this.EnableHarvestCode.Text = "开启收货码";
-            this.EnableHarvestCode.UseVisualStyleBackColor = true;
-            this.EnableHarvestCode.Click += new System.EventHandler(this.EnableHarvestCode_Click);
             // 
             // groupBox3
             // 
@@ -361,9 +346,11 @@
             this.AutoGreetView.RowTemplate.Height = 25;
             this.AutoGreetView.Size = new System.Drawing.Size(506, 198);
             this.AutoGreetView.TabIndex = 2;
+            this.AutoGreetView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.AutoGreetView_CellMouseClick);
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.ExecuteAutoGreetBtn);
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.SaveAutoGreetConfigBtn);
             this.groupBox6.Controls.Add(this.EnableMotto);
@@ -380,6 +367,16 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "设置";
             // 
+            // ExecuteAutoGreetBtn
+            // 
+            this.ExecuteAutoGreetBtn.Location = new System.Drawing.Point(116, 159);
+            this.ExecuteAutoGreetBtn.Name = "ExecuteAutoGreetBtn";
+            this.ExecuteAutoGreetBtn.Size = new System.Drawing.Size(102, 33);
+            this.ExecuteAutoGreetBtn.TabIndex = 9;
+            this.ExecuteAutoGreetBtn.Text = "立即执行";
+            this.ExecuteAutoGreetBtn.UseVisualStyleBackColor = true;
+            this.ExecuteAutoGreetBtn.Click += new System.EventHandler(this.ExecuteAutoGreetBtn_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -391,9 +388,9 @@
             // 
             // SaveAutoGreetConfigBtn
             // 
-            this.SaveAutoGreetConfigBtn.Location = new System.Drawing.Point(53, 159);
+            this.SaveAutoGreetConfigBtn.Location = new System.Drawing.Point(6, 159);
             this.SaveAutoGreetConfigBtn.Name = "SaveAutoGreetConfigBtn";
-            this.SaveAutoGreetConfigBtn.Size = new System.Drawing.Size(129, 33);
+            this.SaveAutoGreetConfigBtn.Size = new System.Drawing.Size(102, 33);
             this.SaveAutoGreetConfigBtn.TabIndex = 7;
             this.SaveAutoGreetConfigBtn.Text = "保存配置";
             this.SaveAutoGreetConfigBtn.UseVisualStyleBackColor = true;
@@ -432,11 +429,12 @@
             // AutoGreetTime
             // 
             this.AutoGreetTime.CustomFormat = "HH:mm:ss";
-            this.AutoGreetTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.AutoGreetTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.AutoGreetTime.Location = new System.Drawing.Point(75, 50);
             this.AutoGreetTime.Name = "AutoGreetTime";
             this.AutoGreetTime.Size = new System.Drawing.Size(128, 23);
             this.AutoGreetTime.TabIndex = 3;
+            this.AutoGreetTime.Value = new System.DateTime(2022, 9, 30, 11, 49, 0, 0);
             // 
             // AutoGreetStatus
             // 
@@ -498,8 +496,6 @@
             this.Load += new System.EventHandler(this.WeChatHelper_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -515,7 +511,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.AutoGreetView)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -542,7 +537,6 @@
         private System.Windows.Forms.Button SaveGreetConfigBtn;
         private System.Windows.Forms.TabPage tabPage5;
         public System.Windows.Forms.RichTextBox ScrollingLog;
-        public System.Windows.Forms.CheckBox EnableHarvestCode;
         public System.Windows.Forms.CheckBox AutoGreetStatus;
         public System.Windows.Forms.DateTimePicker AutoGreetTime;
         public System.Windows.Forms.CheckBox EnableWeather;
@@ -562,7 +556,7 @@
         private System.Windows.Forms.ContextMenuStrip FriendViewMenu;
         private System.Windows.Forms.ToolStripMenuItem FriendToAutoChatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FriendToAutoGreetToolStripMenuItem;
-        private System.Windows.Forms.BindingSource bindingSource1;
+        public System.Windows.Forms.Button ExecuteAutoGreetBtn;
     }
 }
 

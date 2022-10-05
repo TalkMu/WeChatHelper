@@ -26,19 +26,5 @@ namespace WeChat.App.Service
 {
     public class MessageService
     {
-
-        public void SendText(string wxId, string message) 
-        {
-            var socketModel = new SocketDTO
-            {
-                content = JsonHelper.ToJson(new SendTextDTO
-                {
-                    WxId = wxId,
-                    Message = message
-                }),
-                type = SocketDataEnum.Cmd_SendTextMessage
-            };
-            //WxSocket.SendSocket(JsonHelper.ToJson(socketModel));
-        }
     }
 }

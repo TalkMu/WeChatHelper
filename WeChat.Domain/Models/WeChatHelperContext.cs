@@ -28,7 +28,7 @@ namespace WeChat.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=home.koolss.com;port=3306;user=wechat_robot;password=WfrWxLX8wacek8HM;database=wechat_robot", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
+                optionsBuilder.UseMySql("server=home.koolss.com;port=3306;user=WeChatHelper;password=fHTBMHTnGpkHBWsC;database=wechathelper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
             }
         }
 
@@ -42,6 +42,10 @@ namespace WeChat.Domain.Models
                 entity.ToTable("wx_auto_chat_user");
 
                 entity.HasComment("自动聊天用户配置");
+
+                entity.HasIndex(e => e.UserId, "fk_wx_auto_chat_user_wx_user_1");
+
+                entity.HasIndex(e => e.FriendUserId, "fk_wx_auto_chat_user_wx_user_2");
 
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
@@ -80,29 +84,26 @@ namespace WeChat.Domain.Models
             {
                 entity.ToTable("wx_auto_greet_config");
 
+                entity.HasIndex(e => e.UserId, "fk_wx_auto_greet_config_wx_user_1");
+
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.EnableAutoGreet)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_auto_greet")
-                    .HasDefaultValueSql("b'0'")
                     .HasComment("开启自动问候");
 
                 entity.Property(e => e.EnableCiba)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_ciba")
                     .HasComment("启用词霸");
 
                 entity.Property(e => e.EnableMotto)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_motto")
                     .HasComment("启用格言");
 
                 entity.Property(e => e.EnableWeather)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_weather")
                     .HasComment("启用天气");
 
@@ -133,6 +134,10 @@ namespace WeChat.Domain.Models
                 entity.ToTable("wx_auto_greet_user");
 
                 entity.HasComment("自动问候用户配置");
+
+                entity.HasIndex(e => e.UserId, "fk_wx_auto_greet_user_wx_user_1");
+
+                entity.HasIndex(e => e.FriendUserId, "fk_wx_auto_greet_user_wx_user_2");
 
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
@@ -173,20 +178,19 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("助手配置");
 
+                entity.HasIndex(e => e.UserId, "fk_wx_config_wx_user_1");
+
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.EnableAutoChat)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_auto_chat")
                     .HasComment("开启闲聊");
 
                 entity.Property(e => e.EnableAutoGreet)
-                    .HasColumnType("bit(1)")
                     .HasColumnName("enable_auto_greet")
-                    .HasDefaultValueSql("b'0'")
                     .HasComment("开启问候");
 
                 entity.Property(e => e.UserId)
@@ -294,6 +298,14 @@ namespace WeChat.Domain.Models
                     .HasColumnType("datetime")
                     .HasColumnName("create_time")
                     .HasComment("创建时间");
+
+                entity.Property(e => e.EnableAutoChat)
+                    .HasColumnName("enable_auto_chat")
+                    .HasComment("开启自动聊天");
+
+                entity.Property(e => e.EnableAutoGreet)
+                    .HasColumnName("enable_auto_greet")
+                    .HasComment("开启自动问候");
 
                 entity.Property(e => e.FriendUserId)
                     .HasColumnType("bigint(20)")

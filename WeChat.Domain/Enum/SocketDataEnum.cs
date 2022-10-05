@@ -33,7 +33,7 @@ namespace WeChat.Domain.Enum
         /// <summary>
         /// 发送文本信息
         /// </summary>
-        Cmd_SendTextMessage = 4,
+        SEND_TXT_MSG = 555,
         /// <summary>
         /// 发送文件信息
         /// </summary>

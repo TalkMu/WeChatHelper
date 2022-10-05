@@ -28,6 +28,14 @@ namespace WeChat.Domain.Models
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }
+        /// <summary>
+        /// 开启自动聊天
+        /// </summary>
+        public bool EnableAutoChat { get; set; }
+        /// <summary>
+        /// 开启自动问候
+        /// </summary>
+        public bool EnableAutoGreet { get; set; }
 
         public virtual WxUser FriendUser { get; set; }
         public virtual WxUser User { get; set; }

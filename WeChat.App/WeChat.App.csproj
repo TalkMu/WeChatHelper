@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\**" />
+    <EmbeddedResource Remove="Controls\**" />
+    <None Remove="Controls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="icon.ico" />
     <None Remove="log4net.config" />
     <None Remove="WeChat.PCApi.dll" />
@@ -40,10 +46,6 @@
     <Reference Include="DBHelpers">
       <HintPath>..\WeChat.Domain\lib\DBHelpers.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>
