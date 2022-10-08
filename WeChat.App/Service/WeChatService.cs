@@ -115,7 +115,7 @@ namespace WeChat.App.Service
             {
                 return false;
             }
-            bool hasSuccess = false;
+            bool hasSuccess = true;
             foreach (var item in list)
             {
                 if (!HasInjected(item.Id))

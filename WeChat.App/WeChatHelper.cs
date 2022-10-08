@@ -384,6 +384,7 @@ namespace WeChat.App
         public void HandleRecTxtMsg(WxServerReceiveDTO<object> data)
         {
             var contentJson = data.Data;
+            var contentStr = contentJson.ToString();
             if (data.WxId == null) 
             {
                 return;
@@ -391,13 +392,18 @@ namespace WeChat.App
             if (data.WxId.Contains("@chatroom"))
             {
                 // 群聊
-                new HarvestCodeHandle().SendHarvestCode(data.WxId, contentJson.ToString());
+                
             }
             else
             {
                 // 个人
-                new HarvestCodeHandle().SendHarvestCode(data.WxId, contentJson.ToString());
             }
+            // 懒人窝验证码
+            new HarvestCodeHandle().SendHarvestCode(data.WxId, contentStr);
+            // 电脑操作
+            new BootComputerService().Run(contentStr);
+
+
             //ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
         }
 
@@ -536,11 +542,11 @@ namespace WeChat.App
             }
 
             // 注入DLL
-            //var injectDll = weChatService.InjectDllToWeChat();
-            //if (injectDll)
-            //{
-            //    ScrollingLogHandle.AppendTextToLog("成功注入DLL到微信");
-            //}
+            var injectDll = weChatService.InjectDllToWeChat();
+            if (injectDll)
+            {
+                ScrollingLogHandle.AppendTextToLog("成功注入DLL到微信");
+            }
         }
         #endregion
 
@@ -713,11 +719,15 @@ namespace WeChat.App
         private void ExecuteAutoGreetBtn_Click(object sender, EventArgs e)
         {
             new AutoGreetService().ExcAutoGreetTask();
-        } 
-        #endregion
+        }
 
         #endregion
 
+        #endregion
 
+        private void CleanRecordBtn_Click(object sender, EventArgs e)
+        {
+            ScrollingLog.Text = "";
+        }
     }
 }

@@ -132,6 +132,7 @@
             this.CleanRecordBtn.TabIndex = 9;
             this.CleanRecordBtn.Text = "清空记录";
             this.CleanRecordBtn.UseVisualStyleBackColor = true;
+            this.CleanRecordBtn.Click += new System.EventHandler(this.CleanRecordBtn_Click);
             // 
             // CloseWeChatBtn
             // 
