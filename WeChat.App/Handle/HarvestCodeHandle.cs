@@ -29,23 +29,20 @@ namespace WeChat.App.Handle
         /// <summary>
         /// 发送收货码
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="wxId"></param>
         /// <param name="message"></param>
-        public void SendHarvestCode(string userId,string message) 
+        public void SendHarvestCode(string wxId, string message) 
         {
-            //if (weChatHelper.EnableHarvestCode.Checked)
-            //{
-            //    string pattern = @"CD\d{16}";
-            //    var hasMatch = Regex.IsMatch(message, pattern);
-            //    if (hasMatch)
-            //    {
-            //        Match match = Regex.Match(message, pattern);
-            //        string orderNumber = match.Value;
-            //        var harvestCode = new OrderService().GetHarvestCode(orderNumber);
-            //        string sendContent = string.Format("订单号：{0}\n收货码：{1}", orderNumber, harvestCode);
-            //        new MessageService().SendText(userId, sendContent);
-            //    }
-            //}
+            string pattern = @"CD\d{16}";
+            var hasMatch = Regex.IsMatch(message, pattern);
+            if (hasMatch)
+            {
+                Match match = Regex.Match(message, pattern);
+                string orderNumber = match.Value;
+                var harvestCode = new OrderService().GetHarvestCode(orderNumber);
+                string sendContent = string.Format("订单号：{0}\n收货码：{1}", orderNumber, harvestCode);
+                new SocketService().Send(wxId, sendContent);
+            }
         }
     }
 }

@@ -32,9 +32,8 @@ namespace WeChat.App.Service
 {
     public class WeChatService
     {
-        private static string dllName = "WeChat.PCApi.dll";
 
-        private static string dllPath = Path.Combine(Directory.GetCurrentDirectory(), dllName);
+        private static string dllPath = Path.Combine(Directory.GetCurrentDirectory(), Appsetting.WECHAT_API_DLL);
 
         /// <summary>
         /// 使用WindowsAPI函数SwitchToThisWindow，可以将指定窗口移动到屏幕最前
@@ -197,7 +196,7 @@ namespace WeChat.App.Service
         public bool HasInjected(int processId)
         {
             var process = Process.GetProcessById(processId);
-            if (process.Modules.OfType<ProcessModule>().Any(o => o.FileName.Contains(dllName)))
+            if (process.Modules.OfType<ProcessModule>().Any(o => o.FileName.Contains(Appsetting.WECHAT_API_DLL)))
             {
                 return true;
             }

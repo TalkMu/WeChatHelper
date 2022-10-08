@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -365,6 +366,7 @@ namespace WeChat.App
                     this.HandleUserInfo(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
                     break;
                 default:
+                    //ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
                     HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
                     break;
             }
@@ -375,21 +377,27 @@ namespace WeChat.App
         #region 处理消息
         public void HandleHeartBeat(WxServerReceiveDTO<string> data)
         {
-            LastHeartTime = Convert.ToDateTime(data.time);
+            LastHeartTime = Convert.ToDateTime(data.Time);
             var contentJson = JsonHelper.ToJson(data);
             //ScrollingLogHandle.AppendTextToLog($"[处理服务器心跳] 已获取信息：{contentJson}");
         }
         public void HandleRecTxtMsg(WxServerReceiveDTO<object> data)
         {
-            if (data.receiver == "self")
+            var contentJson = data.Data;
+            if (data.WxId == null) 
             {
-                // 个人
+                return;
+            }
+            if (data.WxId.Contains("@chatroom"))
+            {
+                // 群聊
+                new HarvestCodeHandle().SendHarvestCode(data.WxId, contentJson.ToString());
             }
             else
             {
-                // 群聊
+                // 个人
+                new HarvestCodeHandle().SendHarvestCode(data.WxId, contentJson.ToString());
             }
-            var contentJson = data.Data;
             //ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
         }
 

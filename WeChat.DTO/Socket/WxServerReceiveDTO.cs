@@ -16,15 +16,22 @@ namespace WeChat.DTO.Socket
         /// <summary>
         /// 
         /// </summary>
-        public string id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+        /// <summary>
+        /// 群聊消息的发送者WxId
+        /// </summary>
+        [JsonProperty(PropertyName = "id1")]
+        public string Sender { get; set; }
+        /// <summary>
+        /// 私聊WxId 或群聊WxId
+        /// </summary>
+        [JsonProperty(PropertyName = "wxId")]
+        public string WxId { get; set; }
         /// <summary>
         /// 
         /// </summary>
         public string receiver { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string sender { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -36,7 +43,8 @@ namespace WeChat.DTO.Socket
         /// <summary>
         /// 
         /// </summary>
-        public string time { get; set; }
+        [JsonProperty(PropertyName = "time")]
+        public string Time { get; set; }
         /// <summary>
         /// 
         /// </summary>
