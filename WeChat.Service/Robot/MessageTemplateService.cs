@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.Domain;
 using WeChat.Domain.Models;
+using WeChat.DTO.Robot;
 
 namespace WeChat.Service.Robot
 {
@@ -18,11 +21,20 @@ namespace WeChat.Service.Robot
             }
         }
 
-        public List<WxMessageTemplate> GetList()
+        public List<WxMessageTemplate> GetList(MessageTemplateDTO m)
         {
-            using (WeChatHelperContext c = new WeChatHelperContext()) 
+            using (WeChatHelperContext c = new WeChatHelperContext())
             {
-                return c.WxMessageTemplates.ToList();
+                Expression<Func<WxMessageTemplate, bool>> exp = x => true;
+                if (!string.IsNullOrEmpty(m.Name))
+                {
+                    exp = exp.And(p => p.Name.Contains(m.Name));
+                }
+                if (m.Enable != null)
+                {
+                    exp = exp.And(p => p.Enable == m.Enable);
+                }
+                return c.WxMessageTemplates.Where(exp).ToList();
             }
         }
 

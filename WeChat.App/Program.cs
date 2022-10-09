@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeChat.App.View.MessageTemplateView;
 
 namespace WeChat.App
 {
@@ -20,7 +21,7 @@ namespace WeChat.App
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WeChatHelper());
+            Application.Run(new MessageTemplate());
         }
     }
 }

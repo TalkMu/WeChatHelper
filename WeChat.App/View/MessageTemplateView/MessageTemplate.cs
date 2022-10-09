@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeChat.App.ModelView;
 using WeChat.Domain.Models;
+using WeChat.DTO.Robot;
 using WeChat.Service.Robot;
 
 namespace WeChat.App.View.MessageTemplateView
@@ -17,22 +19,16 @@ namespace WeChat.App.View.MessageTemplateView
     {
         private bool selectedRow;
 
+        private MessageTemplateDTO searchParam = new MessageTemplateDTO();
+
         public bool SelectedRow 
         {
             get => selectedRow;
             set
                 {
                 selectedRow = value;
-                if (selectedRow)
-                {
-                    updateBtn.Click += new EventHandler(updateBtn_Click);
-                    delBtn.Click += new EventHandler(delBtn_Click);
-                }
-                else 
-                {
-                    updateBtn.Click -= new EventHandler(updateBtn_Click);
-                    delBtn.Click -= new EventHandler(delBtn_Click);
-                }
+                updateBtn.Enabled = value;
+                delBtn.Enabled = value;
             }
 
         }
@@ -46,10 +42,10 @@ namespace WeChat.App.View.MessageTemplateView
         public void InitWindow() 
         {
             var TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "Id";
-            TextBoxColumnX.HeaderText = "Id";
-            TextBoxColumnX.Name = "Id";
-            dataGridView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX.DataPropertyName = "Id";
+            //TextBoxColumnX.HeaderText = "Id";
+            //TextBoxColumnX.Name = "Id";
+            //dataGridView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
             TextBoxColumnX.DataPropertyName = "Name";
@@ -64,9 +60,9 @@ namespace WeChat.App.View.MessageTemplateView
             dataGridView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "Enable";
+            TextBoxColumnX.DataPropertyName = "EnableStr";
             TextBoxColumnX.HeaderText = "是否启用";
-            TextBoxColumnX.Name = "Enable";
+            TextBoxColumnX.Name = "EnableStr";
             dataGridView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
@@ -77,20 +73,47 @@ namespace WeChat.App.View.MessageTemplateView
 
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView.BackgroundColor = Color.White;
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView.BorderStyle = BorderStyle.Fixed3D;
-        }
 
+            List<ComBoBoxMV> comBoBoxMVs = new List<ComBoBoxMV>();
+            comBoBoxMVs.Add(new ComBoBoxMV()
+            {
+                Label = "全部",
+                Value = null
+            });
+            comBoBoxMVs.Add(new ComBoBoxMV()
+            {
+                Label = "是",
+                Value = true
+            }) ;
+            comBoBoxMVs.Add(new ComBoBoxMV()
+            {
+                Label = "否",
+                Value = false
+            });
+            s_enable.DataSource = comBoBoxMVs;
+            s_enable.DisplayMember = "Label";
+            s_enable.ValueMember = "Value";
+
+        }
         public void LoadData() 
         {
-            var list = new MessageTemplateService().GetList();
-            dataGridView.DataSource = list;
-            if (list.Count == 0)
+            var list = new MessageTemplateService().GetList(searchParam);
+            var listMv = list.Select(x => new MessageTemplateMV
+            {
+                Enable = x.Enable,
+                Name = x.Name,
+                Content = x.Content,
+                Remark = x.Remark,
+                Id = x.Id,
+            }).ToList();
+            dataGridView.DataSource = listMv;
+            if (listMv.Count == 0)
             {
                 SelectedRow = false;
             }
-            else 
+            else
             {
                 SelectedRow = true;
             }
@@ -138,6 +161,13 @@ namespace WeChat.App.View.MessageTemplateView
             {
                 this.LoadData();
             }
+        }
+
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            searchParam.Name = s_name.Text;
+            searchParam.Enable = s_enable.SelectedValue == null ? null : bool.Parse(s_enable.SelectedValue.ToString());
+            this.LoadData();
         }
     }
 }
