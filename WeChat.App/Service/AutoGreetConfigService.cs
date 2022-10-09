@@ -27,13 +27,18 @@ namespace WeChat.App.Service
         {
             using (WeChatHelperContext c = new WeChatHelperContext())
             {
-                if (wxAutoGreetConfig.Id == 0)
+                var config = FindByUserId(wxAutoGreetConfig.UserId);
+                if (config == null)
                 {
                     c.WxAutoGreetConfigs.Add(wxAutoGreetConfig);
                 }
                 else
                 {
-                    c.WxAutoGreetConfigs.Update(wxAutoGreetConfig);
+                    config.EnableWeather = wxAutoGreetConfig.EnableWeather;
+                    config.EnableAutoGreet = wxAutoGreetConfig.EnableAutoGreet;
+                    config.EnableCiba = wxAutoGreetConfig.EnableCiba;
+                    config.EnableMotto = wxAutoGreetConfig.EnableMotto;
+                    config.ExecuteTime = wxAutoGreetConfig.ExecuteTime;
                 }
                 return c.SaveChanges() == 1;
             }

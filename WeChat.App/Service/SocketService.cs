@@ -28,7 +28,8 @@ namespace WeChat.App.Service
         }
         #endregion
 
-        public void Send(string wxId,string content)
+        #region 发送Socket消息
+        public void Send(string wxId, string content)
         {
             SocketDTO model = new SocketDTO()
             {
@@ -40,7 +41,8 @@ namespace WeChat.App.Service
             var data = JsonHelper.ToJson(model);
             ScrollingLogHandle.AppendTextToLog($"[发送消息] 发送数据：{data}");
             AppData.webSocket.Send(data);
-        }
+        } 
+        #endregion
 
         public string GetMsgId() 
         {

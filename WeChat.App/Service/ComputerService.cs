@@ -37,5 +37,12 @@ namespace WeChat.App.Service
         /// <param name="port"></param>
         /// <returns></returns>
         public string WakeUp(string macStr,string ip, int port);
+
+        /// <summary>
+        /// 处理入口
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public string Handle(string content);
     }
 }

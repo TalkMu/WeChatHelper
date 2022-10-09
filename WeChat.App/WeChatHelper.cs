@@ -19,6 +19,7 @@ using WeChat.App.DataSource;
 using WeChat.App.Handle;
 using WeChat.App.ModelView;
 using WeChat.App.Service;
+using WeChat.App.Service.Impl;
 using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.Domain.Models;
@@ -38,7 +39,6 @@ namespace WeChat.App
 
         private UserService userService = new UserService();
         private UserFriendService friendService = new UserFriendService();
-        private AutoGreetUserService autoGreetUserService = new AutoGreetUserService();
         private AutoGreetConfigService autoGreetConfigService = new AutoGreetConfigService();
 
 
@@ -104,18 +104,7 @@ namespace WeChat.App
             form = this;
         }
 
-        private void AutoGreetTask_Tick(object sender, EventArgs e)
-        {
-            // 当前系统时间  
-            var curTime = DateTime.Now;
-            var excTime = AutoGreetTime.Value;
-            if (curTime.Hour == excTime.Hour && curTime.Minute == excTime.Minute && curTime.Second == excTime.Second)
-            {
-                new AutoGreetService().ExcAutoGreetTask();
-                ScrollingLogHandle.AppendTextToLog("执行自动问候");
-            }
-
-        }
+        
 
         #region 初始化组件
         public void InitAutoGreetView()
@@ -397,11 +386,12 @@ namespace WeChat.App
             else
             {
                 // 个人
+                ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
             }
             // 懒人窝验证码
             new HarvestCodeHandle().SendHarvestCode(data.WxId, contentStr);
             // 电脑操作
-            new BootComputerService().Run(contentStr);
+            new WindowsComputerServiceImpl().Handle(contentStr);
 
 
             //ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
@@ -611,8 +601,30 @@ namespace WeChat.App
         }
         #endregion
 
+        #region 执行自动问候
+        private void AutoGreetTask_Tick(object sender, EventArgs e)
+        {
+            // 当前系统时间  
+            var curTime = DateTime.Now;
+            var excTime = AutoGreetTime.Value;
+            if (curTime.Hour == excTime.Hour && curTime.Minute == excTime.Minute && curTime.Second == excTime.Second)
+            {
+                new AutoGreetService().ExcAutoGreetTask();
+                ScrollingLogHandle.AppendTextToLog("执行自动问候");
+            }
+
+        }
         #endregion
-        
+
+        #region 清空日志
+        private void CleanRecordBtn_Click(object sender, EventArgs e)
+        {
+            ScrollingLog.Text = "";
+        } 
+        #endregion
+
+        #endregion
+
         #region 基础方法
 
         #region 加载页面
@@ -620,7 +632,11 @@ namespace WeChat.App
         {
             // 查询自动问候列表
             this.LoadAutoGreetList();
+            // 加载自动问候配置
+            this.LoadAutoGreetConfig();
         }
+
+        
         #endregion
 
         #region 显示弹框
@@ -683,6 +699,21 @@ namespace WeChat.App
 
         #endregion
 
+        #region 加载自动问候配置
+        private void LoadAutoGreetConfig()
+        {
+            var config = autoGreetConfigService.FindByUserId(AppData.loginUser.Id);
+            RunUi(() =>
+            {
+                AutoGreetStatus.Checked = config.EnableAutoGreet;
+                AutoGreetTime.Value = DateTime.Parse(DateOnly.FromDateTime(DateTime.Now).ToLongDateString()+" " + config.ExecuteTime.Value.ToLongTimeString());
+                EnableCiBa.Checked = config.EnableCiba ?? false;
+                EnableWeather.Checked = config.EnableWeather ?? false;
+                EnableMotto.Checked = config.EnableMotto ?? false;
+            });
+        }
+        #endregion
+
         #region 单元格点击
         private void AutoGreetView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -724,10 +755,5 @@ namespace WeChat.App
         #endregion
 
         #endregion
-
-        private void CleanRecordBtn_Click(object sender, EventArgs e)
-        {
-            ScrollingLog.Text = "";
-        }
     }
 }

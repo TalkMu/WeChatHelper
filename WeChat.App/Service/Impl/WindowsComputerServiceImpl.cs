@@ -66,7 +66,7 @@ namespace WeChat.App.Service.Impl
         #region 关闭指定计算机
         public string Shutdown(string ip)
         {
-            if (!Regex.IsMatch(ip, ipCheckRegex)) 
+            if (!string.IsNullOrEmpty(ip) && !Regex.IsMatch(ip, ipCheckRegex)) 
             {
                 return "请输入正确的IP地址";
             }
@@ -146,6 +146,27 @@ namespace WeChat.App.Service.Impl
 
             return mac;
         }
+        #endregion
+
+        #region 处理入口
+        public string Handle(string content)
+        {
+            if (content.Contains("开机"))
+            {
+                // 唤醒电脑
+                return this.WakeUp("home.koolss.com", "00-FF-CC-14-E2-AD", 9);
+            }
+            if (content.Contains("关机"))
+            {
+                // 获取内容中的IP地址
+                Match match = Regex.Match(content, ipCheckRegex);
+                var ip = match.Value;
+                // 关机
+                return this.Shutdown(ip);
+
+            }
+            return null;
+        } 
         #endregion
     }
 }
