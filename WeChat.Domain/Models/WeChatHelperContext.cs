@@ -20,8 +20,12 @@ namespace WeChat.Domain.Models
         public virtual DbSet<WxAutoGreetConfig> WxAutoGreetConfigs { get; set; }
         public virtual DbSet<WxAutoGreetUser> WxAutoGreetUsers { get; set; }
         public virtual DbSet<WxConfig> WxConfigs { get; set; }
+        public virtual DbSet<WxMessageTemplate> WxMessageTemplates { get; set; }
+        public virtual DbSet<WxRobotRegex> WxRobotRegices { get; set; }
+        public virtual DbSet<WxRobotRegexReply> WxRobotRegexReplies { get; set; }
         public virtual DbSet<WxUser> WxUsers { get; set; }
         public virtual DbSet<WxUserFriend> WxUserFriends { get; set; }
+        public virtual DbSet<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -83,8 +87,6 @@ namespace WeChat.Domain.Models
             modelBuilder.Entity<WxAutoGreetConfig>(entity =>
             {
                 entity.ToTable("wx_auto_greet_config");
-
-                entity.HasIndex(e => e.UserId, "fk_wx_auto_greet_config_wx_user_1");
 
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
@@ -178,8 +180,6 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("助手配置");
 
-                entity.HasIndex(e => e.UserId, "fk_wx_config_wx_user_1");
-
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("id")
@@ -203,6 +203,158 @@ namespace WeChat.Domain.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_wx_config_wx_user_1");
+            });
+
+            modelBuilder.Entity<WxMessageTemplate>(entity =>
+            {
+                entity.ToTable("wx_message_template");
+
+                entity.HasComment("消息模板配置");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id")
+                    .HasComment("ID");
+
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("content")
+                    .HasComment("消息模板内容");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("create_by")
+                    .HasComment("创建人");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.Cron)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnName("cron")
+                    .HasComment("cron表达式");
+
+                entity.Property(e => e.Enable)
+                    .HasColumnName("enable")
+                    .HasComment("是否启用");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("name")
+                    .HasComment("消息模板名称");
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(50)
+                    .HasColumnName("remark")
+                    .HasComment("备注");
+
+                entity.Property(e => e.UpdateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("update_by")
+                    .HasComment("修改人");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time")
+                    .HasComment("修改时间");
+            });
+
+            modelBuilder.Entity<WxRobotRegex>(entity =>
+            {
+                entity.ToTable("wx_robot_regex");
+
+                entity.HasComment("机器人-正则匹配");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id")
+                    .HasComment("ID");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("create_by")
+                    .HasComment("创建人");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.Enable)
+                    .HasColumnName("enable")
+                    .HasComment("是否启用");
+
+                entity.Property(e => e.Regex)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("regex")
+                    .HasComment("正则表达式");
+
+                entity.Property(e => e.UpdateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("update_by")
+                    .HasComment("修改人");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time")
+                    .HasComment("修改时间");
+            });
+
+            modelBuilder.Entity<WxRobotRegexReply>(entity =>
+            {
+                entity.ToTable("wx_robot_regex_reply");
+
+                entity.HasComment("机器人=》智能回复");
+
+                entity.HasIndex(e => e.RegexId, "fk_wx_robot_regex_reply_wx_robot_regex_1");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id")
+                    .HasComment("ID");
+
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("content")
+                    .HasComment("回复内容");
+
+                entity.Property(e => e.CreateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("create_by")
+                    .HasComment("创建人");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.RegexId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("regex_id")
+                    .HasComment("正则表达式");
+
+                entity.Property(e => e.UpdateBy)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("update_by")
+                    .HasComment("修改人");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time")
+                    .HasComment("修改时间");
+
+                entity.HasOne(d => d.Regex)
+                    .WithMany(p => p.WxRobotRegexReplies)
+                    .HasForeignKey(d => d.RegexId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_wx_robot_regex_reply_wx_robot_regex_1");
             });
 
             modelBuilder.Entity<WxUser>(entity =>
@@ -285,10 +437,6 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("用户好友");
 
-                entity.HasIndex(e => e.UserId, "fk_wx_user_friend_wx_user_1");
-
-                entity.HasIndex(e => e.FriendUserId, "fk_wx_user_friend_wx_user_2");
-
                 entity.Property(e => e.Id)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("id")
@@ -334,6 +482,44 @@ namespace WeChat.Domain.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_wx_user_friend_wx_user_1");
+            });
+
+            modelBuilder.Entity<WxUserMessageTemplate>(entity =>
+            {
+                entity.ToTable("wx_user_message_template");
+
+                entity.HasComment("用户消息模板");
+
+                entity.HasIndex(e => e.MsgTempId, "fk_wx_user_message_template_wx_message_template_1");
+
+                entity.HasIndex(e => e.UserId, "fk_wx_user_message_template_wx_user_1");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id")
+                    .HasComment("ID");
+
+                entity.Property(e => e.MsgTempId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("msg_temp_id")
+                    .HasComment("消息模板ID");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("user_id")
+                    .HasComment("用户ID");
+
+                entity.HasOne(d => d.MsgTemp)
+                    .WithMany(p => p.WxUserMessageTemplates)
+                    .HasForeignKey(d => d.MsgTempId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_wx_user_message_template_wx_message_template_1");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.WxUserMessageTemplates)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_wx_user_message_template_wx_user_1");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -19,5 +19,14 @@ namespace WeChat.Domain
         /// socket对象
         /// </summary>
         public static WebSocket webSocket;
+
+        public static long GetUserId()
+        {
+            if (loginUser != null)
+            {
+                return loginUser.Id;
+            }
+            return 0;
+        }
     }
 }

@@ -20,6 +20,8 @@ using WeChat.App.Handle;
 using WeChat.App.ModelView;
 using WeChat.App.Service;
 using WeChat.App.Service.Impl;
+using WeChat.App.View;
+using WeChat.App.View.MessageTemplateView;
 using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.Domain.Models;
@@ -104,9 +106,14 @@ namespace WeChat.App
             form = this;
         }
 
-        
+
 
         #region 初始化组件
+
+        public void InitWindow() 
+        {
+
+        }
         public void InitAutoGreetView()
         {
             var TextBoxColumnX = new DataGridViewTextBoxColumn();
@@ -479,6 +486,7 @@ namespace WeChat.App
         #region 加载窗体
         private void WeChatHelper_Load(object sender, EventArgs e)
         {
+            this.InitWindow();
             // 初始化自动问候视图
             this.InitAutoGreetView();
             // 初始化好友视图
@@ -755,5 +763,11 @@ namespace WeChat.App
         #endregion
 
         #endregion
+
+        private void 定时消息ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageTemplate messageTemplate = new MessageTemplate();
+            messageTemplate.ShowDialog();
+        }
     }
 }

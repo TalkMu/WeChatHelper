@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
+    <PackageReference Include="SunnyUI" Version="3.2.6.1" />
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
   </ItemGroup>
@@ -53,6 +54,10 @@
     <None Update="3.6.0.18-0.0.0.008.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Control\" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,12 @@
     <_LastSelectedProfileId>E:\developer\work\vs\c++\WeChatHelper\WeChat.App\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="View\MessageTemplateView\MessageTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\MessageTemplateView\SaveOrUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="WeChatHelper.cs">
       <SubType>Form</SubType>
     </Compile>

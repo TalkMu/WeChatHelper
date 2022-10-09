@@ -18,6 +18,7 @@ namespace WeChat.Domain.Models
             WxConfigs = new HashSet<WxConfig>();
             WxUserFriendFriendUsers = new HashSet<WxUserFriend>();
             WxUserFriendUsers = new HashSet<WxUserFriend>();
+            WxUserMessageTemplates = new HashSet<WxUserMessageTemplate>();
         }
 
         /// <summary>
@@ -81,5 +82,6 @@ namespace WeChat.Domain.Models
         public virtual ICollection<WxConfig> WxConfigs { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendFriendUsers { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendUsers { get; set; }
+        public virtual ICollection<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }
     }
 }
