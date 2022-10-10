@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeChat.App.Handle;
 using WeChat.App.ModelView;
+using WeChat.App.Quartz;
+using WeChat.Domain.Constant;
 using WeChat.Domain.Models;
 using WeChat.DTO.Robot;
 using WeChat.Service.Robot;
@@ -20,6 +23,8 @@ namespace WeChat.App.View.MessageTemplateView
         private bool selectedRow;
 
         private MessageTemplateDTO searchParam = new MessageTemplateDTO();
+
+        private MessageTemplateHandle handle = new MessageTemplateHandle();
 
         public bool SelectedRow 
         {
@@ -37,9 +42,11 @@ namespace WeChat.App.View.MessageTemplateView
             InitializeComponent();
             InitWindow();
             LoadData();
+            handle.LoadQuart();
         }
 
-        public void InitWindow() 
+        #region 初始化UI
+        public void InitWindow()
         {
             var TextBoxColumnX = new DataGridViewTextBoxColumn();
             //TextBoxColumnX.DataPropertyName = "Id";
@@ -86,7 +93,7 @@ namespace WeChat.App.View.MessageTemplateView
             {
                 Label = "是",
                 Value = true
-            }) ;
+            });
             comBoBoxMVs.Add(new ComBoBoxMV()
             {
                 Label = "否",
@@ -97,7 +104,10 @@ namespace WeChat.App.View.MessageTemplateView
             s_enable.ValueMember = "Value";
 
         }
-        public void LoadData() 
+        #endregion
+
+        #region 刷新列表数据
+        public void LoadData()
         {
             var list = new MessageTemplateService().GetList(searchParam);
             var listMv = list.Select(x => new MessageTemplateMV
@@ -106,6 +116,8 @@ namespace WeChat.App.View.MessageTemplateView
                 Name = x.Name,
                 Content = x.Content,
                 Remark = x.Remark,
+                Cron = x.Cron,
+                TaskCode = x.TaskCode,
                 Id = x.Id,
             }).ToList();
             dataGridView.DataSource = listMv;
@@ -118,6 +130,7 @@ namespace WeChat.App.View.MessageTemplateView
                 SelectedRow = true;
             }
         }
+        #endregion
 
         #region 刷新UI
         public void RunUi(Action action)
@@ -142,7 +155,11 @@ namespace WeChat.App.View.MessageTemplateView
             {
                 dataGridView.ClearSelection();
                 dataGridView.Rows[e.RowIndex].Selected = true;
-                dataGridView.CurrentCell = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                UIContextMenuStrip strip = new UIContextMenuStrip();
+                strip.Items.Add("执行一次");
+                strip.Items[0].Click += ExecOnceToolStripMenuItem_Click;
+                strip.Show(MousePosition.X, MousePosition.Y);
             }
         }
 
@@ -151,6 +168,12 @@ namespace WeChat.App.View.MessageTemplateView
             SaveOrUpdate saveOrUpdate = new SaveOrUpdate(this);
             saveOrUpdate.WxMessageTemplate = (WxMessageTemplate)dataGridView.CurrentRow.DataBoundItem;
             saveOrUpdate.ShowDialog();
+        }
+
+        private void ExecOnceToolStripMenuItem_Click(object sender, EventArgs e) 
+        {
+            MessageTemplateMV row = (MessageTemplateMV)dataGridView.CurrentRow.DataBoundItem;
+            handle.ExecQuart(row.TaskCode);
         }
 
         private void delBtn_Click(object sender, EventArgs e)

@@ -53,6 +53,10 @@ namespace WeChat.Domain.Models
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 任务代码
+        /// </summary>
+        public string TaskCode { get; set; }
 
         public virtual ICollection<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }
     }

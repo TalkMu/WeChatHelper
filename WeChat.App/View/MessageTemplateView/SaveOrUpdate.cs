@@ -1,4 +1,5 @@
-﻿using Sunny.UI;
+﻿using Masuit.Tools.Systems;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeChat.App.Quartz;
 using WeChat.Domain;
+using WeChat.Domain.Constant;
 using WeChat.Domain.Models;
+using WeChat.Extend.Helper.Date;
 using WeChat.Service.Robot;
 
 namespace WeChat.App.View.MessageTemplateView
@@ -52,7 +56,8 @@ namespace WeChat.App.View.MessageTemplateView
                     Cron = mtCron.Text,
                     Remark = mtRemark.Text,
                     CreateTime = DateTime.Now,
-                    CreateBy = AppData.GetUserId()
+                    CreateBy = AppData.GetUserId(),
+                    TaskCode = SnowFlake.GetInstance().GetUniqueId(),
                 };
             }
             else 
@@ -70,6 +75,15 @@ namespace WeChat.App.View.MessageTemplateView
             var result = new MessageTemplateService().SaveOrUpdate(wxMessageTemplate);
             if (result)
             {
+                if (wxMessageTemplate.Enable)
+                {
+                    QuartzManage.StartOrModifyJob<MessageTemplateQuartz>(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE, wxMessageTemplate.Cron);
+                }
+                else 
+                {
+                    QuartzManage.DeleteJob(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE);
+                }
+                
                 messageTemplate.LoadData();
                 this.Hide();
             }

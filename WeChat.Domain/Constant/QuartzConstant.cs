@@ -8,6 +8,6 @@ namespace WeChat.Domain.Constant
 {
     public class QuartzConstant
     {
-        public string AutoGreet = "auto_greet";
+        public static string MESSAGE_TEMPLATE = "message_template";
     }
 }

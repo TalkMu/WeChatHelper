@@ -234,7 +234,7 @@ namespace WeChat.Domain.Models
 
                 entity.Property(e => e.Cron)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(50)
                     .HasColumnName("cron")
                     .HasComment("cron表达式");
 
@@ -252,6 +252,11 @@ namespace WeChat.Domain.Models
                     .HasMaxLength(50)
                     .HasColumnName("remark")
                     .HasComment("备注");
+
+                entity.Property(e => e.TaskCode)
+                    .HasMaxLength(50)
+                    .HasColumnName("task_code")
+                    .HasComment("任务代码");
 
                 entity.Property(e => e.UpdateBy)
                     .HasColumnType("bigint(20)")
@@ -373,6 +378,11 @@ namespace WeChat.Domain.Models
                     .HasColumnName("big_head_img")
                     .HasComment("头像大图");
 
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .HasColumnName("city")
+                    .HasComment("城市");
+
                 entity.Property(e => e.Cover)
                     .HasMaxLength(100)
                     .HasColumnName("cover")
@@ -398,10 +408,10 @@ namespace WeChat.Domain.Models
                     .HasColumnName("phone")
                     .HasComment("电话");
 
-                entity.Property(e => e.Provice)
+                entity.Property(e => e.Province)
                     .HasMaxLength(50)
-                    .HasColumnName("provice")
-                    .HasComment("地区");
+                    .HasColumnName("province")
+                    .HasComment("省份");
 
                 entity.Property(e => e.Remark)
                     .HasMaxLength(50)

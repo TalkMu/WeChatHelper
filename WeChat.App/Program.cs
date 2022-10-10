@@ -1,4 +1,5 @@
 using DBHelpers;
+using Masuit.Tools.DateTimeExt;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -18,10 +19,13 @@ namespace WeChat.App
         [STAThread]
         static void Main()
         {
+            //ChineseCalendar calendar = new ChineseCalendar(DateTime.Parse("2022-09-28"));
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MessageTemplate());
+            //Application.Run(new WeChatHelper());
         }
     }
 }

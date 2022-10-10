@@ -27,7 +27,7 @@ namespace WeChat.Domain.Enum
         /// </summary>
         GET_USER_LIST_FAIL = 5002,
         /// <summary>
-        /// 获取个人信息
+        /// 获取我的信息
         /// </summary>
         GET_USER_INFO = 6500,
         /// <summary>
@@ -35,9 +35,9 @@ namespace WeChat.Domain.Enum
         /// </summary>
         SEND_TXT_MSG = 555,
         /// <summary>
-        /// 发送文件信息
+        /// 获取好友详细资料
         /// </summary>
-        Cmd_SendFileMessage = 5,
+        GET_FRIEND_DETAIL = 6550,
         /// <summary>
         /// 发送图片信息
         /// </summary>

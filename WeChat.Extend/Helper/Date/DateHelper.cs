@@ -341,5 +341,59 @@ namespace WeChat.Extend.Helper.Date
                     return dateTime;
             }
         }
+
+        public static string DayOfWeek(DateTime dateTime) 
+        {
+            var result = "";
+            var week = DateTime.Today.DayOfWeek.ToString();
+            switch (week)
+
+            {
+
+                case "Monday":
+
+                    result = "星期一";
+
+                    break;
+
+                case "Tuesday":
+
+                    result = "星期二";
+
+                    break;
+
+                case "Wednesday":
+
+                    result = "星期三";
+
+                    break;
+
+                case "Thursday":
+
+                    result = "星期四";
+
+                    break;
+
+                case "Friday":
+
+                    result = "星期五";
+
+                    break;
+
+                case "Saturday":
+
+                    result = "星期六";
+
+                    break;
+
+                case "Sunday":
+
+                    result = "星期日";
+
+                    break;
+
+            }
+            return result;
+        }
     }
 }

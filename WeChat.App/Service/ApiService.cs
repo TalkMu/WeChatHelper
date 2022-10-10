@@ -31,7 +31,7 @@ namespace WeChat.App.Service
         /// </summary>
         /// <param name="cityName"></param>
         /// <returns></returns>
-        public static string GetToDayWeather(string cityName)
+        public static CastsItem GetToDayWeather(string cityName)
         {
             var url = "https://restapi.amap.com/v3/weather/weatherInfo";
             var response = HttpHelper.Get(url, "city=" + cityName + "&extensions=all&key=024ef1bc665969e39667c3d1dbc43d1d");
@@ -39,7 +39,7 @@ namespace WeChat.App.Service
             var cityInfo = weather.forecasts.FirstOrDefault();
             var today = cityInfo.casts.FirstOrDefault();
             var content = string.Format("天气：{0}\n温度：{1}℃\n{2}风：{3}级", today.dayweather, today.daytemp, today.daywind, today.daypower);
-            return content;
+            return today;
         }
 
         /// <summary>
@@ -68,6 +68,19 @@ namespace WeChat.App.Service
             var content = htmlDoc.DocumentNode.SelectSingleNode("//div[@class='fp-one-cita']/a").InnerText;
             return content;
 
+        }
+
+        public static string NextFestival() 
+        {
+            var url = "https://www.daojishi321.com/";
+            HtmlWeb web = new HtmlWeb();
+
+            var htmlDoc = web.Load(url);
+
+            var festival = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/span[1]/span[2]/strong[1]/a").InnerText;
+
+            var date = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/span[1]/span[2]/strong[2]").InnerText;
+            return festival + "|" + date;
         }
     }
 }

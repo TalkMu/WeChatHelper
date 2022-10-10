@@ -62,9 +62,9 @@ namespace WeChat.Domain.Models
         /// </summary>
         public string Nation { get; set; }
         /// <summary>
-        /// 地区
+        /// 省份
         /// </summary>
-        public string Provice { get; set; }
+        public string Province { get; set; }
         /// <summary>
         /// 朋友圈封面
         /// </summary>
@@ -73,6 +73,10 @@ namespace WeChat.Domain.Models
         /// 电话
         /// </summary>
         public string Phone { get; set; }
+        /// <summary>
+        /// 城市
+        /// </summary>
+        public string City { get; set; }
 
         public virtual ICollection<WxAutoChatUser> WxAutoChatUserFriendUsers { get; set; }
         public virtual ICollection<WxAutoChatUser> WxAutoChatUserUsers { get; set; }

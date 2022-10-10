@@ -37,9 +37,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.FriendView = new System.Windows.Forms.DataGridView();
-            this.FriendViewMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FriendToAutoChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FriendToAutoGreetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.GroupView = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -61,6 +58,9 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.AutoGreetTask = new System.Windows.Forms.Timer(this.components);
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.机器人ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.定时消息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.智能回复ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WsUrlTxt = new System.Windows.Forms.TextBox();
             this.StartConnectBtn = new System.Windows.Forms.Button();
             this.DisConnectBtn = new System.Windows.Forms.Button();
@@ -70,15 +70,11 @@
             this.ShowWeChatBtn = new System.Windows.Forms.Button();
             this.connectStateLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.机器人ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.定时消息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.智能回复ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FriendView)).BeginInit();
-            this.FriendViewMenu.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GroupView)).BeginInit();
             this.tabPage5.SuspendLayout();
@@ -154,7 +150,6 @@
             // FriendView
             // 
             this.FriendView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.FriendView.ContextMenuStrip = this.FriendViewMenu;
             this.FriendView.Location = new System.Drawing.Point(6, 22);
             this.FriendView.Name = "FriendView";
             this.FriendView.RowHeadersWidth = 51;
@@ -162,28 +157,6 @@
             this.FriendView.Size = new System.Drawing.Size(728, 421);
             this.FriendView.TabIndex = 0;
             this.FriendView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FriendView_CellMouseDown);
-            // 
-            // FriendViewMenu
-            // 
-            this.FriendViewMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.FriendViewMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FriendToAutoChatToolStripMenuItem,
-            this.FriendToAutoGreetToolStripMenuItem});
-            this.FriendViewMenu.Name = "FirendViewMenu";
-            this.FriendViewMenu.Size = new System.Drawing.Size(161, 48);
-            // 
-            // FriendToAutoChatToolStripMenuItem
-            // 
-            this.FriendToAutoChatToolStripMenuItem.Name = "FriendToAutoChatToolStripMenuItem";
-            this.FriendToAutoChatToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.FriendToAutoChatToolStripMenuItem.Text = "添加到自动聊天";
-            // 
-            // FriendToAutoGreetToolStripMenuItem
-            // 
-            this.FriendToAutoGreetToolStripMenuItem.Name = "FriendToAutoGreetToolStripMenuItem";
-            this.FriendToAutoGreetToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.FriendToAutoGreetToolStripMenuItem.Text = "添加到自动问候";
-            this.FriendToAutoGreetToolStripMenuItem.Click += new System.EventHandler(this.FriendToAutoGreetToolStripMenuItem_Click);
             // 
             // tabPage4
             // 
@@ -401,6 +374,28 @@
             this.menuStrip.TabIndex = 5;
             this.menuStrip.Text = "menuStrip";
             // 
+            // 机器人ToolStripMenuItem
+            // 
+            this.机器人ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.定时消息ToolStripMenuItem,
+            this.智能回复ToolStripMenuItem});
+            this.机器人ToolStripMenuItem.Name = "机器人ToolStripMenuItem";
+            this.机器人ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.机器人ToolStripMenuItem.Text = "机器人";
+            // 
+            // 定时消息ToolStripMenuItem
+            // 
+            this.定时消息ToolStripMenuItem.Name = "定时消息ToolStripMenuItem";
+            this.定时消息ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.定时消息ToolStripMenuItem.Text = "定时消息";
+            this.定时消息ToolStripMenuItem.Click += new System.EventHandler(this.定时消息ToolStripMenuItem_Click);
+            // 
+            // 智能回复ToolStripMenuItem
+            // 
+            this.智能回复ToolStripMenuItem.Name = "智能回复ToolStripMenuItem";
+            this.智能回复ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.智能回复ToolStripMenuItem.Text = "智能回复";
+            // 
             // WsUrlTxt
             // 
             this.WsUrlTxt.Location = new System.Drawing.Point(6, 219);
@@ -496,28 +491,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "启动区";
             // 
-            // 机器人ToolStripMenuItem
-            // 
-            this.机器人ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.定时消息ToolStripMenuItem,
-            this.智能回复ToolStripMenuItem});
-            this.机器人ToolStripMenuItem.Name = "机器人ToolStripMenuItem";
-            this.机器人ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
-            this.机器人ToolStripMenuItem.Text = "机器人";
-            // 
-            // 定时消息ToolStripMenuItem
-            // 
-            this.定时消息ToolStripMenuItem.Name = "定时消息ToolStripMenuItem";
-            this.定时消息ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.定时消息ToolStripMenuItem.Text = "定时消息";
-            this.定时消息ToolStripMenuItem.Click += new System.EventHandler(this.定时消息ToolStripMenuItem_Click);
-            // 
-            // 智能回复ToolStripMenuItem
-            // 
-            this.智能回复ToolStripMenuItem.Name = "智能回复ToolStripMenuItem";
-            this.智能回复ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.智能回复ToolStripMenuItem.Text = "智能回复";
-            // 
             // WeChatHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -539,7 +512,6 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FriendView)).EndInit();
-            this.FriendViewMenu.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GroupView)).EndInit();
             this.tabPage5.ResumeLayout(false);
@@ -587,9 +559,6 @@
         private System.Windows.Forms.DataGridView GroupView;
         private System.Windows.Forms.DataGridView OpenAccountView;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.ContextMenuStrip FriendViewMenu;
-        private System.Windows.Forms.ToolStripMenuItem FriendToAutoChatToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem FriendToAutoGreetToolStripMenuItem;
         public System.Windows.Forms.Button ExecuteAutoGreetBtn;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.TextBox WsUrlTxt;

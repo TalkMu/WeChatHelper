@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using WeChat.App.Handle;
+using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
@@ -201,6 +202,21 @@ namespace WeChat.App.Service
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        #region 获取好友详情资料
+        public void GetFriendDetail(string wxId)
+        {
+            SocketDTO model = new SocketDTO()
+            {
+                Id = StrHelper.GetMsgId(),
+                WxId = wxId,
+                Content = "op:personal detail",
+                Type = SocketDataEnum.GET_FRIEND_DETAIL
+            };
+            var data = JsonHelper.ToJson(model);
+            AppData.webSocket.Send(data);
         }
         #endregion
     }

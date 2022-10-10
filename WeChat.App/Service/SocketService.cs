@@ -33,20 +33,15 @@ namespace WeChat.App.Service
         {
             SocketDTO model = new SocketDTO()
             {
-                Id = GetMsgId(),
+                Id = StrHelper.GetMsgId(),
                 WxId = wxId,
                 Content = content,
                 Type = SocketDataEnum.SEND_TXT_MSG
             };
             var data = JsonHelper.ToJson(model);
-            ScrollingLogHandle.AppendTextToLog($"[发送消息] 发送数据：{data}");
+            //ScrollingLogHandle.AppendTextToLog($"[发送消息] 发送数据：{data}");
             AppData.webSocket.Send(data);
         } 
         #endregion
-
-        public string GetMsgId() 
-        {
-            return DateHelper.Format(DateTime.Now, "yyyyMMddHHmmss");
-        }
     }
 }

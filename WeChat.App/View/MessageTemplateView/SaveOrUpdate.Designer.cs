@@ -37,17 +37,17 @@
             this.mtCron = new Sunny.UI.UITextBox();
             this.uiLabel4 = new Sunny.UI.UILabel();
             this.uiLabel5 = new Sunny.UI.UILabel();
-            this.mtContent = new Sunny.UI.UITextBox();
             this.mtSubmit = new Sunny.UI.UIButton();
+            this.mtContent = new Sunny.UI.UIRichTextBox();
             this.SuspendLayout();
             // 
             // uiLabel1
             // 
             this.uiLabel1.AutoSize = true;
             this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel1.Location = new System.Drawing.Point(84, 86);
+            this.uiLabel1.Location = new System.Drawing.Point(70, 86);
             this.uiLabel1.Name = "uiLabel1";
-            this.uiLabel1.Size = new System.Drawing.Size(52, 27);
+            this.uiLabel1.Size = new System.Drawing.Size(42, 21);
             this.uiLabel1.TabIndex = 0;
             this.uiLabel1.Text = "名称";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -56,12 +56,12 @@
             // mtName
             // 
             this.mtName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtName.Location = new System.Drawing.Point(141, 80);
+            this.mtName.Location = new System.Drawing.Point(127, 80);
             this.mtName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mtName.MinimumSize = new System.Drawing.Size(1, 16);
             this.mtName.Name = "mtName";
             this.mtName.ShowText = false;
-            this.mtName.Size = new System.Drawing.Size(263, 32);
+            this.mtName.Size = new System.Drawing.Size(317, 32);
             this.mtName.TabIndex = 1;
             this.mtName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.mtName.Watermark = "";
@@ -70,12 +70,12 @@
             // mtRemark
             // 
             this.mtRemark.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtRemark.Location = new System.Drawing.Point(141, 124);
+            this.mtRemark.Location = new System.Drawing.Point(127, 124);
             this.mtRemark.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mtRemark.MinimumSize = new System.Drawing.Size(1, 16);
             this.mtRemark.Name = "mtRemark";
             this.mtRemark.ShowText = false;
-            this.mtRemark.Size = new System.Drawing.Size(263, 32);
+            this.mtRemark.Size = new System.Drawing.Size(317, 32);
             this.mtRemark.TabIndex = 3;
             this.mtRemark.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.mtRemark.Watermark = "";
@@ -85,9 +85,9 @@
             // 
             this.uiLabel2.AutoSize = true;
             this.uiLabel2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel2.Location = new System.Drawing.Point(84, 130);
+            this.uiLabel2.Location = new System.Drawing.Point(70, 130);
             this.uiLabel2.Name = "uiLabel2";
-            this.uiLabel2.Size = new System.Drawing.Size(52, 27);
+            this.uiLabel2.Size = new System.Drawing.Size(42, 21);
             this.uiLabel2.TabIndex = 2;
             this.uiLabel2.Text = "备注";
             this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -96,7 +96,7 @@
             // mtEnable
             // 
             this.mtEnable.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtEnable.Location = new System.Drawing.Point(141, 212);
+            this.mtEnable.Location = new System.Drawing.Point(127, 212);
             this.mtEnable.MinimumSize = new System.Drawing.Size(1, 1);
             this.mtEnable.Name = "mtEnable";
             this.mtEnable.Size = new System.Drawing.Size(68, 32);
@@ -108,9 +108,9 @@
             // 
             this.uiLabel3.AutoSize = true;
             this.uiLabel3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel3.Location = new System.Drawing.Point(44, 218);
+            this.uiLabel3.Location = new System.Drawing.Point(38, 218);
             this.uiLabel3.Name = "uiLabel3";
-            this.uiLabel3.Size = new System.Drawing.Size(92, 27);
+            this.uiLabel3.Size = new System.Drawing.Size(74, 21);
             this.uiLabel3.TabIndex = 5;
             this.uiLabel3.Text = "是否启用";
             this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -119,12 +119,12 @@
             // mtCron
             // 
             this.mtCron.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtCron.Location = new System.Drawing.Point(141, 168);
+            this.mtCron.Location = new System.Drawing.Point(127, 168);
             this.mtCron.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mtCron.MinimumSize = new System.Drawing.Size(1, 16);
             this.mtCron.Name = "mtCron";
             this.mtCron.ShowText = false;
-            this.mtCron.Size = new System.Drawing.Size(263, 32);
+            this.mtCron.Size = new System.Drawing.Size(317, 32);
             this.mtCron.TabIndex = 7;
             this.mtCron.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.mtCron.Watermark = "";
@@ -134,9 +134,9 @@
             // 
             this.uiLabel4.AutoSize = true;
             this.uiLabel4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel4.Location = new System.Drawing.Point(18, 168);
+            this.uiLabel4.Location = new System.Drawing.Point(17, 174);
             this.uiLabel4.Name = "uiLabel4";
-            this.uiLabel4.Size = new System.Drawing.Size(118, 27);
+            this.uiLabel4.Size = new System.Drawing.Size(95, 21);
             this.uiLabel4.TabIndex = 6;
             this.uiLabel4.Text = "Cron表达式";
             this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -146,33 +146,18 @@
             // 
             this.uiLabel5.AutoSize = true;
             this.uiLabel5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiLabel5.Location = new System.Drawing.Point(84, 256);
+            this.uiLabel5.Location = new System.Drawing.Point(70, 256);
             this.uiLabel5.Name = "uiLabel5";
-            this.uiLabel5.Size = new System.Drawing.Size(52, 27);
+            this.uiLabel5.Size = new System.Drawing.Size(42, 21);
             this.uiLabel5.TabIndex = 8;
             this.uiLabel5.Text = "内容";
             this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel5.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
-            // mtContent
-            // 
-            this.mtContent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtContent.Location = new System.Drawing.Point(141, 256);
-            this.mtContent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.mtContent.MinimumSize = new System.Drawing.Size(1, 16);
-            this.mtContent.Multiline = true;
-            this.mtContent.Name = "mtContent";
-            this.mtContent.ShowText = false;
-            this.mtContent.Size = new System.Drawing.Size(263, 209);
-            this.mtContent.TabIndex = 9;
-            this.mtContent.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mtContent.Watermark = "";
-            this.mtContent.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            // 
             // mtSubmit
             // 
             this.mtSubmit.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.mtSubmit.Location = new System.Drawing.Point(181, 498);
+            this.mtSubmit.Location = new System.Drawing.Point(207, 498);
             this.mtSubmit.MinimumSize = new System.Drawing.Size(1, 1);
             this.mtSubmit.Name = "mtSubmit";
             this.mtSubmit.Size = new System.Drawing.Size(100, 35);
@@ -181,12 +166,27 @@
             this.mtSubmit.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.mtSubmit.Click += new System.EventHandler(this.mtSubmit_Click);
             // 
+            // mtContent
+            // 
+            this.mtContent.FillColor = System.Drawing.Color.White;
+            this.mtContent.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.mtContent.Location = new System.Drawing.Point(127, 256);
+            this.mtContent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mtContent.MinimumSize = new System.Drawing.Size(1, 1);
+            this.mtContent.Name = "mtContent";
+            this.mtContent.Padding = new System.Windows.Forms.Padding(2);
+            this.mtContent.ShowText = false;
+            this.mtContent.Size = new System.Drawing.Size(317, 216);
+            this.mtContent.TabIndex = 11;
+            this.mtContent.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mtContent.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // SaveOrUpdate
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(463, 560);
-            this.Controls.Add(this.mtSubmit);
+            this.ClientSize = new System.Drawing.Size(515, 565);
             this.Controls.Add(this.mtContent);
+            this.Controls.Add(this.mtSubmit);
             this.Controls.Add(this.uiLabel5);
             this.Controls.Add(this.mtCron);
             this.Controls.Add(this.uiLabel4);
@@ -215,7 +215,7 @@
         private Sunny.UI.UITextBox mtCron;
         private Sunny.UI.UILabel uiLabel4;
         private Sunny.UI.UILabel uiLabel5;
-        private Sunny.UI.UITextBox mtContent;
         private Sunny.UI.UIButton mtSubmit;
+        private Sunny.UI.UIRichTextBox mtContent;
     }
 }

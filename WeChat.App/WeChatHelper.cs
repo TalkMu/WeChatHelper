@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -361,6 +362,9 @@ namespace WeChat.App
                 case SocketDataEnum.GET_USER_INFO:
                     this.HandleUserInfo(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
                     break;
+                case SocketDataEnum.GET_FRIEND_DETAIL:
+                    this.HandleFriendDetail(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
+                    break;
                 default:
                     //ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
                     HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
@@ -424,6 +428,11 @@ namespace WeChat.App
             this.LoadPageData();
         }
 
+        public void HandleFriendDetail(WxServerReceiveDTO<object> data) 
+        {
+        
+        }
+
         public void HandleUserList(WxServerReceiveDTO<BindingList<WxFriendUserMV>> data)
         {
             FriendView.DataSource = null;
@@ -446,6 +455,20 @@ namespace WeChat.App
             FriendView.AllowUserToAddRows = false;
             GroupView.AllowUserToAddRows = false;
             OpenAccountView.AllowUserToAddRows = false;
+
+            var userService = new UserService();
+            var weChatService = new WeChatService();
+            users.ToList().ForEach(user => 
+            {
+                var item = new WxUser()
+                {
+                    WxId = user.WxId,
+                    NickName = user.NickName,
+                    WxCode = user.WxCode,
+                };
+                userService.SaveOrUpdate(item);
+                // weChatService.GetFriendDetail(user.WxId);
+            });
         }
         #endregion
 
@@ -540,11 +563,11 @@ namespace WeChat.App
             }
 
             // 注入DLL
-            var injectDll = weChatService.InjectDllToWeChat();
-            if (injectDll)
-            {
-                ScrollingLogHandle.AppendTextToLog("成功注入DLL到微信");
-            }
+            //var injectDll = weChatService.InjectDllToWeChat();
+            //if (injectDll)
+            //{
+            //    ScrollingLogHandle.AppendTextToLog("成功注入DLL到微信");
+            //}
         }
         #endregion
 
@@ -573,39 +596,23 @@ namespace WeChat.App
             {
                 FriendView.ClearSelection();
                 FriendView.Rows[e.RowIndex].Selected = true;
-                FriendView.CurrentCell = FriendView.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                FriendViewMenu.Show(MousePosition.X, MousePosition.Y);
+
+                UIContextMenuStrip strip = new UIContextMenuStrip();
+                strip.Items.Add("更新个人资料");
+                strip.Items[0].Click += UpdateDetailToolStripMenuItem_Click;
+                strip.Show(MousePosition.X, MousePosition.Y);
             }
         }
         #endregion
 
-        #region 添加好友到自动问候
-        private void FriendToAutoGreetToolStripMenuItem_Click(object sender, EventArgs e)
+        #region 更新好友资料
+        private void UpdateDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 获取当前选中行
             var curRow = FriendView.CurrentRow;
             var wxFriendUserMV = (WxFriendUserMV)curRow.DataBoundItem;
-            // 保存或更新用户基础信息
-            var friendUser = new WxUser()
-            {
-                WxId = wxFriendUserMV.WxId,
-                WxCode = wxFriendUserMV.WxCode,
-                Remark = wxFriendUserMV.Remark,
-                NickName = wxFriendUserMV.NickName,
-            };
-            userService.SaveOrUpdate(friendUser);
 
-            // 保存朋友关系
-            WxUserFriend wxUserFriend = new WxUserFriend()
-            {
-                UserId = AppData.loginUser.Id,
-                FriendUserId = friendUser.Id,
-                Remark = friendUser.Remark,
-                EnableAutoGreet = true,
-            };
-            friendService.AddFriend(wxUserFriend);
-
-            this.LoadAutoGreetList();
+            weChatService.GetFriendDetail(wxFriendUserMV.WxId);
         }
         #endregion
 
@@ -642,6 +649,8 @@ namespace WeChat.App
             this.LoadAutoGreetList();
             // 加载自动问候配置
             this.LoadAutoGreetConfig();
+            // 加载定时任务
+            new MessageTemplateHandle().LoadQuart();
         }
 
         

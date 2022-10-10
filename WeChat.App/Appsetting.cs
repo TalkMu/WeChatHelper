@@ -15,5 +15,9 @@ namespace WeChat.App
         /// 微信API DLL
         /// </summary>
         public static readonly string WECHAT_API_DLL = ConfigurationManager.AppSettings["WeChatApiDll"].ToString();
+        /// <summary>
+        /// 恋爱开始日
+        /// </summary>
+        public static readonly string LOVE_START_DATE = ConfigurationManager.AppSettings["LoveStartDate"].ToString();
     }
 }

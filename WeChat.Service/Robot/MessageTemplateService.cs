@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WeChat.Domain;
+using WeChat.Domain.Constant;
 using WeChat.Domain.Models;
 using WeChat.DTO.Robot;
 
@@ -18,6 +19,14 @@ namespace WeChat.Service.Robot
             {
                 c.WxMessageTemplates.Add(wxMessageTemplate);
                 return c.SaveChanges()>0;
+            }
+        }
+
+        public WxMessageTemplate FindByTaskCode(string taskCode)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext()) 
+            {
+                return c.WxMessageTemplates.FirstOrDefault(p => p.TaskCode.Equals(taskCode));
             }
         }
 
@@ -70,6 +79,15 @@ namespace WeChat.Service.Robot
                 c.WxMessageTemplates.Remove(model);
                 return c.SaveChanges() > 0;
             }
+        }
+
+        public List<WxMessageTemplate> FindByEnable(bool enable)
+        {
+            using (WeChatHelperContext c = new WeChatHelperContext())
+            {
+                return c.WxMessageTemplates.Where(p => p.Enable == enable).ToList();
+            }
+            
         }
     }
 }

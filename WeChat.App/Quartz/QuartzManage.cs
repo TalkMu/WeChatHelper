@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.App.Handle;
 
 namespace WeChat.App.Quartz
 {
@@ -28,31 +29,122 @@ namespace WeChat.App.Quartz
             }
         }
 
-        public static void StartJobWithCron<T>(long id ,string name,string group, string cronExpression) 
+        /// <summary>
+        /// 启动定时任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        /// <param name="cron"></param>
+        public static void StartJob<T>(string taskCode, string jobGroup, string cron) 
         {
+            var jobKey = new JobKey(taskCode, jobGroup);
+            var jobDetail = scheduler.GetJobDetail(jobKey);
+            if (jobDetail.Result != null)
+            {
+                return;
+            }
+
             // 创建一个任务
             IJobDetail job = JobBuilder.Create().OfType<T>()
-                .WithIdentity(name, group + "_job_group")
-                .UsingJobData("id", id)
+                .WithIdentity(taskCode, jobGroup)
                 .Build();
 
 
             // 创建一个触发器
-            ITrigger cronTrigger = TriggerBuilder.Create().StartNow().WithIdentity(name, group + "_trigger_group")
-                                    .WithCronSchedule(cronExpression, w => w.WithMisfireHandlingInstructionDoNothing())
+            ITrigger cronTrigger = TriggerBuilder.Create().StartNow().WithIdentity(taskCode, jobGroup)
+                                    .WithCronSchedule(cron, w => w.WithMisfireHandlingInstructionDoNothing())
                                     .Build() as ICronTrigger;
             // 将job和trigger添加到调度器中
             scheduler.ScheduleJob(job, cronTrigger);
             // 开始调度
             scheduler.Start();
+            //ScrollingLogHandle.AppendTextToLog($"[Task]:{taskCode} 启用成功");
         }
 
-        public static void ModifyJob(IJobDetail job, ICronTrigger trigger, string cronExpression) 
+        /// <summary>
+        /// 修改定时任务执行时间
+        /// </summary>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        /// <param name="cron"></param>
+        public static void ModifyJob(string taskCode, string jobGroup, string cron) 
         {
-            var cronTrigger = trigger;
-            cronTrigger.CronExpressionString = cronExpression;
+            var triggerKey = new TriggerKey(taskCode,jobGroup);
+            ICronTrigger cronTrigger = (ICronTrigger)scheduler.GetTrigger(triggerKey).Result;
+            var oldCron = cronTrigger.CronExpressionString;
+            if (!oldCron.Equals(cron))
+            {
+                cronTrigger.CronExpressionString = cron;
+            }
+            scheduler.RescheduleJob(triggerKey, cronTrigger);
+        }
+        /// <summary>
+        /// 暂停某个定时任务
+        /// </summary>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        public static void PauseJob(string taskCode, string jobGroup) 
+        {
+            var jobKey = new JobKey(taskCode, jobGroup);
+            var jobDetail = scheduler.GetJobDetail(jobKey);
+            if (jobDetail.Result == null)
+            {
+                return;
+            }
+            scheduler.PauseJob(jobKey);
+        }
+        /// <summary>
+        /// 恢复某个定时任务
+        /// </summary>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        public static void ResumeJob(string taskCode, string jobGroup)
+        {
+            var jobKey = new JobKey(taskCode, jobGroup);
+            var jobDetail = scheduler.GetJobDetail(jobKey);
+            if (jobDetail.Result == null)
+            {
+                return;
+            }
+            scheduler.ResumeJob(jobKey);
+        }
 
-            scheduler.RescheduleJob(cronTrigger.Key, cronTrigger);
+        /// <summary>
+        /// 删除某个定时任务
+        /// </summary>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        public static void DeleteJob(string taskCode, string jobGroup)
+        {
+            var jobKey = new JobKey(taskCode, jobGroup);
+            var jobDetail = scheduler.GetJobDetail(jobKey);
+            if (jobDetail.Result == null)
+            {
+                return;
+            }
+            scheduler.DeleteJob(jobKey);
+        }
+
+        /// <summary>
+        /// 添加或修改任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="taskCode"></param>
+        /// <param name="jobGroup"></param>
+        /// <param name="cron"></param>
+        public static void StartOrModifyJob<T>(string taskCode, string jobGroup, string cron) 
+        {
+            var jobKey = new JobKey(taskCode, jobGroup);
+            var jobDetail = scheduler.GetJobDetail(jobKey);
+            if (jobDetail.Result == null)
+            {
+                StartJob<T>(taskCode, jobGroup, cron);
+            }
+            else 
+            {
+                ModifyJob(taskCode, jobGroup, cron);
+            }
         }
     }
 }
