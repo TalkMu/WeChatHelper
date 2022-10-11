@@ -23,7 +23,7 @@ namespace WeChat.App.Service
                 return;
             }
             var data = JsonHelper.ToJson(model);
-            ScrollingLogHandle.AppendTextToLog($"[发送消息] 发送数据：{data}");
+            //ScrollingLogHandle.AppendTextToLog($"[发送消息] 发送数据：{data}");
             AppData.webSocket.Send(data);
         }
         #endregion

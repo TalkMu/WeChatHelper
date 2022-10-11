@@ -219,5 +219,30 @@ namespace WeChat.App.Service
             AppData.webSocket.Send(data);
         }
         #endregion
+
+        #region 获取通讯录列表
+        public void GetUserList()
+        {
+            var data = new SocketDTO
+            {
+                Type = SocketDataEnum.USER_LIST
+            };
+            new SocketService().Send(data);
+        }
+        #endregion
+
+        #region 获取个人信息
+        public void GetUserInfo()
+        {
+            var data = new SocketDTO
+            {
+                Type = SocketDataEnum.GET_USER_INFO
+            };
+            new SocketService().Send(data);
+        }
+
+
+
+        #endregion
     }
 }

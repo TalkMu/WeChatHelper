@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeChat.App.ModelView.User;
 using WeChat.Domain.Models;
-using WeChat.VO;
-using WeChat.VO.User;
 
 namespace WeChat.Service.Robot
 {
@@ -25,11 +24,11 @@ namespace WeChat.Service.Robot
 	*/
     public class UserMessageTemplateService
     {
-		public List<WxUserVO> FindWxUserByMsgTemplateId(long msgTempId) 
+		public List<WxUserMV> FindWxUserByMsgTemplateId(long msgTempId) 
 		{
 			using (WeChatHelperContext c = new WeChatHelperContext())
 			{
-				return c.WxUserMessageTemplates.Where(p=>p.MsgTempId == msgTempId).Select(x=>new WxUserVO 
+				return c.WxUserMessageTemplates.Where(p=>p.MsgTempId == msgTempId).Select(x=>new WxUserMV
 				{
 					WxId = x.User.WxId,
 					CityCode = x.User.City.CityCode,

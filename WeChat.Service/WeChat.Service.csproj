@@ -14,7 +14,6 @@
     <ProjectReference Include="..\WeChat.Domain\WeChat.Domain.csproj" />
     <ProjectReference Include="..\WeChat.DTO\WeChat.DTO.csproj" />
     <ProjectReference Include="..\WeChat.ModelView\WeChat.ModelView.csproj" />
-    <ProjectReference Include="..\WeChat.VO\WeChat.VO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WeChat.App.ModelView
+namespace WeChat.App.ModelView.User
 {
     public class WxFriendUserMV
     {
