@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
@@ -12,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\WeChat.Domain\WeChat.Domain.csproj" />
     <ProjectReference Include="..\WeChat.DTO\WeChat.DTO.csproj" />
+    <ProjectReference Include="..\WeChat.ModelView\WeChat.ModelView.csproj" />
+    <ProjectReference Include="..\WeChat.VO\WeChat.VO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

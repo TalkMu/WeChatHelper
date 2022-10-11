@@ -4,38 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeChat.Domain.Models;
-using WeChat.VO;
-using WeChat.VO.User;
 
-namespace WeChat.Service.Robot
+namespace WeChat.VO.User
 {
     /**
 	*┌──────────────────────────────────────────────────────────────┐
-	*│　命名空间： WeChat.Service.Robot
-	*│　类    名： UserMessageTemplateService
+	*│　命名空间： WeChat.VO
+	*│　类    名： WxUserVO
 	*└──────────────────────────────────────────────────────────────┘
 	*┌──────────────────────────────────────────────────────────────┐
 	*│　描    述：
 	*│　作    者：admin
 	*│　版    本：1.0.0
 	*│　邮    箱：koolss@koolss.com
-	*│　创建时间：2022/10/10 10:26:56
+	*│　创建时间：2022/10/11 14:27:19
 	*│　机器名称：DESKTOP-GNAF83O
 	*└──────────────────────────────────────────────────────────────┘
 	*/
-    public class UserMessageTemplateService
+    public class WxUserVO:WxUser
     {
-		public List<WxUserVO> FindWxUserByMsgTemplateId(long msgTempId) 
-		{
-			using (WeChatHelperContext c = new WeChatHelperContext())
-			{
-				return c.WxUserMessageTemplates.Where(p=>p.MsgTempId == msgTempId).Select(x=>new WxUserVO 
-				{
-					WxId = x.User.WxId,
-					CityCode = x.User.City.CityCode,
-					CityName = x.User.City.CityName,
-				}).ToList();
-			}
-		}
+		public string CityName { get; set; }
+		public string CityCode { get; set; }
     }
 }

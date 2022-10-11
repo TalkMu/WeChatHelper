@@ -24,8 +24,6 @@ namespace WeChat.Service.WeChat
                     temp.UserId = wxUserFriend.UserId;
                     temp.FriendUserId = wxUserFriend.FriendUserId;
                     temp.Remark = wxUserFriend.Remark;
-                    temp.EnableAutoGreet = wxUserFriend.EnableAutoGreet;
-                    temp.EnableAutoChat = wxUserFriend.EnableAutoChat;
                     temp.CreateTime = wxUserFriend.CreateTime;
                 }
                 return c.SaveChanges()==1;
@@ -36,7 +34,7 @@ namespace WeChat.Service.WeChat
         {
             using (WeChatHelperContext c = new WeChatHelperContext()) 
             {
-                var wxUsers = c.WxUserFriends.Where(p => p.UserId == userId && p.EnableAutoGreet == enableAutoGreet).Select(x => new WxUser 
+                var wxUsers = c.WxUserFriends.Where(p => p.UserId == userId).Select(x => new WxUser 
                 { 
                     Id = x.Id,
                     WxId = x.FriendUser.WxId,
@@ -57,7 +55,6 @@ namespace WeChat.Service.WeChat
                 {
                     return false;
                 }
-                model.EnableAutoGreet = false;
                 return c.SaveChanges() == 1;
             }
 

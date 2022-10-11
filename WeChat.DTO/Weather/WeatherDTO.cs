@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,99 +21,81 @@ using System.Text;
 
 namespace WeChat.DTO.Weather
 {
-    public class WeatherDTO
+    public class AMapWeatherDTO
     {
         /// <summary>
         /// 返回状态
         /// </summary>
-        public string status { get; set; }
-
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
         /// <summary>
         /// 返回结果总数目
         /// </summary>
-        public string count { get; set; }
-
+        [JsonProperty(PropertyName = "count")]
+        public string Count { get; set; }
         /// <summary>
         /// 返回的状态信息
         /// </summary>
-        public string info { get; set; }
-
+        [JsonProperty(PropertyName = "info")]
+        public string Info { get; set; }
         /// <summary>
         /// 返回状态说明,10000代表正确
         /// </summary>
-        public string infocode { get; set; }
-
+        [JsonProperty(PropertyName = "infocode")]
+        public string InfoCode { get; set; }
         /// <summary>
-        /// 预报天气信息数据
+        /// 实况天气数据信息
         /// </summary>
-        public List<ForecastsItem> forecasts { get; set; }
+        [JsonProperty(PropertyName = "lives")]
+        public List<LivesItem> Lives { get; set; }
     }
 
-    public class CastsItem
+    public class LivesItem
     {
         /// <summary>
-        /// 日期
+        /// 省份名
         /// </summary>
-        public string date { get; set; }
+        [JsonProperty(PropertyName = "province")]
+        public string Province { get; set; }
         /// <summary>
-        /// 星期几
+        /// 城市名
         /// </summary>
-        public string week { get; set; }
+        [JsonProperty(PropertyName = "city")]
+        public string City { get; set; }
         /// <summary>
-        /// 白天天气现象
+        /// 区域编码
         /// </summary>
-        public string dayweather { get; set; }
+        [JsonProperty(PropertyName = "adcode")]
+        public string AdCode { get; set; }
         /// <summary>
-        /// 晚上天气现象
+        /// 天气现象（汉字描述）
         /// </summary>
-        public string nightweather { get; set; }
+        [JsonProperty(PropertyName = "weather")]
+        public string Weather { get; set; }
         /// <summary>
-        /// 白天温度
+        /// 实时气温，单位：摄氏度
         /// </summary>
-        public string daytemp { get; set; }
+        [JsonProperty(PropertyName = "temperature")]
+        public string Temperature { get; set; }
         /// <summary>
-        /// 晚上温度
+        /// 风向描述
         /// </summary>
-        public string nighttemp { get; set; }
+        [JsonProperty(PropertyName = "winddirection")]
+        public string WindDirection { get; set; }
         /// <summary>
-        /// 白天风向
+        /// 风力级别，单位：级
         /// </summary>
-        public string daywind { get; set; }
+        [JsonProperty(PropertyName = "windpower")]
+        public string WindPower { get; set; }
         /// <summary>
-        /// 晚上风向
+        /// 空气湿度
         /// </summary>
-        public string nightwind { get; set; }
+        [JsonProperty(PropertyName = "humidity")]
+        public string Humidity { get; set; }
         /// <summary>
-        /// 白天风力
+        /// 数据发布的时间
         /// </summary>
-        public string daypower { get; set; }
-        /// <summary>
-        /// 晚上风力
-        /// </summary>
-        public string nightpower { get; set; }
-    }
-
-    public class ForecastsItem
-    {
-        /// <summary>
-        /// 城市名称
-        /// </summary>
-        public string city { get; set; }
-        /// <summary>
-        /// 城市编码
-        /// </summary>
-        public string adcode { get; set; }
-        /// <summary>
-        /// 省份名称
-        /// </summary>
-        public string province { get; set; }
-        /// <summary>
-        /// 预报发布时间
-        /// </summary>
-        public string reporttime { get; set; }
-        /// <summary>
-        /// 预报数据list结构，元素cast,按顺序为当天、第二天、第三天的预报数据
-        /// </summary>
-        public List<CastsItem> casts { get; set; }
+        [JsonProperty(PropertyName = "reporttime")]
+        public string ReportTime { get; set; }
     }
 }

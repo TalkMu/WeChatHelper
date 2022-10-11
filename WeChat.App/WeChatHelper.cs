@@ -42,7 +42,6 @@ namespace WeChat.App
 
         private UserService userService = new UserService();
         private UserFriendService friendService = new UserFriendService();
-        private AutoGreetConfigService autoGreetConfigService = new AutoGreetConfigService();
 
 
 
@@ -624,7 +623,7 @@ namespace WeChat.App
             var excTime = AutoGreetTime.Value;
             if (curTime.Hour == excTime.Hour && curTime.Minute == excTime.Minute && curTime.Second == excTime.Second)
             {
-                new AutoGreetService().ExcAutoGreetTask();
+                //new AutoGreetService().ExcAutoGreetTask();
                 ScrollingLogHandle.AppendTextToLog("执行自动问候");
             }
 
@@ -697,7 +696,7 @@ namespace WeChat.App
                     EnableMotto = EnableMotto.Checked,
                     EnableWeather = EnableWeather.Checked,
                 };
-                autoGreetConfigService.SaveOrUpdate(config);
+                //autoGreetConfigService.SaveOrUpdate(config);
 
                 if (AutoGreetStatus.Checked)
                 {
@@ -719,15 +718,7 @@ namespace WeChat.App
         #region 加载自动问候配置
         private void LoadAutoGreetConfig()
         {
-            var config = autoGreetConfigService.FindByUserId(AppData.loginUser.Id);
-            RunUi(() =>
-            {
-                AutoGreetStatus.Checked = config.EnableAutoGreet;
-                AutoGreetTime.Value = DateTime.Parse(DateOnly.FromDateTime(DateTime.Now).ToLongDateString()+" " + config.ExecuteTime.Value.ToLongTimeString());
-                EnableCiBa.Checked = config.EnableCiba ?? false;
-                EnableWeather.Checked = config.EnableWeather ?? false;
-                EnableMotto.Checked = config.EnableMotto ?? false;
-            });
+            
         }
         #endregion
 
@@ -766,7 +757,7 @@ namespace WeChat.App
         #region 手动执行自动问候
         private void ExecuteAutoGreetBtn_Click(object sender, EventArgs e)
         {
-            new AutoGreetService().ExcAutoGreetTask();
+            //new AutoGreetService().ExcAutoGreetTask();
         }
 
         #endregion

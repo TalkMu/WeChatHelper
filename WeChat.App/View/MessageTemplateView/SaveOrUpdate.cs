@@ -77,11 +77,11 @@ namespace WeChat.App.View.MessageTemplateView
             {
                 if (wxMessageTemplate.Enable)
                 {
-                    QuartzManage.StartOrModifyJob<MessageTemplateQuartz>(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE, wxMessageTemplate.Cron);
+                    //QuartzManage.StartOrModifyJob<MessageTemplateQuartz>(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE, wxMessageTemplate.Cron);
                 }
                 else 
                 {
-                    QuartzManage.DeleteJob(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE);
+                    //QuartzManage.DeleteJob(wxMessageTemplate.TaskCode, QuartzConstant.MESSAGE_TEMPLATE);
                 }
                 
                 messageTemplate.LoadData();

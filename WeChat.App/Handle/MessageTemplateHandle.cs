@@ -6,6 +6,7 @@ using WeChat.App.Service;
 using WeChat.Domain.Constant;
 using WeChat.Extend.Helper.Date;
 using WeChat.Service.Robot;
+using WeChat.Service.ThirdApi;
 
 namespace WeChat.App.Handle
 {
@@ -33,7 +34,7 @@ namespace WeChat.App.Handle
 			var list = new MessageTemplateService().FindByEnable(true);
 			list.ForEach(x =>
 			{
-				QuartzManage.StartJob<MessageTemplateQuartz>(x.TaskCode, QuartzConstant.MESSAGE_TEMPLATE, x.Cron);
+				//QuartzManage.StartJob<MessageTemplateQuartz>(x.TaskCode, QuartzConstant.MESSAGE_TEMPLATE, x.Cron);
 			});
 		}
 
@@ -48,95 +49,104 @@ namespace WeChat.App.Handle
             // 处理模板数据
             var content = wxMessageTemplate.Content;
             // 年
-            if (content.Contains("${year}"))
+            if (content.Contains("${Year}"))
             {
                 var year = DateHelper.Format(DateTime.Now, "yyyy");
-                content = content.Replace("${year}", year);
+                content = content.Replace("${Year}", year);
             }
             // 月
-            if (content.Contains("${month}"))
+            if (content.Contains("${Month}"))
             {
                 var month = DateHelper.Format(DateTime.Now, "MM");
-                content = content.Replace("${month}", month);
+                content = content.Replace("${Month}", month);
             }
             // 日
-            if (content.Contains("${day}"))
+            if (content.Contains("${Day}"))
             {
                 var day = DateHelper.Format(DateTime.Now, "dd");
-                content = content.Replace("${day}", day);
+                content = content.Replace("${Day}", day);
             }
             // 星期
-            if (content.Contains("${week}"))
+            if (content.Contains("${Week}"))
             {
                 var week = DateHelper.DayOfWeek(DateTime.Now);
-                content = content.Replace("${week}", week);
+                content = content.Replace("${Week}", week);
             }
             // 农历日期
-            if (content.Contains("${lunar_calendar}"))
+            if (content.Contains("${LunarCalendar}"))
             {
                 ChineseCalendar calendar = new ChineseCalendar(DateTime.Now);
-                var result = "农历" + calendar.ChineseMonthString + calendar.ChineseDayString;
-                content = content.Replace("${lunar_calendar}", result);
+                var result = calendar.GanZhiYearString + "农历" + calendar.ChineseMonthString + calendar.ChineseDayString;
+                content = content.Replace("${LunarCalendar}", result);
             }
             // 下一个节日
-            if (content.Contains("${festival}"))
+            if (content.Contains("${Festival}"))
             {
-                var result = ApiService.NextFestival();
-                var arr = result.Split("|");
-                if (arr.Length == 2) 
-                {
-                    content = content.Replace("${festival}", arr[0]);
-                    var d = DateTime.Parse(arr[1]).Subtract(DateTime.Now);
-                    content = content.Replace("${festival_num}", d.Days.ToString());
-                }
-                
+                var result = new ApiService().NextFestival();
+                content = content.Replace("${Festival}", result.Festival);
+                content = content.Replace("${FestivalCountDown}", result.FestivalCountDown);
             }
 
             
             // 恋爱累计天数
-            if (content.Contains("${love_num}")) 
+            if (content.Contains("${LoveNum}")) 
             {
                 var result = DateTime.Now.Subtract(DateTime.Parse(Appsetting.LOVE_START_DATE));
-                content = content.Replace("${love_num}", result.Days.ToString());
+                content = content.Replace("${LoveNum}", result.Days.ToString());
             }
 
             
 
             // 词霸
-            if (content.Contains("${ciba}")) 
+            if (content.Contains("${CiBa}")) 
             {
-                var result = ApiService.GetCiBa();
-                content = content.Replace("${ciba}", result);
+                var result = new ApiService().GetCiBa();
+                content = content.Replace("${CiBa}", result);
             }
             SocketService socketService = new SocketService();
             wxUserList.ForEach(user =>
             {
-                // 城市
-                if (content.Contains("${city}"))
+                if (user.CityCode != null)
                 {
-                    content = content.Replace("${city}", user.City);
+                    // 城市
+                    if (content.Contains("${City}"))
+                    {
+                        content = content.Replace("${City}", user.CityName);
+                    }
+                    // 天气
+                    var weather = new ApiService().GetWeatherInfo(user.CityCode);
+                    if (content.Contains("${Weather}"))
+                    {
+                        content = content.Replace("${Weather}", weather.Weather);
+                    }
+                    // 当前温度
+                    if (content.Contains("${Temperature}"))
+                    {
+                        content = content.Replace("${Temperature}", weather.Temperature + "℃");
+                    }
+                    // 风向
+                    if (content.Contains("${WindDirection}"))
+                    {
+                        content = content.Replace("${WindDirection}", weather.WindDirection);
+                    }
+                    // 风向等级
+                    if (content.Contains("${WindPower}"))
+                    {
+                        content = content.Replace("${WindPower}", weather.WindPower);
+                    }
+                    // 空气湿度
+                    if (content.Contains("${Humidity}"))
+                    {
+                        content = content.Replace("${Humidity}", weather.Humidity + "%");
+                    }
                 }
-                // 天气
-                var weather = ApiService.GetToDayWeather(user.City);
-                if (content.Contains("${weather}")) 
-                {
-                    content = content.Replace("${weather}", weather.dayweather);
-                }
-                // 温度范围
-                if (content.Contains("${temperature}"))
-                {
-                    content = content.Replace("${temperature}", weather.daytemp);
-                }
-                // 空气质量
-                if (content.Contains("${air_quality}"))
-                {
-                    content = content.Replace("${air_quality}", "良 | 87");
-                }
-                //socketService.Send(user.WxId, content);
+                
+                socketService.Send(user.WxId, content);
+                //MessageBox.Show($"[Task]:{taskCode} content:{content}");
             });
             
 
-            MessageBox.Show($"[Task]:{taskCode} content:{content}");
+            
         }
 	}
 }

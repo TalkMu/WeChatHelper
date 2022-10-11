@@ -27,3 +27,7 @@
 /WeChat.Extend/bin/
 /WeChat.App/bin/
 /WeChat.Service/bin/
+/WeChat.ModelView/bin/Debug/net6.0
+/WeChat.ModelView/obj
+/WeChat.VO/bin/Debug/net6.0
+/WeChat.VO/obj

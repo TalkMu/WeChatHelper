@@ -24,8 +24,8 @@ namespace WeChat.App
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MessageTemplate());
-            //Application.Run(new WeChatHelper());
+            //Application.Run(new MessageTemplate());
+            Application.Run(new WeChatHelper());
         }
     }
 }

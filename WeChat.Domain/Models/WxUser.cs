@@ -10,12 +10,6 @@ namespace WeChat.Domain.Models
     {
         public WxUser()
         {
-            WxAutoChatUserFriendUsers = new HashSet<WxAutoChatUser>();
-            WxAutoChatUserUsers = new HashSet<WxAutoChatUser>();
-            WxAutoGreetConfigs = new HashSet<WxAutoGreetConfig>();
-            WxAutoGreetUserFriendUsers = new HashSet<WxAutoGreetUser>();
-            WxAutoGreetUserUsers = new HashSet<WxAutoGreetUser>();
-            WxConfigs = new HashSet<WxConfig>();
             WxUserFriendFriendUsers = new HashSet<WxUserFriend>();
             WxUserFriendUsers = new HashSet<WxUserFriend>();
             WxUserMessageTemplates = new HashSet<WxUserMessageTemplate>();
@@ -64,7 +58,15 @@ namespace WeChat.Domain.Models
         /// <summary>
         /// 省份
         /// </summary>
-        public string Province { get; set; }
+        public int? ProviceId { get; set; }
+        /// <summary>
+        /// 城市
+        /// </summary>
+        public int? CityId { get; set; }
+        /// <summary>
+        /// 区域
+        /// </summary>
+        public int? AreaId { get; set; }
         /// <summary>
         /// 朋友圈封面
         /// </summary>
@@ -73,17 +75,10 @@ namespace WeChat.Domain.Models
         /// 电话
         /// </summary>
         public string Phone { get; set; }
-        /// <summary>
-        /// 城市
-        /// </summary>
-        public string City { get; set; }
 
-        public virtual ICollection<WxAutoChatUser> WxAutoChatUserFriendUsers { get; set; }
-        public virtual ICollection<WxAutoChatUser> WxAutoChatUserUsers { get; set; }
-        public virtual ICollection<WxAutoGreetConfig> WxAutoGreetConfigs { get; set; }
-        public virtual ICollection<WxAutoGreetUser> WxAutoGreetUserFriendUsers { get; set; }
-        public virtual ICollection<WxAutoGreetUser> WxAutoGreetUserUsers { get; set; }
-        public virtual ICollection<WxConfig> WxConfigs { get; set; }
+        public virtual WxAddressArea Area { get; set; }
+        public virtual WxAddressCity City { get; set; }
+        public virtual WxAddressProvince Provice { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendFriendUsers { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendUsers { get; set; }
         public virtual ICollection<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }
