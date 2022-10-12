@@ -158,11 +158,17 @@ namespace WeChat.App.View.MessageTemplateView
 
                 UIContextMenuStrip strip = new UIContextMenuStrip();
                 strip.Items.Add("执行一次");
+                strip.Items.Add("关联用户");
                 strip.Items[0].Click += ExecOnceToolStripMenuItem_Click;
+                strip.Items[1].Click += ShowUserView;
                 strip.Show(MousePosition.X, MousePosition.Y);
             }
         }
-
+        private void ShowUserView(object sender, EventArgs e) 
+        {
+            MessageTemplateUser messageTemplateUser = new MessageTemplateUser();
+            messageTemplateUser.ShowDialog();
+        }
         private void updateBtn_Click(object sender, EventArgs e)
         {
             SaveOrUpdate saveOrUpdate = new SaveOrUpdate(this);

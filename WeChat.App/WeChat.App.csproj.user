@@ -8,6 +8,9 @@
     <Compile Update="View\MessageTemplateView\MessageTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\MessageTemplateView\MessageTemplateUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\MessageTemplateView\SaveOrUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
