@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,17 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="icon.ico" />
     <None Remove="log4net.config" />
-    <None Remove="WeChat.PCApi.dll" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="icon.ico" />
-    <Content Include="log4net.config">
+    <Content Include="icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="WeChat.PCApi.dll">
+    <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -52,6 +50,9 @@
 
   <ItemGroup>
     <None Update="3.6.0.18-0.0.0.008.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Uninstall.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

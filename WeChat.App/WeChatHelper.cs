@@ -423,7 +423,7 @@ namespace WeChat.App
                 var friend = new WxUserFriend()
                 {
                     UserId = AppData.loginUser.Id,
-                    FriendUser = item,
+                    FriendUserId = item.Id,
                     Remark = user.Remark,
                     CreateTime = DateTime.Now,
                 };

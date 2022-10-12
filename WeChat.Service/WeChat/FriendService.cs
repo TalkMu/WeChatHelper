@@ -20,7 +20,7 @@ namespace WeChat.Service.WeChat
                     WxId = x.FriendUser.WxId,
                     WxCode = x.FriendUser.WxCode,
                     NickName = x.FriendUser.NickName,
-                    Remark = x.FriendUser.Remark,
+                    Remark = x.Remark,
 
                 }).ToList();
             }
