@@ -26,6 +26,7 @@ namespace WeChat.App
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MessageTemplate());
             Application.Run(new WeChatHelper());
+            //Application.Run(new Demo());
         }
     }
 }

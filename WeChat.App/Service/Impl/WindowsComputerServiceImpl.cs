@@ -64,13 +64,22 @@ namespace WeChat.App.Service.Impl
         #endregion
 
         #region 关闭指定计算机
+        /// <summary>
+        /// -k ： 并不是真的关机，只发送警告信息给登录用户
+        /// -r ： 在将系统的所有服务关闭之后立刻重新启动系统
+        /// -h ： 将系统的所有服务关闭之后 ，立刻关机
+        /// -c ： 取消已经在进行的 shutdown 命令操作
+        /// 时间 ：指定系统关机的时间 ！若没有这个参数，系统默认 1 分钟后自动执行shutdown操作
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
         public string Shutdown(string ip)
         {
             if (!string.IsNullOrEmpty(ip) && !Regex.IsMatch(ip, ipCheckRegex)) 
             {
                 return "请输入正确的IP地址";
             }
-            string script = String.Format("shutdown -s -t 0");
+            string script = String.Format("shutdown -h now");
             if (!string.IsNullOrEmpty(ip))
             {
                 script += String.Format(" -m \\\\{0}", ip);

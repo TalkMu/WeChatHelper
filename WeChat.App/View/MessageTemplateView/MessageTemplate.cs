@@ -166,7 +166,9 @@ namespace WeChat.App.View.MessageTemplateView
         }
         private void ShowUserView(object sender, EventArgs e) 
         {
+            var row = (WxMessageTemplate)dataGridView.CurrentRow.DataBoundItem;
             MessageTemplateUser messageTemplateUser = new MessageTemplateUser();
+            messageTemplateUser.MsgTempId = row.Id;
             messageTemplateUser.ShowDialog();
         }
         private void updateBtn_Click(object sender, EventArgs e)

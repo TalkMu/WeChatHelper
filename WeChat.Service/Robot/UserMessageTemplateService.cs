@@ -38,6 +38,20 @@ namespace WeChat.Service.Robot
 			}
 		}
 
+        public List<WxUserMV> RelationUserList(long msgTempId)
+        {
+			using (WeChatHelperContext c = new WeChatHelperContext())
+			{
+				var loginUserId = AppData.GetUserId();
+				return c.WxUserFriends.Where(p => p.UserId == loginUserId && p.FriendUser.WxUserMessageTemplates.Any(x => x.MsgTempId == msgTempId)).Select(x => new WxUserMV
+				{
+					Id = x.FriendUser.Id,
+					WxId = x.FriendUser.WxId,
+					NickName = x.FriendUser.NickName + (!string.IsNullOrEmpty(x.Remark) ? "【" + x.Remark + "】" : ""),
+				}).ToList();
+			}
+		}
+
         public List<WxUserMV> List(WxUserMessageTemplate wxUserMessageTemplate)
         {
 			using (WeChatHelperContext c = new WeChatHelperContext())
@@ -61,5 +75,48 @@ namespace WeChat.Service.Robot
 				}).ToList();
 			}
 		}
-    }
+
+        public List<WxUserMV> NotRelationUserList(long msgTempId)
+        {
+			using (WeChatHelperContext c = new WeChatHelperContext())
+			{
+				var loginUserId = AppData.GetUserId();
+				return c.WxUserFriends.Where(p=>p.UserId == loginUserId && !p.User.WxUserMessageTemplates.Any(x=>x.MsgTempId == msgTempId)).Select(x => new WxUserMV
+				{
+					Id = x.FriendUser.Id,
+					WxId = x.FriendUser.WxId,
+					NickName = x.FriendUser.NickName + (!string.IsNullOrEmpty(x.Remark) ? "【" + x.Remark + "】":""),
+				}).ToList();
+			}
+		}
+
+		public void Save(WxUserMessageTemplate model) 
+		{
+			using (var c = new WeChatHelperContext()) 
+			{
+				c.WxUserMessageTemplates.Add(model);
+				c.SaveChanges();
+			}
+		}
+		public void BatchSave(List<WxUserMessageTemplate> lists)
+		{
+			using (var c = new WeChatHelperContext())
+			{
+				c.WxUserMessageTemplates.AddRange(lists);
+				c.SaveChanges();
+			}
+		}
+		public void RemoveByMsgTempId(long msgTempId) 
+		{
+			using (var c = new WeChatHelperContext()) 
+			{
+				var list = c.WxUserMessageTemplates.Where(p => p.MsgTempId == msgTempId).ToList();
+				list.ForEach(x => 
+				{
+					c.WxUserMessageTemplates.Remove(x);
+				});
+				c.SaveChanges();
+			}
+		}
+	}
 }

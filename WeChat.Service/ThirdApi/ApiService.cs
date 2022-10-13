@@ -27,6 +27,11 @@ namespace WeChat.Service.ThirdApi
 	*/
 	public class ApiService
     {
+        /// <summary>
+        /// 查询天气信息
+        /// </summary>
+        /// <param name="cityCode"></param>
+        /// <returns></returns>
 		public WeatherMV GetWeatherInfo(string cityCode) 
 		{
 			var url = "https://restapi.amap.com/v3/weather/weatherInfo";

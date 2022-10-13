@@ -6,6 +6,7 @@ using WeChat.App.Service;
 using WeChat.Domain.Constant;
 using WeChat.Extend.Helper.Date;
 using WeChat.Service.Robot;
+using WeChat.Service.System;
 using WeChat.Service.ThirdApi;
 
 namespace WeChat.App.Handle
@@ -86,8 +87,14 @@ namespace WeChat.App.Handle
                 content = content.Replace("${Festival}", result.Festival);
                 content = content.Replace("${FestivalCountDown}", result.FestivalCountDown);
             }
+            // 格言
+            if (content.Contains("${Motto}"))
+            {
+                var result = new ApiService().GetMotto();
+                content = content.Replace("${Motto}", result);
+            }
 
-            
+
             // 恋爱累计天数
             if (content.Contains("${LoveNum}")) 
             {
@@ -104,10 +111,17 @@ namespace WeChat.App.Handle
                 content = content.Replace("${CiBa}", result);
             }
             SocketService socketService = new SocketService();
+            DictService dictService = new DictService();
+            var dict = dictService.FindByDictCode("DEFAULT_CITY_CODE");
             wxUserList.ForEach(user =>
             {
-                if (user.CityCode != null)
+                if (user.CityCode != null || dict != null)
                 {
+                    if (user.CityCode == null)
+                    {
+                        user.CityCode = dict.DictVal;
+                        user.CityName = dict.Remark;
+                    }
                     // 城市
                     if (content.Contains("${City}"))
                     {
