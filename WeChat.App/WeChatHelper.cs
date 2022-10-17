@@ -337,9 +337,14 @@ namespace WeChat.App
                 case SocketDataEnum.GET_FRIEND_DETAIL:
                     this.HandleFriendDetail(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
                     break;
+                case SocketDataEnum.RECV_TXT_MSG:
+                    this.HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
+                    break;
+                case SocketDataEnum.RECV_IMG_MSG:
+                    this.HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
+                    break;
                 default:
-                    //ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
-                    HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
+                    ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
                     break;
             }
 
@@ -364,12 +369,11 @@ namespace WeChat.App
             if (data.WxId.Contains("@chatroom"))
             {
                 // 群聊
-                
             }
             else
             {
                 // 个人
-                ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
+                //ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
             }
             // 懒人窝验证码
             new HarvestCodeHandle().SendHarvestCode(data.WxId, contentStr);

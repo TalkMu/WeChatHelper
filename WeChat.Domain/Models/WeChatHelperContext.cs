@@ -33,7 +33,8 @@ namespace WeChat.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=home.koolss.com;port=3306;user=wechat-helper;password=t4WFTERayphii7k6;database=wechat-helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
+                //optionsBuilder.UseMySql("server=home.koolss.com;port=3306;user=wechat-helper;password=t4WFTERayphii7k6;database=wechat-helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=1qaz!QAZ;database=wechat_helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
             }
         }
 

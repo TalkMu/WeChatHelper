@@ -39,9 +39,9 @@ namespace WeChat.Domain.Enum
         /// </summary>
         GET_FRIEND_DETAIL = 6550,
         /// <summary>
-        /// 发送图片信息
+        /// 接收图片消息
         /// </summary>
-        Cmd_SendImageMessage = 6,
+        RECV_IMG_MSG = 3,
         /// <summary>
         /// 发送@信息
         /// </summary>

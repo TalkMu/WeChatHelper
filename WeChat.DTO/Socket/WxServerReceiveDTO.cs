@@ -14,7 +14,7 @@ namespace WeChat.DTO.Socket
         [JsonProperty(PropertyName = "content")]
         public T Data { get; set; }
         /// <summary>
-        /// 
+        /// 消息ID
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
