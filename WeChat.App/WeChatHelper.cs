@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebSocketSharp;
-using WeChat.App.DataSource;
 using WeChat.App.Handle;
 using WeChat.App.ModelView;
 using WeChat.App.ModelView.User;
@@ -28,9 +27,12 @@ using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.Domain.Models;
 using WeChat.DTO.Message;
+using WeChat.DTO.Room;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
 using WeChat.Extend.Helper.Date;
+using WeChat.ModelView;
+using WeChat.ModelView.User;
 using WeChat.Service.Lrw;
 using WeChat.Service.WeChat;
 
@@ -126,11 +128,11 @@ namespace WeChat.App
             TextBoxColumnX.Name = "WxId";
             FriendView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "WxCode";
-            TextBoxColumnX.HeaderText = "微信号";
-            TextBoxColumnX.Name = "WxCode";
-            FriendView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "WxCode";
+            //TextBoxColumnX.HeaderText = "微信号";
+            //TextBoxColumnX.Name = "WxCode";
+            //FriendView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
             TextBoxColumnX.DataPropertyName = "NickName";
@@ -138,11 +140,11 @@ namespace WeChat.App
             TextBoxColumnX.Name = "NickName";
             FriendView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "HeadImg";
-            TextBoxColumnX.HeaderText = "头像";
-            TextBoxColumnX.Name = "HeadImg";
-            FriendView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "HeadImg";
+            //TextBoxColumnX.HeaderText = "头像";
+            //TextBoxColumnX.Name = "HeadImg";
+            //FriendView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
             TextBoxColumnX.DataPropertyName = "Remark";
@@ -168,11 +170,11 @@ namespace WeChat.App
             TextBoxColumnX.Name = "WxId";
             GroupView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "WxCode";
-            TextBoxColumnX.HeaderText = "微信号";
-            TextBoxColumnX.Name = "WxCode";
-            GroupView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "WxCode";
+            //TextBoxColumnX.HeaderText = "微信号";
+            //TextBoxColumnX.Name = "WxCode";
+            //GroupView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
             TextBoxColumnX.DataPropertyName = "NickName";
@@ -180,17 +182,17 @@ namespace WeChat.App
             TextBoxColumnX.Name = "NickName";
             GroupView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "HeadImg";
-            TextBoxColumnX.HeaderText = "头像";
-            TextBoxColumnX.Name = "HeadImg";
-            GroupView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "HeadImg";
+            //TextBoxColumnX.HeaderText = "头像";
+            //TextBoxColumnX.Name = "HeadImg";
+            //GroupView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "Remark";
-            TextBoxColumnX.HeaderText = "备注";
-            TextBoxColumnX.Name = "Remark";
-            GroupView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "Remark";
+            //TextBoxColumnX.HeaderText = "备注";
+            //TextBoxColumnX.Name = "Remark";
+            //GroupView.Columns.Add(TextBoxColumnX);
 
 
             GroupView.AutoGenerateColumns = false;
@@ -210,11 +212,11 @@ namespace WeChat.App
             TextBoxColumnX.Name = "WxId";
             OpenAccountView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "WxCode";
-            TextBoxColumnX.HeaderText = "微信号";
-            TextBoxColumnX.Name = "WxCode";
-            OpenAccountView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "WxCode";
+            //TextBoxColumnX.HeaderText = "微信号";
+            //TextBoxColumnX.Name = "WxCode";
+            //OpenAccountView.Columns.Add(TextBoxColumnX);
 
             TextBoxColumnX = new DataGridViewTextBoxColumn();
             TextBoxColumnX.DataPropertyName = "NickName";
@@ -222,17 +224,17 @@ namespace WeChat.App
             TextBoxColumnX.Name = "NickName";
             OpenAccountView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "HeadImg";
-            TextBoxColumnX.HeaderText = "头像";
-            TextBoxColumnX.Name = "HeadImg";
-            OpenAccountView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "HeadImg";
+            //TextBoxColumnX.HeaderText = "头像";
+            //TextBoxColumnX.Name = "HeadImg";
+            //OpenAccountView.Columns.Add(TextBoxColumnX);
 
-            TextBoxColumnX = new DataGridViewTextBoxColumn();
-            TextBoxColumnX.DataPropertyName = "Remark";
-            TextBoxColumnX.HeaderText = "备注";
-            TextBoxColumnX.Name = "Remark";
-            OpenAccountView.Columns.Add(TextBoxColumnX);
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "Remark";
+            //TextBoxColumnX.HeaderText = "备注";
+            //TextBoxColumnX.Name = "Remark";
+            //OpenAccountView.Columns.Add(TextBoxColumnX);
 
 
             OpenAccountView.AutoGenerateColumns = false;
@@ -240,6 +242,56 @@ namespace WeChat.App
             OpenAccountView.BackgroundColor = Color.White;
             OpenAccountView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             OpenAccountView.BorderStyle = BorderStyle.Fixed3D;
+        }
+
+        private void InitChatRecordView() 
+        {
+            DataGridViewTextBoxColumn TextBoxColumnX = new DataGridViewTextBoxColumn();
+            // 获取或设置数据源属性的名称或与 DataGridViewColumn 绑定的数据库列的名称。
+            //TextBoxColumnX.DataPropertyName = "WxId";
+            //TextBoxColumnX.HeaderText = "微信ID";
+            //// 获取或设置列名
+            //TextBoxColumnX.Name = "WxId";
+            //ChatRecordView.Columns.Add(TextBoxColumnX);
+
+            //TextBoxColumnX = new DataGridViewTextBoxColumn();
+            //TextBoxColumnX.DataPropertyName = "WxCode";
+            //TextBoxColumnX.HeaderText = "微信号";
+            //TextBoxColumnX.Name = "WxCode";
+            //GroupView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "CreateTime";
+            TextBoxColumnX.HeaderText = "时间";
+            TextBoxColumnX.Name = "CreateTime";
+            TextBoxColumnX.SortMode = DataGridViewColumnSortMode.Automatic;
+            ChatRecordView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "FromUserNick";
+            TextBoxColumnX.HeaderText = "发送方";
+            TextBoxColumnX.Name = "FromUserNick";
+            ChatRecordView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "ToUserNick";
+            TextBoxColumnX.HeaderText = "接收方";
+            TextBoxColumnX.Name = "ToUserNick";
+            ChatRecordView.Columns.Add(TextBoxColumnX);
+
+            TextBoxColumnX = new DataGridViewTextBoxColumn();
+            TextBoxColumnX.DataPropertyName = "MsgContent";
+            TextBoxColumnX.HeaderText = "消息内容";
+            TextBoxColumnX.Name = "MsgContent";
+            ChatRecordView.Columns.Add(TextBoxColumnX);
+
+
+            ChatRecordView.AutoGenerateColumns = false;
+            ChatRecordView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            ChatRecordView.BackgroundColor = Color.White;
+            ChatRecordView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            ChatRecordView.BorderStyle = BorderStyle.Fixed3D;
+            ChatRecordView.DataSource = WxDataSource.CHAT_RECORD_DATA;
         }
         #endregion
 
@@ -325,16 +377,13 @@ namespace WeChat.App
                 case SocketDataEnum.HEART_BEAT:
                     HandleHeartBeat(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
                     break;
-                case SocketDataEnum.USER_LIST:
-                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<BindingList<WxFriendUserMV>>>(data));
-                    break;
                 case SocketDataEnum.GET_USER_LIST_SUCCSESS:
-                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<BindingList<WxFriendUserMV>>>(data));
+                    this.HandleUserList(JsonHelper.FromJson<WxServerReceiveDTO<List<WxFriendUserMV>>>(data));
                     break;
-                case SocketDataEnum.GET_USER_INFO:
+                case SocketDataEnum.GET_USER_INFO_SUCCESS:
                     this.HandleUserInfo(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
                     break;
-                case SocketDataEnum.GET_FRIEND_DETAIL:
+                case SocketDataEnum.GET_FRIEND_DETAIL_SUCCESS:
                     this.HandleFriendDetail(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
                     break;
                 case SocketDataEnum.RECV_TXT_MSG:
@@ -343,8 +392,12 @@ namespace WeChat.App
                 case SocketDataEnum.RECV_IMG_MSG:
                     this.HandleRecTxtMsg(JsonHelper.FromJson<WxServerReceiveDTO<object>>(data));
                     break;
-                default:
+                case SocketDataEnum.GET_ROOM_MEMBER_NICK_SUCCESS:
                     ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
+                    this.HandleRoomMemberNick(JsonHelper.FromJson<WxServerReceiveDTO<string>>(data));
+                    break;
+                default:
+                    //ScrollingLogHandle.AppendTextToLog($"已获取信息：{data}");
                     break;
             }
 
@@ -379,9 +432,74 @@ namespace WeChat.App
             new HarvestCodeHandle().SendHarvestCode(data.WxId, contentStr);
             // 电脑操作
             new WindowsComputerServiceImpl().Handle(contentStr);
-
-
+            // 聊天记录
+            HandleChatRecord(data);
             //ScrollingLogHandle.AppendTextToLog($"[处理接收文字消息] 已获取信息:{contentJson}");
+        }
+
+        public void HandleChatRecord(WxServerReceiveDTO<object> data)
+        {
+            var toWxId = "";
+            var fromWxId = "";
+            if (data.WxId.Contains("@chatroom"))
+            {
+                // 群消息
+                toWxId = data.WxId;
+                fromWxId = data.Sender;
+            }
+            else
+            {
+                // 个人消息
+                toWxId = AppData.loginUser.WxId;
+                fromWxId = data.WxId;
+            }
+
+            var contentJson = data.Data;
+            var contentStr = contentJson.ToString();
+            var fromUser = userService.SelectByWxId(fromWxId);
+            if (fromUser == null)
+            {
+                fromUser = new WxUser()
+                {
+                    WxId = fromWxId,
+                };
+                userService.SaveOrUpdate(fromUser);
+                weChatService.GetRoomMemberNick(toWxId, fromWxId);
+            }
+            var toUser = userService.SelectByWxId(toWxId);
+            if (fromUser != null && toUser != null)
+            {
+                new UserChatRecordService().Save(new WxUserChatRecord()
+                {
+                    FromId = fromUser.Id,
+                    ToId = toUser.Id,
+                    CreateTime = DateTime.Now,
+                    MsgType = "TXT",
+                    MsgContent = contentStr
+                });
+            }
+            RunUi(() =>
+            {
+                WxDataSource.CHAT_RECORD_DATA.Insert(0, new ChatRecordMV()
+                {
+                    FromUserNick = fromUser.NickName,
+                    ToUserNick = toUser.NickName,
+                    MsgContent = contentStr,
+                    CreateTime = DateHelper.FormatTime(DateTime.Now)
+                });
+            });
+        }
+
+        public void HandleRoomMemberNick(WxServerReceiveDTO<string> data) 
+        {
+            var contentJson = data.Data;
+            var model = JsonHelper.FromJson<RoomMemberNickDTO>(contentJson);
+            var user = userService.SelectByWxId(model.WxId);
+            if (user != null) 
+            {
+                user.NickName = model.NickName;
+                userService.SaveOrUpdate(user);
+            }
         }
 
         public void HandleUserInfo(WxServerReceiveDTO<string> data)
@@ -409,7 +527,7 @@ namespace WeChat.App
         
         }
 
-        public void HandleUserList(WxServerReceiveDTO<BindingList<WxFriendUserMV>> data)
+        public void HandleUserList(WxServerReceiveDTO<List<WxFriendUserMV>> data)
         {
             var users = data.Data;
             var userService = new UserService();
@@ -432,7 +550,6 @@ namespace WeChat.App
                     CreateTime = DateTime.Now,
                 };
                 friendService.SaveOrUpdate(friend);
-                // weChatService.GetFriendDetail(user.WxId);
             });
         }
         #endregion
@@ -454,6 +571,7 @@ namespace WeChat.App
             this.InitFriendView();
             this.InitGroupView();
             this.InitOpenAccountView();
+            this.InitChatRecordView();
             // 加载WsUrl
             WsUrlTxt.Text = Appsetting.SOCKET_URL;
 
@@ -549,10 +667,10 @@ namespace WeChat.App
         private void UpdateDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 获取当前选中行
-            //var curRow = FriendView.CurrentRow;
-            //var wxFriendUserMV = (WxFriendUserMV)curRow.DataBoundItem;
+            var curRow = FriendView.CurrentRow;
+            var wxFriendUserMV = (WxFriendUserMV)curRow.DataBoundItem;
 
-            //weChatService.GetFriendDetail(wxFriendUserMV.WxId);
+            weChatService.GetFriendDetail(wxFriendUserMV.WxId);
         }
         #endregion
 
@@ -574,6 +692,8 @@ namespace WeChat.App
             new MessageTemplateHandle().LoadQuart();
 
             LoadFriendList();
+
+            //new WeChatService().GetRoomMemberNick("44542977803@chatroom", "wxid_e0750k81qaws21");
         }
 
         #region 加载通讯录列表

@@ -10,6 +10,8 @@ namespace WeChat.Domain.Models
     {
         public WxUser()
         {
+            WxUserChatRecordFroms = new HashSet<WxUserChatRecord>();
+            WxUserChatRecordTos = new HashSet<WxUserChatRecord>();
             WxUserFriendFriendUsers = new HashSet<WxUserFriend>();
             WxUserFriendUsers = new HashSet<WxUserFriend>();
             WxUserMessageTemplates = new HashSet<WxUserMessageTemplate>();
@@ -79,6 +81,8 @@ namespace WeChat.Domain.Models
         public virtual WxAddressArea Area { get; set; }
         public virtual WxAddressCity City { get; set; }
         public virtual WxAddressProvince Provice { get; set; }
+        public virtual ICollection<WxUserChatRecord> WxUserChatRecordFroms { get; set; }
+        public virtual ICollection<WxUserChatRecord> WxUserChatRecordTos { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendFriendUsers { get; set; }
         public virtual ICollection<WxUserFriend> WxUserFriendUsers { get; set; }
         public virtual ICollection<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }

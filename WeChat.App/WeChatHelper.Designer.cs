@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -45,7 +44,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeChatHelper));
-            this.AutoGreetTask = new System.Windows.Forms.Timer(this.components);
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.机器人ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.定时消息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +73,8 @@
             this.CloseWeChatBtn = new Sunny.UI.UIButton();
             this.ShowWeChatBtn = new Sunny.UI.UIButton();
             this.ScrollingLog = new Sunny.UI.UIRichTextBox();
+            this.uiCheckBoxGroup1 = new Sunny.UI.UICheckBoxGroup();
+            this.ChatRecordView = new Sunny.UI.UIDataGridView();
             this.menuStrip.SuspendLayout();
             this.uiTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -79,6 +84,8 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpenAccountView)).BeginInit();
             this.uiGroupBox1.SuspendLayout();
+            this.uiCheckBoxGroup1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChatRecordView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -129,7 +136,7 @@
             this.uiTabControl1.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.uiTabControl1.Name = "uiTabControl1";
             this.uiTabControl1.SelectedIndex = 0;
-            this.uiTabControl1.Size = new System.Drawing.Size(763, 692);
+            this.uiTabControl1.Size = new System.Drawing.Size(763, 437);
             this.uiTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.uiTabControl1.Style = Sunny.UI.UIStyle.Custom;
             this.uiTabControl1.StyleCustomMode = true;
@@ -147,7 +154,7 @@
             this.tabPage1.Controls.Add(this.FriendView);
             this.tabPage1.Location = new System.Drawing.Point(0, 40);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(763, 652);
+            this.tabPage1.Size = new System.Drawing.Size(763, 397);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "好友";
             // 
@@ -231,7 +238,7 @@
             this.FriendView.RowTemplate.Height = 25;
             this.FriendView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.FriendView.SelectedIndex = -1;
-            this.FriendView.Size = new System.Drawing.Size(763, 614);
+            this.FriendView.Size = new System.Drawing.Size(763, 359);
             this.FriendView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.FriendView.Style = Sunny.UI.UIStyle.Custom;
             this.FriendView.TabIndex = 0;
@@ -244,7 +251,7 @@
             this.tabPage2.Controls.Add(this.GroupView);
             this.tabPage2.Location = new System.Drawing.Point(0, 40);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(200, 60);
+            this.tabPage2.Size = new System.Drawing.Size(763, 397);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "群聊";
             // 
@@ -293,7 +300,7 @@
             this.GroupView.RowTemplate.Height = 25;
             this.GroupView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.GroupView.SelectedIndex = -1;
-            this.GroupView.Size = new System.Drawing.Size(763, 652);
+            this.GroupView.Size = new System.Drawing.Size(763, 397);
             this.GroupView.Style = Sunny.UI.UIStyle.Custom;
             this.GroupView.TabIndex = 0;
             this.GroupView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -304,7 +311,7 @@
             this.tabPage3.Controls.Add(this.OpenAccountView);
             this.tabPage3.Location = new System.Drawing.Point(0, 40);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(200, 60);
+            this.tabPage3.Size = new System.Drawing.Size(763, 397);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "公众号";
             // 
@@ -350,7 +357,7 @@
             this.OpenAccountView.RowTemplate.Height = 25;
             this.OpenAccountView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.OpenAccountView.SelectedIndex = -1;
-            this.OpenAccountView.Size = new System.Drawing.Size(763, 652);
+            this.OpenAccountView.Size = new System.Drawing.Size(763, 397);
             this.OpenAccountView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.OpenAccountView.Style = Sunny.UI.UIStyle.Custom;
             this.OpenAccountView.TabIndex = 0;
@@ -394,7 +401,7 @@
             // 
             this.connectStateLabel.AutoSize = true;
             this.connectStateLabel.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.connectStateLabel.Location = new System.Drawing.Point(170, 112);
+            this.connectStateLabel.Location = new System.Drawing.Point(234, 82);
             this.connectStateLabel.Name = "connectStateLabel";
             this.connectStateLabel.Size = new System.Drawing.Size(58, 21);
             this.connectStateLabel.TabIndex = 17;
@@ -417,7 +424,7 @@
             // WsUrlTxt
             // 
             this.WsUrlTxt.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.WsUrlTxt.Location = new System.Drawing.Point(95, 78);
+            this.WsUrlTxt.Location = new System.Drawing.Point(13, 78);
             this.WsUrlTxt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.WsUrlTxt.MinimumSize = new System.Drawing.Size(1, 16);
             this.WsUrlTxt.Name = "WsUrlTxt";
@@ -491,10 +498,76 @@
             this.ScrollingLog.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.ScrollingLog.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiCheckBoxGroup1
+            // 
+            this.uiCheckBoxGroup1.Controls.Add(this.ChatRecordView);
+            this.uiCheckBoxGroup1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiCheckBoxGroup1.Location = new System.Drawing.Point(418, 508);
+            this.uiCheckBoxGroup1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiCheckBoxGroup1.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiCheckBoxGroup1.Name = "uiCheckBoxGroup1";
+            this.uiCheckBoxGroup1.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
+            this.uiCheckBoxGroup1.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("uiCheckBoxGroup1.SelectedIndexes")));
+            this.uiCheckBoxGroup1.Size = new System.Drawing.Size(762, 248);
+            this.uiCheckBoxGroup1.TabIndex = 8;
+            this.uiCheckBoxGroup1.Text = "消息记录";
+            this.uiCheckBoxGroup1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiCheckBoxGroup1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // ChatRecordView
+            // 
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.ChatRecordView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            this.ChatRecordView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.ChatRecordView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChatRecordView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.ChatRecordView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ChatRecordView.DefaultCellStyle = dataGridViewCellStyle18;
+            this.ChatRecordView.EnableHeadersVisualStyles = false;
+            this.ChatRecordView.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ChatRecordView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(173)))), ((int)(((byte)(255)))));
+            this.ChatRecordView.Location = new System.Drawing.Point(0, 26);
+            this.ChatRecordView.Name = "ChatRecordView";
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ChatRecordView.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.ChatRecordView.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            this.ChatRecordView.RowTemplate.Height = 25;
+            this.ChatRecordView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            this.ChatRecordView.SelectedIndex = -1;
+            this.ChatRecordView.Size = new System.Drawing.Size(762, 221);
+            this.ChatRecordView.TabIndex = 0;
+            this.ChatRecordView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // WeChatHelper
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.Controls.Add(this.uiCheckBoxGroup1);
             this.Controls.Add(this.ScrollingLog);
             this.Controls.Add(this.uiGroupBox1);
             this.Controls.Add(this.uiTabControl1);
@@ -516,11 +589,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.OpenAccountView)).EndInit();
             this.uiGroupBox1.ResumeLayout(false);
             this.uiGroupBox1.PerformLayout();
+            this.uiCheckBoxGroup1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ChatRecordView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-        private System.Windows.Forms.Timer AutoGreetTask;
 
         #endregion
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
@@ -549,6 +623,8 @@
         private Sunny.UI.UISymbolButton searchBtn;
         private Sunny.UI.UITextBox s_name;
         private Sunny.UI.UILabel uiLabel1;
+        private Sunny.UI.UICheckBoxGroup uiCheckBoxGroup1;
+        private Sunny.UI.UIDataGridView ChatRecordView;
     }
 }
 

@@ -25,6 +25,7 @@ namespace WeChat.Domain.Models
         public virtual DbSet<WxRobotRegex> WxRobotRegices { get; set; }
         public virtual DbSet<WxRobotRegexReply> WxRobotRegexReplies { get; set; }
         public virtual DbSet<WxUser> WxUsers { get; set; }
+        public virtual DbSet<WxUserChatRecord> WxUserChatRecords { get; set; }
         public virtual DbSet<WxUserFriend> WxUserFriends { get; set; }
         public virtual DbSet<WxUserMessageTemplate> WxUserMessageTemplates { get; set; }
 
@@ -33,8 +34,7 @@ namespace WeChat.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseMySql("server=home.koolss.com;port=3306;user=wechat-helper;password=t4WFTERayphii7k6;database=wechat-helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=1qaz!QAZ;database=wechat_helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.6.50-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=1qaz!QAZ;database=wechat_helper", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.22-mysql"));
             }
         }
 
@@ -53,8 +53,9 @@ namespace WeChat.Domain.Models
 
                 entity.HasIndex(e => e.AreaCode, "Index_1");
 
+                entity.HasIndex(e => e.CityCode, "fk_wx_address_area_wx_address_city_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
                     .HasColumnName("id")
                     .HasComment("自增列");
 
@@ -87,12 +88,10 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.CreateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("create_user")
                     .HasComment("创建用户");
 
                 entity.Property(e => e.IsDeleted)
-                    .HasColumnType("int(2)")
                     .HasColumnName("is_deleted")
                     .HasDefaultValueSql("'0'")
                     .HasComment("是否删除");
@@ -114,12 +113,10 @@ namespace WeChat.Domain.Models
                     .HasComment("简称");
 
                 entity.Property(e => e.Sort)
-                    .HasColumnType("int(6)")
                     .HasColumnName("sort")
                     .HasComment("排序");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("int(2)")
                     .HasColumnName("status")
                     .HasComment("状态");
 
@@ -129,7 +126,6 @@ namespace WeChat.Domain.Models
                     .HasComment("修改时间");
 
                 entity.Property(e => e.UpdateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("update_user")
                     .HasComment("修改人");
             });
@@ -144,8 +140,9 @@ namespace WeChat.Domain.Models
 
                 entity.HasIndex(e => e.CityCode, "Index_1");
 
+                entity.HasIndex(e => e.ProvinceCode, "fk_wx_address_city_wx_address_province_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
                     .HasColumnName("id")
                     .HasComment("自增列");
 
@@ -173,12 +170,10 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.CreateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("create_user")
                     .HasComment("创建用户");
 
                 entity.Property(e => e.IsDeleted)
-                    .HasColumnType("int(2)")
                     .HasColumnName("is_deleted")
                     .HasDefaultValueSql("'0'")
                     .HasComment("是否删除");
@@ -205,13 +200,11 @@ namespace WeChat.Domain.Models
                     .HasComment("简称");
 
                 entity.Property(e => e.Sort)
-                    .HasColumnType("int(6)")
                     .HasColumnName("sort")
                     .HasDefaultValueSql("'0'")
                     .HasComment("排序");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("int(2)")
                     .HasColumnName("status")
                     .HasDefaultValueSql("'1'")
                     .HasComment("状态");
@@ -222,7 +215,6 @@ namespace WeChat.Domain.Models
                     .HasComment("修改时间");
 
                 entity.Property(e => e.UpdateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("update_user")
                     .HasComment("修改人");
             });
@@ -238,7 +230,6 @@ namespace WeChat.Domain.Models
                 entity.HasIndex(e => e.ProvinceCode, "Index_1");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
                     .HasColumnName("id")
                     .HasComment("自增列");
 
@@ -249,12 +240,10 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.CreateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("create_user")
                     .HasComment("创建用户");
 
                 entity.Property(e => e.IsDeleted)
-                    .HasColumnType("int(2)")
                     .HasColumnName("is_deleted")
                     .HasDefaultValueSql("'0'")
                     .HasComment("是否删除");
@@ -288,12 +277,10 @@ namespace WeChat.Domain.Models
                     .HasComment("简称");
 
                 entity.Property(e => e.Sort)
-                    .HasColumnType("int(6)")
                     .HasColumnName("sort")
                     .HasComment("排序");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("int(2)")
                     .HasColumnName("status")
                     .HasComment("状态");
 
@@ -303,7 +290,6 @@ namespace WeChat.Domain.Models
                     .HasComment("修改时间");
 
                 entity.Property(e => e.UpdateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("update_user")
                     .HasComment("修改人");
             });
@@ -318,8 +304,9 @@ namespace WeChat.Domain.Models
 
                 entity.HasIndex(e => e.StreetCode, "Index_1");
 
+                entity.HasIndex(e => e.AreaCode, "fk_wx_address_street_wx_address_area_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
                     .HasColumnName("id")
                     .HasComment("自增列");
 
@@ -335,12 +322,10 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.CreateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("create_user")
                     .HasComment("创建用户");
 
                 entity.Property(e => e.IsDeleted)
-                    .HasColumnType("int(2)")
                     .HasColumnName("is_deleted")
                     .HasDefaultValueSql("'0'")
                     .HasComment("是否删除");
@@ -362,12 +347,10 @@ namespace WeChat.Domain.Models
                     .HasComment("简称");
 
                 entity.Property(e => e.Sort)
-                    .HasColumnType("int(6)")
                     .HasColumnName("sort")
                     .HasComment("排序");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("int(11)")
                     .HasColumnName("status")
                     .HasComment("状态");
 
@@ -389,7 +372,6 @@ namespace WeChat.Domain.Models
                     .HasComment("修改时间");
 
                 entity.Property(e => e.UpdateUser)
-                    .HasColumnType("bigint(64)")
                     .HasColumnName("update_user")
                     .HasComment("修改人");
             });
@@ -401,12 +383,10 @@ namespace WeChat.Domain.Models
                 entity.HasComment("字典");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.CreateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("create_by")
                     .HasComment("创建人");
 
@@ -443,7 +423,6 @@ namespace WeChat.Domain.Models
                     .HasComment("备注");
 
                 entity.Property(e => e.UpdateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("update_by")
                     .HasComment("修改人");
 
@@ -460,7 +439,6 @@ namespace WeChat.Domain.Models
                 entity.HasComment("消息模板配置");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
@@ -471,7 +449,6 @@ namespace WeChat.Domain.Models
                     .HasComment("消息模板内容");
 
                 entity.Property(e => e.CreateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("create_by")
                     .HasComment("创建人");
 
@@ -508,7 +485,6 @@ namespace WeChat.Domain.Models
                     .HasComment("任务代码");
 
                 entity.Property(e => e.UpdateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("update_by")
                     .HasComment("修改人");
 
@@ -525,12 +501,10 @@ namespace WeChat.Domain.Models
                 entity.HasComment("机器人-正则匹配");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.CreateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("create_by")
                     .HasComment("创建人");
 
@@ -550,7 +524,6 @@ namespace WeChat.Domain.Models
                     .HasComment("正则表达式");
 
                 entity.Property(e => e.UpdateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("update_by")
                     .HasComment("修改人");
 
@@ -566,8 +539,9 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("机器人=》智能回复");
 
+                entity.HasIndex(e => e.RegexId, "fk_wx_robot_regex_reply_wx_robot_regex_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
@@ -578,7 +552,6 @@ namespace WeChat.Domain.Models
                     .HasComment("回复内容");
 
                 entity.Property(e => e.CreateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("create_by")
                     .HasComment("创建人");
 
@@ -588,12 +561,10 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.RegexId)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("regex_id")
                     .HasComment("正则表达式");
 
                 entity.Property(e => e.UpdateBy)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("update_by")
                     .HasComment("修改人");
 
@@ -615,13 +586,17 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("微信用户");
 
+                entity.HasIndex(e => e.AreaId, "fk_wx_user_wx_address_area_1");
+
+                entity.HasIndex(e => e.CityId, "fk_wx_user_wx_address_city_1");
+
+                entity.HasIndex(e => e.ProviceId, "fk_wx_user_wx_address_province_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.AreaId)
-                    .HasColumnType("int(11)")
                     .HasColumnName("area_id")
                     .HasComment("区域");
 
@@ -631,7 +606,6 @@ namespace WeChat.Domain.Models
                     .HasComment("头像大图");
 
                 entity.Property(e => e.CityId)
-                    .HasColumnType("int(11)")
                     .HasColumnName("city_id")
                     .HasComment("城市");
 
@@ -661,7 +635,6 @@ namespace WeChat.Domain.Models
                     .HasComment("电话");
 
                 entity.Property(e => e.ProviceId)
-                    .HasColumnType("int(11)")
                     .HasColumnName("provice_id")
                     .HasComment("省份");
 
@@ -681,7 +654,6 @@ namespace WeChat.Domain.Models
                     .HasComment("签名");
 
                 entity.Property(e => e.WxCode)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("wx_code")
                     .HasComment("微信号");
@@ -708,14 +680,67 @@ namespace WeChat.Domain.Models
                     .HasConstraintName("fk_wx_user_wx_address_province_1");
             });
 
+            modelBuilder.Entity<WxUserChatRecord>(entity =>
+            {
+                entity.ToTable("wx_user_chat_record");
+
+                entity.HasIndex(e => e.FromId, "fk_wx_user_chat_record_wx_user_1");
+
+                entity.HasIndex(e => e.ToId, "fk_wx_user_chat_record_wx_user_2");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasComment("ID");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("create_time")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .HasComment("创建时间");
+
+                entity.Property(e => e.FromId)
+                    .HasColumnName("from_id")
+                    .HasComment("发送人ID");
+
+                entity.Property(e => e.MsgContent)
+                    .HasMaxLength(500)
+                    .HasColumnName("msg_content")
+                    .HasComment("文本内容");
+
+                entity.Property(e => e.MsgType)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("msg_type")
+                    .HasComment("消息类型");
+
+                entity.Property(e => e.ToId)
+                    .HasColumnName("to_id")
+                    .HasComment("接收人ID");
+
+                entity.HasOne(d => d.From)
+                    .WithMany(p => p.WxUserChatRecordFroms)
+                    .HasForeignKey(d => d.FromId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_wx_user_chat_record_wx_user_1");
+
+                entity.HasOne(d => d.To)
+                    .WithMany(p => p.WxUserChatRecordTos)
+                    .HasForeignKey(d => d.ToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_wx_user_chat_record_wx_user_2");
+            });
+
             modelBuilder.Entity<WxUserFriend>(entity =>
             {
                 entity.ToTable("wx_user_friend");
 
                 entity.HasComment("用户好友");
 
+                entity.HasIndex(e => e.UserId, "fk_wx_user_friend_wx_user_1");
+
+                entity.HasIndex(e => e.FriendUserId, "fk_wx_user_friend_wx_user_2");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
@@ -725,7 +750,6 @@ namespace WeChat.Domain.Models
                     .HasComment("创建时间");
 
                 entity.Property(e => e.FriendUserId)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("friend_user_id")
                     .HasComment("朋友用户ID");
 
@@ -736,7 +760,6 @@ namespace WeChat.Domain.Models
                     .HasComment("备注");
 
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("user_id")
                     .HasComment("用户ID");
 
@@ -759,18 +782,19 @@ namespace WeChat.Domain.Models
 
                 entity.HasComment("用户消息模板");
 
+                entity.HasIndex(e => e.MsgTempId, "fk_wx_user_message_template_wx_message_template_1");
+
+                entity.HasIndex(e => e.UserId, "fk_wx_user_message_template_wx_user_1");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("id")
                     .HasComment("ID");
 
                 entity.Property(e => e.MsgTempId)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("msg_temp_id")
                     .HasComment("消息模板ID");
 
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint(20)")
                     .HasColumnName("user_id")
                     .HasComment("用户ID");
 

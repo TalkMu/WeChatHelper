@@ -54,7 +54,7 @@ namespace WeChat.DTO.Socket
         /// 数据内容
         /// </summary>
         [JsonProperty(PropertyName = "content")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
         /// <summary>
         /// 扩展消息
         /// </summary>

@@ -17,7 +17,7 @@ namespace WeChat.Domain.Enum
         /// <summary>
         /// 获取通讯录
         /// </summary>
-        USER_LIST = 5000,
+        GET_USER_LIST = 5000,
         /// <summary>
         /// 获取通讯录成功
         /// </summary>
@@ -31,6 +31,10 @@ namespace WeChat.Domain.Enum
         /// </summary>
         GET_USER_INFO = 6500,
         /// <summary>
+        /// 获取我的信息成功
+        /// </summary>
+        GET_USER_INFO_SUCCESS = 6500,
+        /// <summary>
         /// 发送文本信息
         /// </summary>
         SEND_TXT_MSG = 555,
@@ -39,48 +43,28 @@ namespace WeChat.Domain.Enum
         /// </summary>
         GET_FRIEND_DETAIL = 6550,
         /// <summary>
+        /// 获取好友详细资料成功
+        /// </summary>
+        GET_FRIEND_DETAIL_SUCCESS = 6550,
+        /// <summary>
         /// 接收图片消息
         /// </summary>
         RECV_IMG_MSG = 3,
         /// <summary>
-        /// 发送@信息
+        /// 获取群列表及成员wxId
         /// </summary>
-        Cmd_SendAtMsg = 7,
+        GET_ROOM_MEMBER_LIST = 5010,
         /// <summary>
-        /// 发送名片消息
+        /// 获取群列表及成员wxId成功
         /// </summary>
-        Cmd_SendXmlCard = 8,
+        GET_ROOM_MEMBER_LIST_SUCCESS = 5010,
         /// <summary>
-        /// 发送文章链接消息
+        /// 获取群成员昵称
         /// </summary>
-        Cmd_SendXmlArticle = 9,
+        GET_ROOM_MEMBER_NICK = 5020,
         /// <summary>
-        /// 接收消息
+        /// 获取群成员昵称成功
         /// </summary>
-        Cmd_ReceiveMessage = 10,
-        /// <summary>
-        /// 修改群名
-        /// </summary>
-        Cmd_SetRoomName = 11,
-        /// <summary>
-        /// 设置群公告
-        /// </summary>
-        Cmd_SetChatRoomAnnouncement = 12,
-        /// <summary>
-        /// 添加群成员
-        /// </summary>
-        Cmd_AddChatRoomMember = 13,
-        /// <summary>
-        /// 删除群成员
-        /// </summary>
-        Cmd_DeleteChatRoomMember = 14,
-        /// <summary>
-        /// 获取群成员
-        /// </summary>
-        Cmd_GetChatRoomMember = 15,
-        /// <summary>
-        /// 退出群
-        /// </summary>
-        Cmd_QuitChatRoom = 16,
+        GET_ROOM_MEMBER_NICK_SUCCESS = 5020,
     }
 }

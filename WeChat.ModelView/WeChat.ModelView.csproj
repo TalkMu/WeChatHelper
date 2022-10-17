@@ -14,4 +14,8 @@
     <ProjectReference Include="..\WeChat.Domain\WeChat.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Room\" />
+  </ItemGroup>
+
 </Project>

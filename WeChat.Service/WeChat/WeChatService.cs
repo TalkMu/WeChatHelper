@@ -7,12 +7,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using WeChat.App.Handle;
+using WeChat.App;
 using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
 using WeChat.Extend.WinApi;
+using WeChat.Service.System;
 
 /**
 *┌──────────────────────────────────────────────────────────────┐
@@ -29,7 +30,7 @@ using WeChat.Extend.WinApi;
 *└──────────────────────────────────────────────────────────────┘
 */
 
-namespace WeChat.App.Service
+namespace WeChat.Service.WeChat
 {
     public class WeChatService
     {
@@ -102,7 +103,6 @@ namespace WeChat.App.Service
             {
                 item.Kill();
                 item.WaitForExit();
-                ScrollingLogHandle.AppendTextToLog("已关闭微信");
             }
 
         }
@@ -225,7 +225,7 @@ namespace WeChat.App.Service
         {
             var data = new SocketDTO
             {
-                Type = SocketDataEnum.USER_LIST
+                Type = SocketDataEnum.GET_USER_LIST
             };
             new SocketService().Send(data);
         }
@@ -237,6 +237,34 @@ namespace WeChat.App.Service
             var data = new SocketDTO
             {
                 Type = SocketDataEnum.GET_USER_INFO
+            };
+            new SocketService().Send(data);
+        }
+
+
+
+        #endregion
+
+        #region 获取群成员列表
+        public void GetRoomMemberList()
+        {
+            var data = new SocketDTO
+            {
+                Type = SocketDataEnum.GET_ROOM_MEMBER_LIST
+            };
+            new SocketService().Send(data);
+        }
+        #endregion
+
+        #region 获取群用户昵称
+        public void GetRoomMemberNick(string groupWxId,string userWxId)
+        {
+            var data = new SocketDTO
+            {
+                Id = StrHelper.GetMsgId(),
+                Type = SocketDataEnum.GET_ROOM_MEMBER_NICK,
+                WxId = userWxId,
+                RoomId = groupWxId
             };
             new SocketService().Send(data);
         }

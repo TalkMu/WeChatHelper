@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WeChat.App.Service;
 using WeChat.Service.Lrw;
+using WeChat.Service.System;
 
 namespace WeChat.App.Handle
 {

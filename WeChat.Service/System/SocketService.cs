@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeChat.App.Handle;
 using WeChat.Domain;
 using WeChat.Domain.Enum;
 using WeChat.DTO.Socket;
 using WeChat.Extend.Helper;
 using WeChat.Extend.Helper.Date;
 
-namespace WeChat.App.Service
+namespace WeChat.Service.System
 {
     public class SocketService
     {
